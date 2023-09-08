@@ -28,13 +28,13 @@ This script trains a Graph Attention Network (GAT) using the specified parameter
 
 To run the script with the default parameters, you can use the following command:
 
-```python
+```
 %run main.py
 ```
 
 To specify custom parameters, you can use the following command:
 
-```python
+```
 %run main.py --ATTENTION_TYPE “naive” --want_TOP1 72.0 --epochs 3 --AA 1 --BB 1 --lambd 0.5 --drop_out 0.1 --scale_one_one 10 --res True %run main.py --ATTENTION_TYPE “A” --want_TOP1 72.0 --epochs 5 --AA 1 --BB 3 --lambd 0.5 --drop_out 0.1 --low_dim 1 --lr 3e-4 --res True
 ```
 
