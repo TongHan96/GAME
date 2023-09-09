@@ -19,16 +19,3 @@ To push changes to the `main` branch:
 ```bash
 git push origin main
 ```
-
-To add and commit the `src` directory inside `src/GAT`:
-
-```bash
-git add src/GAT/src
-git commit -m "Added src directory to src/GAT"
-```
-
-Then, push changes to the `main` branch:
-
-```bash
-git push origin main
-```
