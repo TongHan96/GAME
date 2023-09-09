@@ -1,0 +1,101 @@
+,sign_id,feature_desc
+2771,PheCode:714.1,rheumatoid arthritis
+3742,PheCode:714.2,juvenile rheumatoid arthritis
+5655,LOINC:LP16738-4,Rheumatoid factor
+55,CCS:149,arthroscopy
+3746,PheCode:716.9,arthropathy nos
+2887,RXNORM:1191,aspirin
+4820,PheCode:726.2,synoviopathy
+62,CCS:155,arthrocentesis
+5910,LOINC:LP39544-9,Reagin Ab
+3816,RXNORM:121191,rituximab
+4723,PheCode:394.4,acute rheumatic heart disease
+6853,LOINC:LP17677-3,Dacrocytes
+2797,PheCode:741.4,joint effusions
+5820,LOINC:LP39554-8,Reticulin Ab
+4337,RXNORM:168,acetic acid
+2540,PheCode:411.4,coronary atherosclerosis
+3615,PheCode:440,atherosclerosis
+5405,PheCode:716.8,palindromic rheumatism
+5343,PheCode:742.8,articular cartilage disorder
+4893,RXNORM:1091,arginine
+5925,LOINC:LP15416-8,Arginine
+2543,PheCode:414.2,ascvd
+4894,RXNORM:1091836,roflumilast
+5395,RXNORM:16688,acecarbromal
+6894,LOINC:LP15323-6,Adenosine deaminase
+3022,RXNORM:46241,aluminum chloride
+5119,RXNORM:72435,anakinra
+4944,RXNORM:17609,aluminum acetate
+6601,LOINC:LP65598-2,Erythrocyte agglutination
+2886,RXNORM:1151,ascorbic acid
+6499,LOINC:LP16849-9,Crystals
+2593,PheCode:476,allergic rhinitis
+6533,LOINC:LP38132-4,Fc epsilon RI Ab
+6141,LOINC:LP16800-2,Aluminum
+4483,RXNORM:612,aluminum hydroxide
+4886,RXNORM:10323,talc
+3884,RXNORM:358263,tadalafil
+1743,LOINC:46106-1,MRN
+5561,LOINC:LP14304-7,Erythrocytes
+3917,RXNORM:640062,regadenoson
+6216,LOINC:LP20752-9,Nuclear Ab
+4838,PheCode:741.1,ankylosis of joint
+125,CCS:211,therapeutic radiology
+3236,PheCode:512.2,painful respiration
+1377,LOINC:3184-9,ACT Bld
+5861,LOINC:LP38765-1,Ku Ab
+5174,PheCode:741.5,hemarthrosis
+5402,RXNORM:596724,anagrelide
+6076,LOINC:LP14669-3,IgA
+4857,PheCode:836,traumatic arthropathy
+6084,LOINC:LP307480-6,IgG/Albumin
+1898,LOINC:5998-0,PA Rist PRP
+2819,PheCode:761,cervicalgia
+150,CCS:234,pathology
+4737,PheCode:446.3,hypersensitivity angiitis
+4913,RXNORM:1303098,aclidinium
+5565,LOINC:LP15199-0,Auer rods
+3819,RXNORM:134748,rasagiline
+2804,PheCode:745,pain in joint
+2473,PheCode:338.2,chronic pain
+3507,PheCode:274.2,crystal arthropathies
+5087,RXNORM:614391,abatacept
+2597,PheCode:495,asthma
+2617,PheCode:513,respiratory abnormalities
+6232,LOINC:LP285022-2,Arginine/Creatinine
+3612,PheCode:433.12,cerebral atherosclerosis
+6507,LOINC:LP35095-6,inFLIXimab
+2913,RXNORM:191831,infliximab
+5342,PheCode:742.1,loose body in joint
+2796,PheCode:741.2,stiffness of joint
+6145,LOINC:LP18454-6,Suberate
+6420,LOINC:LP39528-2,PCA-Tr Ab
+5698,LOINC:LP16487-8,Reticulocytes
+3864,RXNORM:296,adenosine
+2472,PheCode:338.1,acute pain
+6313,LOINC:LP19429-7,Specimen source
+1356,LOINC:31208-2,Specimen source
+6114,LOINC:LP286211-0,Histamine/Creatinine
+148,CCS:232,anesthesia
+2448,PheCode:301,personality disorders
+3813,RXNORM:11295,water
+6289,LOINC:LP38711-5,Itrinsic factor Ab
+1238,LOINC:29953-7,ANA Titr Ser
+2323,PheCode:197,chemotherapy
+563,LOINC:15204-1,Rheumatoid fact Titr Ser Neph
+2818,PheCode:760,back pain
+3159,PheCode:260.6,anorexia
+3911,RXNORM:596205,ramelteon
+4874,RXNORM:1000082,alcaftadine
+6078,LOINC:LP14671-9,IgE
+6369,LOINC:LP16679-0,Cold agglutinin
+3817,RXNORM:1256,azathioprine
+6318,LOINC:LP15950-6,Viscosity
+6343,LOINC:LP15417-6,Argininosuccinate
+5582,LOINC:LP14355-9,Creatinine
+2436,PheCode:296.2,depression
+3946,RXNORM:82819,acamprosate
+5511,LOINC:LP14750-1,Liquefaction
+1361,LOINC:3128-6,Visc Ser
+2322,PheCode:196,radiotherapy
