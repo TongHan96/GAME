@@ -3,8 +3,8 @@
 To clone the repository:
 
 ```bash
-git clone https://github.com/TongHan96/AMID.git
-cd AMID
+git clone https://github.com/TongHan96/GAME.git
+cd GAME
 ```
 
 To add and commit the `input` directory to `src/GAT`:
