@@ -14,9 +14,9 @@ config = {
     'res': False,
     
     'epochs': 1, 
-    'base_lr':  3e-4, 
+    'base_lr':  1e-3, 
     'batch_size': 128, 
-    'gamma': 0.8, 
+    'gamma': 0.5, 
     
     'scale_hie':1, 
     'scale_OTOL':50, 

@@ -40,8 +40,8 @@ def update_config_from_args():
                         help="Parameter drop_out prob. Default: 0.1.") 
     parser.add_argument("--has_origin_model", type=str, default=False,
                         help="Whether loading original model or not. Default: False.")
-    parser.add_argument("--lr", type=float, default=1e-4,
-                        help="Parameter learning rate. Default: 1e-4.")    
+    parser.add_argument("--lr", type=float, default=1e-3,
+                        help="Parameter learning rate. Default: 1e-3.")    
     parser.add_argument("--AA", type=int, default=1,
                         help="Parameter AA. Default: 1.")
     parser.add_argument("--BB", type=int, default=5,
@@ -219,6 +219,7 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
                 print(model.gat2.gat_conv.att_dst_new)
                 print(model.gat2.gat_conv.att_src_new)
                 print(model.linear.weight)
+                print(model.gat2.gat_conv.lin_src_new.weight.mask2)
                 print('------------------check embedding-------------------')
                 print(x1.shape)
                 print(x1)
@@ -262,8 +263,10 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
         model = GAT_A(in_features=config['num_features'], hidden_features=config['hidden_features2'],
                       out_features=config['all_dim'], K=config['K'], low_dim=config['low_dim'])
     else:
-        model = GATModel(config['num_features'], config['hidden_features2'])
+        model = GATModel(config['num_features'], config['hidden_features2'], MASK=True)
 
+    model = model.to(device)
+        
     print('************************original model************************')
     print(model)   
     model.load_state_dict(torch.load(f"/root/current_code/GAT_model_9_22/output/{config['origin_start_time']}/model_1.pth"))
@@ -276,6 +279,7 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
     print(model.gat2.gat_conv.att_dst_new)
     print(model.gat2.gat_conv.att_src_new)
     print(model.linear.weight)
+    print(model.gat2.gat_conv.att_src_new.mask2)
     x_sim = torch.load(f"/root/current_code/GAT_model_9_22/output/{config['origin_start_time']}/Final_emb_1.pth")
     PRE_origin, PRE_0_origin, RELA_MGB_AUC_origin, RELA_VA_AUC_origin, RELA_UP_AUC_origin, SIMI_MGB_origin, SIMI_VA_origin, SIMI_UP_origin = test(x_sim[:,0:config['rmax']], name_all, related_pairs= val_rel_pairs, similar_pairs= ALL_sim_val_pairs, PRE = True, AUC = True, AUC_type = True, LEVEL=[0,1], rmax=config['rmax'])
     MGB_AUC_origin = [RELA_MGB_AUC_origin, SIMI_MGB_origin]
@@ -371,12 +375,12 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
                 torch.save(x1, f'/root/current_code/GAT_model_9_22/output/{start_time}/Final_emb_1_with_rel.pth')
                 torch.save(model.state_dict(), 
                             f'/root/current_code/GAT_model_9_22/output/{start_time}/model_1_with_rel.pth')   
-
-
+            break
+            
         print(f'Related Epoch{epoch} has finished...')
         torch.save(x1, f'/root/current_code/GAT_model_9_22/output/{start_time}/Final_emb_epoch{epoch}_1_with_rel.pth')
-        torch.save(model.state_dict(),
-                    f'/root/current_code/GAT_model_9_22/output/{start_time}/model_epoch{epoch}_1_with_rel.pth') 
+        torch.save(model.state_dict(), f'/root/current_code/GAT_model_9_22/output/{start_time}/model_epoch{epoch}_1_with_rel.pth') 
+        break
 
 
 if __name__ == "__main__":

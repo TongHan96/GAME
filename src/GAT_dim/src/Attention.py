@@ -234,6 +234,7 @@ class GATModel(nn.Module):
                                       (slice(0,config['hidden_features']), slice(3*config['hidden_features'], 4*config['hidden_features'])),
                                       (slice(2*config['hidden_features'], 3*config['hidden_features']), slice(config['hidden_features'], 2*config['hidden_features'])),
                                       (slice(2*config['hidden_features'], 3*config['hidden_features']), slice(3*config['hidden_features'], 4*config['hidden_features']))])
+        print(self.gat2.gat_conv.lin_src_new.weight.mask2)
         
         temp4 = self.gat2.gat_conv.att_src_new
         mask4 = generate_mask(temp4[0], [(slice(0,2), generate_slices(heads=1)[0])])
@@ -257,6 +258,7 @@ class GATModel(nn.Module):
         self.linear.weight.mask = mask5 
         print(mask5.shape)
         self.linear.weight.mask2= generate_mask(temp5, [(slice(0,config['out_dim']), slice(config['hidden_features'], 2*config['hidden_features'])), (slice(0,config['out_dim']), slice(3*config['hidden_features'], 4*config['hidden_features']))])   
+        print(self.linear.weight.mask2)
     
 
     def reset_parameters_part(self):
