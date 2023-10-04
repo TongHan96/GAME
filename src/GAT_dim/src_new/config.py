@@ -1,5 +1,19 @@
+""""
+Title: config.py
+Author: Han Tong
+Date: 2023-10-04
+Python Version: Python 3.11.3
+Description: All parameter we need
+"""
+
 import numpy as np
 
+def set_config(new_config):
+    global config
+    config = new_config
+
+def get_config():
+    return config
 
 config = {
     'num_nodes': 24682, 
@@ -41,15 +55,7 @@ config = {
     'scale_one_one' : 10,
     'low_dim' : None,
     'Truncate' : None,
-    'path_origin' : True,
+    'path_origin' : None,
+    'path': '/root/current_code/GAT_model_10_4', 
     'FROZEN' : None
 }  
-
-def set_config(new_config):
-    global config
-    config = new_config
-
-def get_config():
-    return config
-
-

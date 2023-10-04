@@ -3,7 +3,7 @@
 """
 Title: evaluate.py
 Author: Han Tong
-Date: 2023-10-01
+Date: 2023-10-04
 Python Version: Python 3.11.3
 Description: evaluate AUC and accuracy functions can be seen here
 """
@@ -17,7 +17,6 @@ from sklearn.metrics import roc_auc_score
 from load_data import *
 from utils import *
 config = get_config()
-# print(f'In evaluate{config}')
 CHECK_ALL = config['CHECK_ALL']
 
 # ---------------------Predict functions----------------------

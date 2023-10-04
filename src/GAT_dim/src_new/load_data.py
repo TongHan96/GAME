@@ -3,7 +3,7 @@
 """
 Title: load_data.py
 Author: Han Tong
-Date: 2023-09-30
+Date: 2023-10-04
 Python Version: Python 3.11.3
 Description: Load all data we need in this file
 
@@ -22,9 +22,9 @@ import torch
 import re
 import os
 
-os.chdir('/root/current_code/GAT_model_9_30/src')
-
 from config import get_config
+config = get_config()
+os.chdir(f"{config['path']}/src")
 import sys
 warnings.filterwarnings('ignore')
 import torch_geometric as tg
@@ -32,11 +32,8 @@ from torch.utils.data import DataLoader
 from utils import split_set, weighted_sum_x, get_latent_related, get_parent
 from data_structure import *
 
-config = get_config()
-
 # the original embedding we need
 datax = pd.read_csv("https://han-attention.s3.amazonaws.com/input/emb/emb_Z0_825.csv")
-
 typeofZ = datax.iloc[:, 0]
 index1 = [i for i, x in enumerate(typeofZ) if re.search("LOINC", x)]  # loinc
 index2 = [i for i, x in enumerate(typeofZ) if re.search("RXNORM", x)]  # RxNorm
@@ -92,8 +89,8 @@ val_sim_pairs = pd.read_csv('https://han-attention.s3.amazonaws.com/input/simila
 
 # initialize the train, validation and test set of related pairs
 # train_rel_pairs, val_rel_pairs, test_rel_pairs = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, REL_pairs=REL_pairs, scale=[0.5,0.3], ADJ_ONLY=False)
-# np.save('/root/current_code/GAT_model_9_30/input/rel_pairs.npy', [train_rel_pairs, val_rel_pairs, test_rel_pairs])
-train_rel_pairs,  val_rel_pairs, test_rel_pairs = np.load('/root/current_code/GAT_model_9_30/input/rel_pairs.npy', allow_pickle=True)
+# np.save(f"{config['path']}/input/rel_pairs.npy", [train_rel_pairs, val_rel_pairs, test_rel_pairs])
+train_rel_pairs,  val_rel_pairs, test_rel_pairs = np.load(f"{config['path']}/input/rel_pairs.npy", allow_pickle=True)
 
 if config['latent']:
 
@@ -101,8 +98,8 @@ if config['latent']:
 
 # initialize the train, validation and test set of similar no hie pairs
 # train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, REL_pairs=SIM_no_hie_pairs, scale=[0.5,0.3], ADJ_ONLY=False)
-# np.save('/root/current_code/GAT_model_9_30/input/sim_no_hie_pairs.npy', [train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs])
-train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs = np.load('/root/current_code/GAT_model_9_30/input/sim_no_hie_pairs.npy', allow_pickle=True)
+# np.save(f"{config['path']}/input/sim_no_hie_pairs.npy", [train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs])
+train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs = np.load(f"{config['path']}/input/sim_no_hie_pairs.npy", allow_pickle=True)
 
 if config['latent']:
 
@@ -112,19 +109,19 @@ if config['latent']:
 # edges['Var1'] = edges['Var1'] - 1
 # edges['Var2'] = edges['Var2'] - 1
 # edges = torch.tensor(np.array(edges))
-# np.save('/root/current_code/GAT_model_9_30/input/edges.npy', np.transpose(edges))
+# np.save(f"{config['path']}/input/edges.npy", np.transpose(edges))
 
 # edges_rel = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, combine=False, train_pairs=train_rel_pairs) # (75990,2) 
 
 # edges_sim = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, combine=False, train_pairs=train_sim_no_hie_pairs) # (132555,2)
 
-# np.save('/root/current_code/GAT_model_9_30/input/edges_rel.npy', edges_rel.transpose())
-# np.save('/root/current_code/GAT_model_9_30/input/edges_sim.npy', edges_sim.transpose())
+# np.save(f"{config['path']}/input/edges_rel.npy", edges_rel.transpose())
+# np.save(f"{config['path']}/input/edges_sim.npy", edges_sim.transpose())
 
-# np.save('/root/current_code/GAT_model_9_30/input/edges.npy', edges)
-edges = np.load('/root/current_code/GAT_model_9_30/input/edges.npy', allow_pickle=True)
-edges_rel = np.load('/root/current_code/GAT_model_9_30/input/edges_rel.npy', allow_pickle=True)
-edges_sim = np.load('/root/current_code/GAT_model_9_30/input/edges_sim.npy', allow_pickle=True)
+# np.save(f"{config['path']}/input/edges.npy", edges)
+edges = np.load(f"{config['path']}/input/edges.npy", allow_pickle=True)
+edges_rel = np.load(f"{config['path']}/input/edges_rel.npy", allow_pickle=True)
+edges_sim = np.load(f"{config['path']}/input/edges_sim.npy", allow_pickle=True)
 
 ALL_sim_val_pairs =  pd.concat([val_sim_no_hie_pairs, val_sim_pairs], ignore_index=True)
 
@@ -141,14 +138,14 @@ sim_no_hie_index = get_index(train_sim_no_hie_pairs, name_all)
 # Origin_term can take half an hour. We can load my_objects that have been generated
 # my_objects = origin_term(name_all, P_OTOL, N_OTOL, P_LTOL, N_LTOL, hie_loinc_rxn_phe, 
 #                          train_rel_pairs, train_sim_no_hie_pairs, rel_index, sim_no_hie_index)
-# np.save('/root/current_code/GAT_model_9_30/input/my_objects.npy', my_objects)
+# np.save(f"{config['path']}/input/my_objects.npy", my_objects)
 
-my_objects = np.load('/root/current_code/GAT_model_9_30/input/my_objects.npy', allow_pickle=True)
+my_objects = np.load(f"{config['path']}/input/my_objects.npy", allow_pickle=True)
  
 if config['latent']:
     # my_objects2 = origin_term(name_new, P_OTOL_LP, N_OTOL_LP, P_LTOL_LP, N_LTOL_LP, hie_loinc_rxn_phe, train_rel_pairs_LP, train_sim_no_hie_pairs_LP, rel_index_LP, sim_no_hie_index_LP, INST=False)
-    # np.save('/root/current_code/GAT_model_9_30/input/my_objects2.npy', my_objects2)
-    my_objects2 = np.load('/root/current_code/GAT_model_9_30/input/my_objects2.npy', allow_pickle=True)
+    # np.save(f"{config['path']}/input/my_objects2.npy", my_objects2)
+    my_objects2 = np.load(f"{config['path']}/input/my_objects2.npy", allow_pickle=True)
    
 
 # COS similarity of original sapbert embeddings and svd-PPMI embeddings
@@ -187,10 +184,10 @@ code_list = ["PheCode_714.1", "PheCode_555.1", "PheCode_411.4", "PheCode_555.2",
              'LOINC:4485-9','LOINC:LP147743-1','LOINC:20491-7','LOINC:24398-0','LOINC:LP16294-8']
 
 # edge_attention, true_rank = generate_edges([code.replace(':',"_") for code in code_list],name_all)
-# np.save('/root/current_code/GAT_model_9_30/input/rank_edges.npy', edge_attention)
-# np.save('/root/current_code/GAT_model_9_30/input/rank_true.npy', true_rank)
-edge_attention = np.load('/root/current_code/GAT_model_9_30/input/rank_edges.npy', allow_pickle=True)
-true_rank = np.load('/root/current_code/GAT_model_9_30/input/rank_true.npy', allow_pickle=True)
+# np.save(f"{config['path']}/input/rank_edges.npy", edge_attention)
+# np.save(f"{config['path']}/input/rank_true.npy", true_rank)
+edge_attention = np.load(f"{config['path']}/input/rank_edges.npy", allow_pickle=True)
+true_rank = np.load(f"{config['path']}/input/rank_true.npy", allow_pickle=True)
 edge_attention = edge_attention.astype(int)
 index_pos_pairs = np.where(true_rank>=0.7)[0] # 23583
 index_neg_pairs = np.where(true_rank<=0.1)[0] # 29236

@@ -1,28 +1,24 @@
 """"
 Title: Attention.py
 Author: Han Tong
-Date: 2023-08-29
+Date: 2023-10-04
 Python Version: Python 3.11.3
 Description: All attention model we use
 """
-
-import torch
-from torch_geometric.utils import softmax
-from torch_scatter import scatter
 import numpy as np
 import math
+import torch
 import torch.nn as nn
-import warnings
-from config import get_config
-warnings.filterwarnings('ignore')
 import torch.nn.functional as F
-from torch_geometric.utils import dropout_adj
-from load_data import *
 from torch_geometric.nn import GATConv
-from torch_geometric.utils import add_self_loops,softmax, remove_self_loops
+from torch_geometric.utils import softmax, dropout_adj, add_self_loops, remove_self_loops
 from torch_scatter import scatter
+import warnings
+warnings.filterwarnings('ignore')
+
+from config import get_config
+from load_data import *
 config = get_config()
-# print(f'In Attention{config}')
 CHECK_ALL = config['CHECK_ALL']
 
 '''
@@ -72,10 +68,10 @@ class GATLayer_A(nn.Module):
             if low_dim:
                 nn.init.xavier_uniform_(self.V[k].data)
 
-    def forward(self, h, edge_index, edge_attention):
+    def forward(self, h, edge_index):
         H_new = []
         edge_index, _ = add_self_loops(edge_index, num_nodes=h.size(0))
-        alpha2_all = []
+        
         if self.LOW_DIM:
             for k in range(self.K):
                 h_k = torch.mm(h, self.W[k]) # [num_nodes, out_features]
@@ -92,16 +88,12 @@ class GATLayer_A(nn.Module):
                     print(':::::::ATTENTION EXAMPLE:::::::')
                     print(alpha[[np.where(edge_index[0,:].cpu().detach() == 7400)[0]]])
                 
-                
                 h_weighted = h_k[col] * alpha.view(-1, 1)
                 h_new = scatter(src=h_weighted, index=row, dim=0, reduce="add")
                 H_new.append(h_new)
                 
                 h_proj2 = h_k @ self.V[k] @ self.V[k].transpose(0,1) # [num_nodes, in_features]
-                row, col = edge_attention
-                alpha2 = (h_proj2[row] * h_k[col]).sum(dim=-1, keepdim=True)  # [num_edges, 1]
-                alpha2_all.append(alpha2)
-        
+                
         else:
             for k in range(self.K):
                 h_k =  torch.mm(h, self.W[k]) # [num_nodes, out_features]
@@ -114,12 +106,7 @@ class GATLayer_A(nn.Module):
                 h_weighted = h_k[col] * alpha.view(-1, 1)
                 h_new = scatter(src=h_weighted, index=row, dim=0, reduce="add")
                 H_new.append(h_new)
-                
                 h_proj2 = h_k @ self.A  # [num_nodes, out_features]
-                row, col = edge_attention
-                alpha2 = (h_proj2[row] * h_k[col]).sum(dim=-1, keepdim=True)  # [num_edges, 1]
-                # print(alpha2.shape)
-                alpha2_all.append(alpha2)
 
             if CHECK_ALL:
                 print(':::::::ATTENTION EXAMPLE:::::::')
@@ -133,11 +120,10 @@ class GATLayer_A(nn.Module):
             print('res!')
         
         # H_new = self.batch_norm(H_new)
-        # H_new = self.dropout(H_new)
+        H_new = self.dropout(H_new)
         H_new = self.activation(H_new)
-        # print(torch.cat(alpha2_all, dim=1).shape)
-        
-        return H_new, alpha, torch.cat(alpha2_all, dim=1).t()
+       
+        return H_new, alpha
 
     
 class GAT_A(nn.Module):
@@ -150,46 +136,43 @@ class GAT_A(nn.Module):
         else:
             self.linear = nn.Linear(config['K'] * config['hidden_features'], config['out_dim'] - config['rmax'])
         
-    def forward(self, x, edge_index, edge_attention):
-        x, alpha1, rank_attention1 = self.gat1(x, edge_index, edge_attention)
-        x, alpha2, rank_attention2 = self.gat2(x, edge_index, edge_attention)
+    def forward(self, x, edge_index):
+        x, alpha1 = self.gat1(x, edge_index)
+        x, alpha2 = self.gat2(x, edge_index)
         x = self.linear(x)
         x = x / torch.norm(x, dim=1, keepdim=True)
-        return x, alpha1, alpha2, rank_attention1, rank_attention2
+        return x, alpha1, alpha2
 
     
 '''
 Naive Attention
 '''
-
-from torch_geometric.nn import GATConv
     
 class GATLayer(nn.Module):
     def __init__(self, in_features, out_features, heads, concat, dropout, residual=False):
         super(GATLayer, self).__init__()
-        self.gat_conv = GATConv(in_features, out_features, heads, concat=concat, add_self_loops=False, bias=False)
+        self.gat_conv = GATConv(in_features, out_features, heads, concat=concat, add_self_loops=True, bias=True)
         self.batch_norm = nn.BatchNorm1d(out_features * heads)
         self.dropout = nn.Dropout(dropout)
         self.activation = nn.ReLU()
         self.residual = residual
+        
         if str(self.residual).lower() != "false":
             self.res_connection = nn.Linear(in_features, out_features * heads)
             nn.init.xavier_uniform_(self.res_connection.weight)
 
-    def forward(self, x, edge_index, edge_attention):
-        edge_index, _ = add_self_loops(edge_index, num_nodes=x.size(0))
+    def forward(self, x, edge_index):
         out, attention_weights = self.gat_conv(x, edge_index, return_attention_weights=True)
         out = self.batch_norm(out)
         out = self.dropout(out)
         out = self.activation(out)
+        
         if str(self.residual).lower() != "false":
             res = self.res_connection(x)
             out = out + res
             print('res!')
-        # rank_attention = compute_attention_coefficients_multi_head(x, edge_attention, self.gat_conv.lin_src.weight, self.gat_conv.att_src[0], self.gat_conv.att_dst[0])
-        rank_attention = 0
-
-        return out, attention_weights, rank_attention
+            
+        return out, attention_weights
 
     
 class GATModel(nn.Module):
@@ -202,12 +185,12 @@ class GATModel(nn.Module):
         else:
             self.linear = nn.Linear(3 * config['hidden_features'], config['out_dim'] - config['rmax'])
 
-    def forward(self, x, edge_index, edge_attention):
-        x1, attention1, rank_attention1 = self.gat1(x, edge_index, edge_attention)
-        x2, attention2, rank_attention2 = self.gat2(x1, edge_index, edge_attention)
+    def forward(self, x, edge_index):
+        x1, attention1 = self.gat1(x, edge_index)
+        x2, attention2 = self.gat2(x1, edge_index)
         x_out = self.linear(x2)
-        x_out = x_out / torch.norm(x_out, dim=1, keepdim=True)
-        return x_out, attention1, attention2, rank_attention1, rank_attention2
+        x_out = x_out / torch.norm(x_out, dim=1, keepdim=True) 
+        return x_out, attention1, attention2
 
     
 '''
@@ -222,16 +205,16 @@ class SandR_Model(nn.Module):
             if str(config['ONLY_SIMI']).lower() == 'false':
                 self.R_Model = GATModel(config, SIMI=False)
         else:
-            if config['ATTENTION_TYPE'] is None:
+            if config['path_origin'] is None:
                 self.S_Model = GAT_A(config, SIMI=True)
             if str(config['ONLY_SIMI']).lower() == 'false':
                 self.R_Model = GAT_A(config, SIMI=False)
             
-    def forward(self, x, edge_index, edge_attention):
+    def forward(self, x, edge_index):
         if str(config['ONLY_SIMI']).lower() == 'false':
-            x_rel_part, _, _, _, _ = self.R_Model(x, edge_index, edge_attention)
+            x_rel_part, _, _ = self.R_Model(x, edge_index)
         if config['path_origin'] is None:
-            x_sim, _, _, _, _ = self.S_Model(x, edge_index, edge_attention)
+            x_sim, _, _ = self.S_Model(x, edge_index)
             if str(config['ONLY_SIMI']).lower() == 'false':
                 return x_sim, x_rel_part
             else:
@@ -289,10 +272,9 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
                 scale_hie=config['scale_hie'], scale_OTOL=config['scale_OTOL'], 
                 scale_LTOL=config['scale_LTOL'], scale_REL=config['scale_REL'], 
                 scale_SIM_NO_HIE=config['scale_SIM_NO_HIE'], 
-                scale_LSAP=config['scale_LSAP'], scale_LSVD=config['scale_LSVD'], 
-                scale_attention=config['scale_attention'], ORIGIN=True, rmax = config['rmax']):  
+                scale_LSAP=config['scale_LSAP'], scale_LSVD=config['scale_LSVD'], ORIGIN=True, rmax = config['rmax']):  
     '''
-    Return 8(9) parts loss
+    Return 8 parts loss
     1. one-one loss
     2. hierarchy loss
     3. Other lab to Loinc Loss
@@ -301,7 +283,6 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
     6. SIM_NO_HIE Loss
     7. Sapbert Embedding Loss
     8. SVD PPMI Embedding Loss
-    9. （select） Knowledge Guided Attention    
     '''
 
     def loss_term(temp_objects, x, now_index, AA=config['AA'], BB=config['BB'], lambd=config['lambd']):
@@ -425,14 +406,6 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
             print("pos_loss2 = {:.4f}".format(pos_loss2))
         return pos_loss1, pos_loss2     
     
-                             
-    # def calculate_loss3(edge_attention, rank_attention1, rank_attention2, true_rank, scale):
-    #     '''
-    #     calculate embedding similarity-rank loss
-    #     '''
-    #     loss = pairwise_loss(edge_attention, rank_attention1, rank_attention2, true_rank)
-    #     return scale * loss
-    
 
     # Call the function to compute first 5 types of losses
     if x is not None:
@@ -446,18 +419,18 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
         P_LOSS_SAP1, P_LOSS_SAP2 = calculate_loss2(COS_origin_sap, x, now_index, scale_LSAP, device)
     
     else:
-        P_LOSS_one_one = 0
-        N_LOSS_one_one = 0
-        P_LOSS_hie = 0
-        N_LOSS_hie = 0
-        P_LOSS_OTOL = 0
-        N_LOSS_OTOL = 0
-        P_LOSS_LTOL = 0
-        N_LOSS_LTOL = 0
-        P_LOSS_SIM_NO_HIE = 0
-        N_LOSS_SIM_NO_HIE = 0
-        P_LOSS_SAP1 = 0
-        P_LOSS_SAP2 = 0
+        P_LOSS_one_one = None
+        N_LOSS_one_one = None
+        P_LOSS_hie = None
+        N_LOSS_hie = None
+        P_LOSS_OTOL = None
+        N_LOSS_OTOL = None
+        P_LOSS_LTOL = None
+        N_LOSS_LTOL = None
+        P_LOSS_SIM_NO_HIE = None
+        N_LOSS_SIM_NO_HIE = None
+        P_LOSS_SAP1 = None
+        P_LOSS_SAP2 = None
         
     if x_rel is not None:
         P_LOSS_REL, N_LOSS_REL = calculate_loss('related_pairs', my_objects, x_rel, now_index, name_all, scale_REL, ORIGIN=ORIGIN)
@@ -466,13 +439,10 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
         P_LOSS_SVD1, P_LOSS_SVD2 = calculate_loss2(COS_origin_svd, x_rel/torch.sqrt(torch.tensor(2, dtype=torch.float32)), now_index, scale_LSVD, device)
         
     else:
-        P_LOSS_REL = 0
-        N_LOSS_REL = 0
-        P_LOSS_SVD1 = 0
-        P_LOSS_SVD2 = 0
-    
-    # # Call the function to compute similarity-rank losses
-    # LOSS_attention = calculate_loss3(edge_attention, rank_attention1, rank_attention2, true_rank, scale_attention)
-
+        P_LOSS_REL = None
+        N_LOSS_REL = None
+        P_LOSS_SVD1 = None
+        P_LOSS_SVD2 = None    
+  
     return P_LOSS_one_one, N_LOSS_one_one, P_LOSS_hie, N_LOSS_hie, P_LOSS_OTOL, N_LOSS_OTOL, P_LOSS_LTOL, N_LOSS_LTOL, P_LOSS_REL, N_LOSS_REL, P_LOSS_SIM_NO_HIE, N_LOSS_SIM_NO_HIE, P_LOSS_SAP1, P_LOSS_SAP2, P_LOSS_SVD1, P_LOSS_SVD2
   

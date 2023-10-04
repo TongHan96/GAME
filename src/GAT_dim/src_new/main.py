@@ -3,7 +3,7 @@
 """
 Title: main.py
 Author: Han Tong
-Date: 2023-10-01
+Date: 2023-10-04
 Python Version: Python 3.11.3
 Description: main file of our attention model
 """
@@ -60,6 +60,8 @@ def update_config_from_args():
                         help="Parameter low_dim. Default: 0.")
     parser.add_argument("--Truncate", type=int, default=0,
                         help="Parameter Truncate. Default: 0.")
+    parser.add_argument("--path", type=str,
+                        help="Specify the path parameter.")
     parser.add_argument("--path_origin", type=str, default=None,
                         help='Train from the initial model and embedding path_origin is not None. Default: None.')
     parser.add_argument("--FROZEN", type=str, default=False,
@@ -72,8 +74,6 @@ def update_config_from_args():
                 help='whether to generate latent nodes or not. Default: False.')
     parser.add_argument("--ONLY_SIMI", type=str, default=False,
                     help="whether loss is only similarity or contain relatedness. Default: False.")
-    
-
 
     args = parser.parse_args()
     
@@ -88,6 +88,7 @@ def update_config_from_args():
     config['scale_one_one'] = args.scale_one_one
     config['low_dim'] = args.low_dim
     config['Truncate'] = args.Truncate
+    config['path'] = args.path
     config['path_origin'] = args.path_origin
     config['latent'] = args.latent
     config['FROZEN'] = args.FROZEN
@@ -115,11 +116,11 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
     best_PRE_0 = -float('inf')
     if config['path_origin'] is not None:
         print('load origin embedding!')
-        x_sim = x_origin = torch.load(f"/root/current_code/GAT_model_9_30/output/{config['path_origin']}/sim_emb_1.pth")
+        x_sim = x_origin = torch.load(f"{config['path']}/output/{config['path_origin']}/sim_emb_1.pth")
     else:
         x_origin = x_tensor
 
-   # original test
+  # original test
     PRE_origin, PRE_0_origin, RELA_MGB_AUC_origin, RELA_VA_AUC_origin, RELA_UP_AUC_origin, SIMI_MGB_origin, SIMI_VA_origin, SIMI_UP_origin = test(x_origin, name_all, related_pairs= val_rel_pairs, similar_pairs= ALL_sim_val_pairs, PRE = True, AUC = True, AUC_type = True, LEVEL=[0,1], ORIGIN_PACK = None)
     MGB_AUC_origin = [RELA_MGB_AUC_origin, SIMI_MGB_origin]
     VA_AUC_origin = [RELA_VA_AUC_origin, SIMI_VA_origin]
@@ -137,21 +138,6 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
     # load GAT model
     model_all = SandR_Model(config)
     model_all = model_all.to(device)
-    
-#     if config['path_origin'] is not None:
-#         print('load origin model!')
-#         model_old = torch.load(f"/root/current_code/GAT_model_9_30/output/{config['path_origin']}/model_1.pth")
-#         # Load gat1 parameters
-#         gat1_state_dict = {k.replace('S_Model.gat1.', ''): v for k, v in model_old.items() if k.startswith('S_Model.gat1')}
-#         model_all.S_Model.gat1.load_state_dict(gat1_state_dict)
-
-#         # Load gat2 parameters
-#         gat2_state_dict = {k.replace('S_Model.gat2.', ''): v for k, v in model_old.items() if k.startswith('S_Model.gat2')}
-#         model_all.S_Model.gat2.load_state_dict(gat2_state_dict)
-
-#         # Load linear parameters
-#         linear_state_dict = {k.replace('S_Model.linear.', ''): v for k, v in model_old.items() if k.startswith('S_Model.linear')}
-#         model_all.S_Model.linear.load_state_dict(linear_state_dict)
         
     print(model_all)
     if config['path_origin'] is None:
@@ -165,8 +151,13 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
     torch.cuda.empty_cache()
     gc.collect()
     
-    edge_index = data.edge_index.to(device)
-    edge_index = torch.cat((torch.cat((torch.tensor(edge_index), torch.tensor(edges_rel)), dim=1), torch.tensor(edges_sim)), dim=1)
+    if config['path_origin'] is None:
+        edge_index = data.edge_index.to(device)
+        edge_index = torch.cat((torch.cat((torch.tensor(edge_index), torch.tensor(edges_rel)), dim=1), torch.tensor(edges_sim)), dim=1)
+        
+    else:
+        edge_index = torch.tensor(edges_rel)
+    
     undirected_edge_index = to_undirected(edge_index)
     
     # train the model: step1 similarity
@@ -180,16 +171,16 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
             if str(config['ONLY_SIMI']).lower() == 'false':
                 
                 if config['path_origin'] is None:
-                    x_sim, x_rel_part = model_all(x_tensor, undirected_edge_index, edge_attention)
+                    x_sim, x_rel_part = model_all(x_tensor, undirected_edge_index)
   
                 else:
-                    x_rel_part = model_all(x_tensor, undirected_edge_index, edge_attention)
+                    x_rel_part = model_all(x_tensor, undirected_edge_index)
                 
                 x_detached = x_sim.detach()
                 x_rel = torch.cat((x_detached, x_rel_part), dim=1)
 
             else:
-                x_sim = model_all(x_origin, undirected_edge_index, edge_attention) 
+                x_sim = model_all(x_origin, undirected_edge_index) 
             
             (P_LOSS_one_one, N_LOSS_one_one, 
             P_LOSS_hie, N_LOSS_hie, 
@@ -200,14 +191,18 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
             P_LOSS_SAP1, P_LOSS_SAP2, 
             P_LOSS_SVD1, P_LOSS_SVD2) = custom_loss(my_objects, x_sim if config['path_origin'] is None else None, x_rel if str(config['ONLY_SIMI']).lower() == 'false' else None, batch_indices, device, name_all, COS_origin_sap, COS_origin_svd)
             '''
-            loss1.back_ward()  //计算loss1的梯度
-            optimizer.step()   //根据loss1梯度更新权重
-            optimizer.zero_grad()  //将网络的权重参数置零
-            loss2.back_ward()  //计算loss2的梯度
-            optimizer.step()   //根据loss2梯度更新权重
+            loss1.back_ward()  # Compute the gradient for loss1
+            optimizer.step()   # Update weights based on the gradient of loss1
+            optimizer.zero_grad()  # Set the parameter gradients to zero
+            loss2.back_ward()  # Compute the gradient for loss2
+            optimizer.step()   # Update weights based on the gradient of loss2
             '''
-            loss1 = P_LOSS_one_one + N_LOSS_one_one + P_LOSS_hie + N_LOSS_hie + P_LOSS_OTOL + N_LOSS_OTOL + P_LOSS_LTOL + N_LOSS_LTOL + P_LOSS_SIM_NO_HIE + N_LOSS_SIM_NO_HIE + P_LOSS_SAP1 + P_LOSS_SAP2
-            loss2 = P_LOSS_REL + N_LOSS_REL + P_LOSS_SVD1 + P_LOSS_SVD2 
+            if config['path_origin'] is None:
+                loss1 = P_LOSS_one_one + N_LOSS_one_one + P_LOSS_hie + N_LOSS_hie + P_LOSS_OTOL + N_LOSS_OTOL + P_LOSS_LTOL + N_LOSS_LTOL + P_LOSS_SIM_NO_HIE + N_LOSS_SIM_NO_HIE + P_LOSS_SAP1 + P_LOSS_SAP2
+            
+            if str(config['ONLY_SIMI']).lower() == 'false':   
+                loss2 = P_LOSS_REL + N_LOSS_REL + P_LOSS_SVD1 + P_LOSS_SVD2 
+                
             if config['path_origin'] is None:
                 print('Update sim!')
                 optimizer.zero_grad()
@@ -222,12 +217,14 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
                 optimizer2.step()   
                 scheduler2.step()
             
-            if str(config['ONLY_SIMI']).lower() == 'false':
-                print('batch_num: {:03d}     LOSS: {:.4f}'.format(i, loss1+loss2))
-            elif config['path_origin'] is None: 
-                print('batch_num: {:03d}     LOSS: {:.4f}'.format(i, loss1))
-            else:
+            if config['path_origin'] is not None: 
                 print('batch_num: {:03d}     LOSS: {:.4f}'.format(i, loss2))
+                
+            elif str(config['ONLY_SIMI']).lower() == 'true':
+                print('batch_num: {:03d}     LOSS: {:.4f}'.format(i, loss1))
+                
+            else:
+                print('batch_num: {:03d}     LOSS: {:.4f}'.format(i, loss1 + loss2))
 
             PRE_origin, PRE_0_origin, RELA_MGB_AUC_origin, RELA_VA_AUC_origin, RELA_UP_AUC_origin, SIMI_MGB_origin, SIMI_VA_origin, SIMI_UP_origin = test(x_rel if str(config['ONLY_SIMI']).lower() == 'false' else x_sim, name_all, related_pairs= val_rel_pairs, similar_pairs= ALL_sim_val_pairs, PRE = True, AUC = True, AUC_type = True, LEVEL=[0,1], ORIGIN_PACK=ORIGIN_PACK if config['path_origin'] is not None else None)
 
@@ -254,11 +251,11 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
                     best_PRE_0 = PRE_origin[0]
 
                 if case_store:
-                    torch.save(x_sim, f'/root/current_code/GAT_model_9_30/output/{start_time}/sim_emb_1.pth')
+                    torch.save(x_sim, f"{config['path']}/output/{start_time}/sim_emb_1.pth")
                     if str(config['ONLY_SIMI']).lower() == 'false':   
-                        torch.save(x_rel, f'/root/current_code/GAT_model_9_30/output/{start_time}/rel_emb_1.pth')
+                        torch.save(x_rel, f"{config['path']}/output/{start_time}/rel_emb_1.pth")
                     torch.save(model_all.state_dict(), 
-                               f'/root/current_code/GAT_model_9_30/output/{start_time}/model_1.pth')   
+                               f"{config['path']}/output/{start_time}/model_1.pth")   
             else:
                 print(f'MGB_REL:{sum_(RELA_MGB_AUC_origin)}    VA_REL:{sum_(RELA_VA_AUC_origin)}    UP_REL:{sum_(RELA_UP_AUC_origin)}')
                 rel_all = sum([sum_(RELA_MGB_AUC_origin),sum_(RELA_VA_AUC_origin),sum_(RELA_UP_AUC_origin)])/3
@@ -266,17 +263,17 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
                 
                 if case_store:
                     best_PRE_0 = rel_all
-                    torch.save(x_rel, f'/root/current_code/GAT_model_9_30/output/{start_time}/rel_emb_1.pth')
-                    torch.save(model_all.state_dict(), f'/root/current_code/GAT_model_9_30/output/{start_time}/model_2.pth')  
+                    torch.save(x_rel, f"{config['path']}/output/{start_time}/rel_emb_1.pth")
+                    torch.save(model_all.state_dict(), f"{config['path']}/output/{start_time}/model_2.pth")  
             
         print(f'Epoch{epoch} has finished...')  
         if config['path_origin'] is None:
-            torch.save(x_sim, f'/root/current_code/GAT_model_9_30/output/{start_time}/sim_emb_epoch{epoch}_1.pth')
+            torch.save(x_sim, f"{config['path']}/output/{start_time}/sim_emb_epoch{epoch}_1.pth")
             if str(config['ONLY_SIMI']).lower() == 'false':   
-                torch.save(x_rel, f'/root/current_code/GAT_model_9_30/output/{start_time}/rel_emb_epoch{epoch}_1.pth')
+                torch.save(x_rel, f"{config['path']}/output/{start_time}/rel_emb_epoch{epoch}_1.pth")
         else:
-            torch.save(x_rel, f'/root/current_code/GAT_model_9_30/output/{start_time}/rel_emb_epoch{epoch}_1.pth')
-        torch.save(model_all.state_dict(), f'/root/current_code/GAT_model_9_30/output/{start_time}/model_epoch{epoch}_2.pth')
+            torch.save(x_rel, f"{config['path']}/output/{start_time}/rel_emb_epoch{epoch}_1.pth")
+        torch.save(model_all.state_dict(), f"{config['path']}/output/{start_time}/model_epoch{epoch}_2.pth")
   
             
 

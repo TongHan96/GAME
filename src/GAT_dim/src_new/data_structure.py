@@ -3,7 +3,7 @@
 """
 Title: data_structure.py
 Author: Han Tong
-Date: 2023-08-29
+Date: 2023-10-04
 Python Version: Python 3.11.3
 Description: define the class of each node, the dataset structures, and the initialize function of them
 """
