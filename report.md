@@ -1,13 +1,14 @@
 # Result Summary
 
 ## Changes
-1. Updated the embedding for leaf LOINC codes from sapbert/coder to their corresponding LP code embedding.
-2. We have also changed the accuracy calculation method to only focus on LP code.
-3. The rotation mode for sppmi has changed: VA and UPMC revolve around MGB.
-4. Use edges generated from sppmi emb in related training part.
+1. **Updated the sapbert/coder embedding** for leaf LOINC codes to their corresponding LP code embedding.
+2. We have also changed the **accuracy calculation method** to only focus on LP code.
+3. The **rotation mode for sppmi** has changed: VA and UPMC revolve around MGB.
+4. Use **edges generated from sppmi emb** in related training part. **Really helpful for feature selection!**
+
 
 ## Accuracy Calculation Method:
-By focusing solely on LP codes, TOP1 accuracy tends to be slightly lower, while TOP20 accuracy tends to be slightly higher. This trend makes sense because:
+By focusing solely on LP codes, **TOP1 accuracy tends to be slightly lower, while TOP20 accuracy tends to be slightly higher**. This trend makes sense because:
 - The exact matches have become rarer and more challenging (hence, the drop in TOP1).
 - The overall comparison objects have decreased (hence, the rise in TOP20).
 
