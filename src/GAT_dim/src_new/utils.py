@@ -675,34 +675,39 @@ def create_weight_matrix(name_all, name_new, freq_all):
 
 
 def get_parent(pairs, CHANGE_INDEX=[0, 1], DROP=True):
+
+    pairs_new = pairs.copy()
     hie_all = pd.read_csv("https://han-attention.s3.amazonaws.com/input/Hierarchy/hie_loinc_rxn_phe_9_2.csv")
     to_remove = []  # list to store indices to be removed
 
     for col_idx in CHANGE_INDEX:
+
         # Fetch indices for which the pattern matches in the current column
-        indices = grep_index("^LOINC:(?!LP)", np.array([str(item) if not pd.isna(item) else "nan" for item in pairs.iloc[:, col_idx].values]))
+        indices = grep_index("^LOINC:(?!LP)", np.array([str(item) if not pd.isna(item) else "nan" for item in pairs_new.iloc[:, col_idx].values]))
 
         for i in indices:
-            mapped_values = hie_all.iloc[id_map([pairs.iloc[i, col_idx]], list(hie_all.iloc[:,0].values)), 1].values
+            mapped_values = hie_all.iloc[id_map([pairs_new.iloc[i, col_idx]], hie_all.iloc[:,0].values), 1].values
 
             if len(mapped_values) > 0:
-                pairs.iloc[i, col_idx] = mapped_values[0]
+                pairs_new.iloc[i, col_idx] = mapped_values[0]
             else:
                 to_remove.append(i)
-
-    pairs = pairs.reset_index(drop=True)
+                
+    pairs_new = pairs_new.reset_index(drop=True)
     if DROP:
-        pairs.drop(to_remove, inplace=True)
-        pairs = pairs.reset_index(drop=True)
+        pairs_new.drop(to_remove, inplace=True)
+        pairs_new = pairs_new.reset_index(drop=True)
+    
         
-    return pairs
+    return pairs_new
     
     
-def get_latent_related(train_pairs, val_pairs, test_pairs):
     
-    train_pairs = get_parent(train_pairs, [0,1])
-    val_pairs = get_parent(val_pairs, [0,1])
-    test_pairs = get_parent(test_pairs, [0,1])
+def get_latent_related(train_pairs, val_pairs, test_pairs, DROP=True):
+    
+    train_pairs = get_parent(train_pairs, [0,1], DROP=DROP)
+    val_pairs = get_parent(val_pairs, [0,1], DROP=DROP)
+    test_pairs = get_parent(test_pairs, [0,1], DROP=DROP)
     
     return train_pairs, val_pairs, test_pairs
 

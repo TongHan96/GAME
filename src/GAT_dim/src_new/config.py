@@ -17,6 +17,7 @@ def get_config():
 
 config = {
     'num_nodes': 24682, 
+    # 'num_features': 768,
     'num_features': 1536,
     'num_latent': 11609,
     'MGB_index': np.arange(0, 6917), 
@@ -34,7 +35,7 @@ config = {
     'scale_LSAP': 1e-2, 
     'scale_LSVD' : 1e-2, 
     'scale_SIM_NO_HIE': 1,
-    'scale_attention':1e-3,
+    'scale_attention':1e+3,
     'SEED': 1, 
     'res': False,
     'rmax': 256, 

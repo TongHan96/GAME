@@ -72,7 +72,8 @@ def output(new_emb, name_all=name_all, LEVEL=[1], NUM=False):
     OtherToLoincLabel = np.load('/root/current_code/GAT_model_8_25/input/OtherToLoinc_new.npy',
                                 allow_pickle=True).item()
     existed_row = np.where(np.in1d(name_all, list(OtherToLoincLabel.keys())))[0]
-    index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:", x)]  # loinc code
+    index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:LP", x)]  # loinc code
+    # index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:", x)] 
     emb_loinc = new_emb[index1, :]
     emb_other = new_emb[existed_row, :]
 
@@ -89,7 +90,8 @@ def output(new_emb, name_all=name_all, LEVEL=[1], NUM=False):
     
     else:
         N1 = sum([bool(set(name_new) & set(OtherToLoincLabel[x]['LEVEL1'])) for x in OtherToLoincLabel])
-        # print(N1)
+        # N1 = 2024
+        print(N1)
         pre = predict_fun(emb_other, emb_loinc, get_values(name_all[existed_row]), get_values(name_all[index1]), OtherToLoincLabel, LEVEL)
         return np.array([np.sum(pre[:, i])/N1 for i in range(4)])*100
 
@@ -194,7 +196,7 @@ def get_AUC_emb(emb_MGB, pairs_MGB, nmax = 10000):
     return AUClist
 
 
-def get_total_AUC(emb, name_all, pairs, LATENT=False):
+def get_total_AUC(emb, name_all, pairs, LATENT=config['latent']):
     # evaluate AUC origin
     if LATENT is False:
         emb_MGB = emb[config['MGB_index'], :].detach()
@@ -219,16 +221,16 @@ def get_total_AUC(emb, name_all, pairs, LATENT=False):
 
 
 def test(x_rel, name_all, related_pairs, similar_pairs, 
-         PRE=True, AUC=True, rmax=config['rmax'], AUC_type=True, LEVEL=[1], LATENT=False, ORIGIN_PACK=None):
+         PRE=True, AUC=True, rmax=config['rmax'], AUC_type=True, LEVEL=[1], ORIGIN_PACK=None):
     
     # x_low_dim is used to do similar jobs; x_rel is used to do related jobs
     results = []
     x_low_dim = x_rel[:,:rmax]
         
-    def compute_auc(data, pairs, latent):
+    def compute_auc(data, pairs):
         if AUC_type:
             pairs['source'] = [''.join(sorted([x, y])) for x, y in zip(ret_type(pairs['code1']), ret_type(pairs['code2']))]
-        return get_total_AUC(data, name_all, pairs, LATENT=latent)
+        return get_total_AUC(data, name_all, pairs)
 
     # Predict accuracy
     if PRE:
@@ -245,6 +247,7 @@ def test(x_rel, name_all, related_pairs, similar_pairs,
             
         else:
             if ORIGIN_PACK is None:
+                # print(my_z)
                 pre = output(my_z, name_all, LEVEL)
                 print(f'LEVEL1    TOP1 {pre[0]:.2f}%    TOP5 {pre[1]:.2f}%    TOP10 {pre[2]:.2f}%    TOP20 {pre[3]:.2f}%')
             else:
@@ -254,15 +257,27 @@ def test(x_rel, name_all, related_pairs, similar_pairs,
     
     # related and similar AUC
     if AUC:
-        RELA_MGB_AUC, RELA_VA_AUC, RELA_UP_AUC = compute_auc(x_rel, related_pairs, False)
-        if ORIGIN_PACK is None:
-            simi_MGB, simi_VA, simi_UP = compute_auc(x_low_dim, similar_pairs, False)
+        if str(config['latent']).lower() == 'true':
+            RELA = compute_auc(x_rel, related_pairs)
         else:
-            simi_MGB = ORIGIN_PACK[5]
-            simi_VA = ORIGIN_PACK[6]
-            simi_UP = ORIGIN_PACK[7]
+            RELA_MGB_AUC, RELA_VA_AUC, RELA_UP_AUC = compute_auc(x_rel, related_pairs)
+        
+        if ORIGIN_PACK is None:
+            if str(config['latent']).lower() == 'true':
+                SIMI = compute_auc(x_low_dim, similar_pairs)
+            else:
+                simi_MGB, simi_VA, simi_UP = compute_auc(x_low_dim, similar_pairs)
             
-        results.extend([RELA_MGB_AUC, RELA_VA_AUC, RELA_UP_AUC, simi_MGB, simi_VA, simi_UP])
+        else:
+            simi_MGB = ORIGIN_PACK[4]
+            simi_VA = ORIGIN_PACK[5]
+            simi_UP = ORIGIN_PACK[6]
+            
+        if str(config['latent']).lower() == 'true':
+            results.extend([RELA, SIMI])
+            
+        else:
+            results.extend([RELA_MGB_AUC, RELA_VA_AUC, RELA_UP_AUC, simi_MGB, simi_VA, simi_UP])
 
     return tuple(results)
 

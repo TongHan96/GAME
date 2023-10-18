@@ -247,20 +247,17 @@ class SparseLayer(nn.Module):
     
     
 class ExtendedGAT(nn.Module):
-    def __init__(self):
+    def __init__(self, SandR):
         super(ExtendedGAT, self).__init__()
-        if config['ATTENTION_TYPE'] == "A":
-            self.origin_model = GAT_A(in_features=config['num_features'], hidden_features=config['hidden_features'], out_features=config['out_dim'], K=config['K'])
-        else:
-            self.origin_model = GATModel(config['num_features'], config['hidden_features'])
+        self.origin_model = SandR
         self.sparseLayer = SparseLayer(config['num_nodes'], config['num_latent'], mask, origin_weight)
 
     def forward(self, x, edge_index, FROZEN = config['FROZEN']):
         if FROZEN is False:
-            x, attention1, attention2 = self.origin_model(x, edge_index)
+            x = self.origin_model(x, edge_index)
         x_new = self.sparseLayer(x)
         if FROZEN is False:
-            return x, x_new, attention1, attention2
+            return x, x_new
         return x_new
 
     
@@ -272,7 +269,8 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
                 scale_hie=config['scale_hie'], scale_OTOL=config['scale_OTOL'], 
                 scale_LTOL=config['scale_LTOL'], scale_REL=config['scale_REL'], 
                 scale_SIM_NO_HIE=config['scale_SIM_NO_HIE'], 
-                scale_LSAP=config['scale_LSAP'], scale_LSVD=config['scale_LSVD'], ORIGIN=True, rmax = config['rmax']):  
+                scale_LSAP=config['scale_LSAP'], scale_LSVD=config['scale_LSVD'], 
+                ORIGIN=True, rmax = config['rmax']):  
     '''
     Return 8 parts loss
     1. one-one loss
@@ -409,14 +407,21 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
 
     # Call the function to compute first 5 types of losses
     if x is not None:
-        P_LOSS_one_one, N_LOSS_one_one = calculate_loss('one_one', my_objects, x, now_index, name_all, scale_one_one)
+        if ORIGIN is True:
+            P_LOSS_one_one, N_LOSS_one_one = calculate_loss('one_one', my_objects, x, now_index, name_all, scale_one_one)
+        else:
+            P_LOSS_one_one = None
+            N_LOSS_one_one = None
+            
         P_LOSS_hie, N_LOSS_hie = calculate_loss('hierarchy', my_objects, x, now_index, name_all, scale_hie,ORIGIN=ORIGIN)
         P_LOSS_OTOL, N_LOSS_OTOL = calculate_loss('other_to_loinc', my_objects, x, now_index, name_all, scale_OTOL, DIFF=False)
         P_LOSS_LTOL, N_LOSS_LTOL = calculate_loss('local_to_loinc', my_objects, x, now_index, name_all, scale_LTOL, DIFF=False)
-        P_LOSS_SIM_NO_HIE, N_LOSS_SIM_NO_HIE = calculate_loss('similar_no_hie_pairs', my_objects, x, now_index, name_all, scale_SIM_NO_HIE, ORIGIN=ORIGIN)    
-        if CHECK_ALL:
-            print('Sapbert embedding Cosine Loss:')
-        P_LOSS_SAP1, P_LOSS_SAP2 = calculate_loss2(COS_origin_sap, x, now_index, scale_LSAP, device)
+        P_LOSS_SIM_NO_HIE, N_LOSS_SIM_NO_HIE = calculate_loss('similar_no_hie_pairs', my_objects, x, now_index, name_all, scale_SIM_NO_HIE, ORIGIN=ORIGIN)   
+        
+        if ORIGIN is True:
+            if CHECK_ALL:
+                print('Sapbert embedding Cosine Loss:')
+            P_LOSS_SAP1, P_LOSS_SAP2 = calculate_loss2(COS_origin_sap, x, now_index, scale_LSAP, device)
     
     else:
         P_LOSS_one_one = None
@@ -434,10 +439,14 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
         
     if x_rel is not None:
         P_LOSS_REL, N_LOSS_REL = calculate_loss('related_pairs', my_objects, x_rel, now_index, name_all, scale_REL, ORIGIN=ORIGIN)
-        if CHECK_ALL:
-            print('SVD embedding Cosine Loss:')  
-        P_LOSS_SVD1, P_LOSS_SVD2 = calculate_loss2(COS_origin_svd, x_rel/torch.sqrt(torch.tensor(2, dtype=torch.float32)), now_index, scale_LSVD, device)
-        
+        if ORIGIN is True:
+            if CHECK_ALL:
+                print('SVD embedding Cosine Loss:')  
+            P_LOSS_SVD1, P_LOSS_SVD2 = calculate_loss2(COS_origin_svd, x_rel/torch.sqrt(torch.tensor(2, dtype=torch.float32)), now_index, scale_LSVD, device)
+        else:
+            P_LOSS_REL = None
+            N_LOSS_REL = None
+            
     else:
         P_LOSS_REL = None
         N_LOSS_REL = None
@@ -446,3 +455,28 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
   
     return P_LOSS_one_one, N_LOSS_one_one, P_LOSS_hie, N_LOSS_hie, P_LOSS_OTOL, N_LOSS_OTOL, P_LOSS_LTOL, N_LOSS_LTOL, P_LOSS_REL, N_LOSS_REL, P_LOSS_SIM_NO_HIE, N_LOSS_SIM_NO_HIE, P_LOSS_SAP1, P_LOSS_SAP2, P_LOSS_SVD1, P_LOSS_SVD2
   
+
+def sppmi_edge_loss(x, edge_pos, edge_neg):
+    # Get embeddings for positive and negative edges
+    emb_start_pos = x[edge_pos[0, :]]
+    emb_end_pos = x[edge_pos[1, :]]
+    emb_start_neg = x[edge_neg[0, :]]
+    emb_end_neg = x[edge_neg[1, :]]
+
+    # Calculate score for positive and negative edges
+    score_pos = torch.sum(emb_start_pos * emb_end_pos, dim=-1)
+    score_neg = torch.sum(emb_start_neg * emb_end_neg, dim=-1)
+
+    # Calculate loss for positive and negative edges
+    # loss_pos = nn.functional.relu(1 - score_pos).sum()
+    # loss_pos = torch.log(1 + torch.exp(- score_pos)).sum()
+    loss_pos = F.binary_cross_entropy_with_logits(score_pos, torch.ones_like(score_pos))
+    # loss_neg = nn.functional.relu(score_neg).sum()
+    # loss_neg = torch.log(1 + torch.exp(score_neg)).sum()
+    loss_neg = F.binary_cross_entropy_with_logits(score_neg, torch.zeros_like(score_neg))
+    # Combine the losses
+    loss = loss_pos + loss_neg
+    print(f'sppmi_pos_loss: {loss_pos}')
+    print(f'sppmi_neg_loss: {loss_neg}')
+    # return loss
+    return loss

@@ -33,8 +33,15 @@ from utils import split_set, weighted_sum_x, get_latent_related, get_parent
 from data_structure import *
 
 # the original embedding we need
-datax = pd.read_csv("https://han-attention.s3.amazonaws.com/input/emb/emb_Z0_825.csv")
-typeofZ = datax.iloc[:, 0]
+# datax = pd.read_csv("https://han-attention.s3.amazonaws.com/input/emb/emb_Z0_825.csv")
+# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/all_sppmi_rotate_1015.csv')
+datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/all_coder_1015.csv')
+# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/all_sapbert_1015.csv')
+# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/coder_sppmi_1016.csv')
+# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/sap_sppmi_1016.csv')
+# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/rotate_sap_sppmi_1016.csv')
+name_desc_all = pd.read_csv('https://han-attention.s3.amazonaws.com/input/name_desc/name_desc_all_GPT4_LP.csv')
+typeofZ = name_desc_all.iloc[:, 0]
 index1 = [i for i, x in enumerate(typeofZ) if re.search("LOINC", x)]  # loinc
 index2 = [i for i, x in enumerate(typeofZ) if re.search("RXNORM", x)]  # RxNorm
 index3 = [i for i, x in enumerate(typeofZ) if re.search("PheCode", x)]  # Phecode
@@ -42,7 +49,7 @@ index_other = [i for i, x in enumerate(typeofZ) if re.search("Other lab", x)]  #
 index = np.hstack((index_other, index1))
 
 # the name and descriptions we need
-name_all = datax.iloc[:, 0]
+name_all = name_desc_all.iloc[:, 0]
 name_MGB = name_all.iloc[config['MGB_index']] # MGB codes
 name_VA = name_all.iloc[config['VA_index']] # VA codes
 name_UP = name_all.iloc[config['UP_index']] # UPMC codes
@@ -122,7 +129,11 @@ if config['latent']:
 edges = np.load(f"{config['path']}/input/edges.npy", allow_pickle=True)
 edges_rel = np.load(f"{config['path']}/input/edges_rel.npy", allow_pickle=True)
 edges_sim = np.load(f"{config['path']}/input/edges_sim.npy", allow_pickle=True)
+# edges_sppmi = np.load(f"{config['path']}/input/edges_sppmi.npy", allow_pickle=True)
+# neg_sppmi = np.load(f"{config['path']}/input/edges_neg_sppmi.npy", allow_pickle=True)
 
+edges_sppmi = np.load(f"{config['path']}/input/edges_sppmi_2.npy", allow_pickle=True)
+neg_sppmi = np.load(f"{config['path']}/input/edges_neg_sppmi_2.npy", allow_pickle=True)
 ALL_sim_val_pairs =  pd.concat([val_sim_no_hie_pairs, val_sim_pairs], ignore_index=True)
 
 if config['latent']:
@@ -156,6 +167,8 @@ COS_origin_svd = torch.mm(features_torch[:, 768:1536], features_torch[:, 768:153
 
 # process embedding x into tensor
 x_tensor = torch.tensor(datax.iloc[:, 1:1537].to_numpy(), dtype=torch.float32, requires_grad=True)
+    
+    
 data = tg.data.Data(x=x_tensor, edge_index=torch.tensor(edges, dtype=torch.long))
 
 mask = np.zeros((config['num_latent'], config['num_nodes']))
