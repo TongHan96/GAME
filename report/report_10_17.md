@@ -17,12 +17,12 @@ By focusing solely on LP codes, **TOP1 accuracy tends to be slightly lower, whil
 With this new embedding approach (leaf LOINC sapbert equals LP code), the accuracy for sapbert decreased a bit, and the increase in accuracy with training was not substantial.
 
 **Accuracy Rates:**  
-| Measure | Now | SAP+old_eval| Old (256) | Old (768) |
-| --- | --- | --- | --- | --- |
-| TOP1 | 71.6% | 74.8% | 75.4% | 76.9% |
-| TOP5 | 82.5% | 83.7% | 85.8% | 87.3% |
-| TOP10 | 85.6% | 85.5% | 88.4% | 89.6% |
-| TOP20 | 88.1% | 87.5% | 90.0% | 91.8% |
+| Measure | Sap | Sap+Procrutes| Sap+gat | SAP+gat+old_eval| Old gat (256) | Old gat (768) |
+| --- | --- |--- | --- | --- | --- | --- |
+| TOP1 |59.1%| 66.0%|71.6% | 74.8% | 75.4% | 76.9% |
+| TOP5 | 77.7%|79.9%|82.5% | 83.7% | 85.8% | 87.3% |
+| TOP10 |80.7%  |82.0%| 85.6% | 85.5% | 88.4% | 89.6% |
+| TOP20 |83.1%| 84.0%|88.1% | 87.5% | 90.0% | 91.8% |
 
 ### 2. CODER:
 The accuracy is generally higher for the coder compared to sapbert.
