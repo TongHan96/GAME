@@ -17,7 +17,7 @@ By focusing solely on LP codes, **TOP1 accuracy tends to be slightly lower, whil
 With this new embedding approach (leaf LOINC sapbert equals LP code), the accuracy for sapbert decreased a bit, and the increase in accuracy with training was not substantial.
 
 **Accuracy Rates:**  
-| Measure | Sap | Sap+Procrutes| Sap+gat | SAP+gat+old_eval| Old gat (256) | Old gat (768) |
+| Measure | Sap | Sap+Procrutes(GPT3.5)| Sap+gat | SAP+gat+old_eval| Old gat (256) | Old gat (768) |
 | --- | --- |--- | --- | --- | --- | --- |
 | TOP1 |59.1%| 66.0%|71.6% | 74.8% | 75.4% | 76.9% |
 | TOP5 | 77.7%|79.9%|82.5% | 83.7% | 85.8% | 87.3% |
@@ -28,12 +28,12 @@ With this new embedding approach (leaf LOINC sapbert equals LP code), the accura
 The accuracy is generally higher for the coder compared to sapbert.
 
 **Accuracy Rates:**  
-| Measure | Coder | Coder+old_eval |
-| --- | --- | --- |
-| TOP1 | 76.6% | 76.6% |
-| TOP5 | 86.7% | 85.9% |
-| TOP10 | 89.1% | 88.0% |
-| TOP20 | 91.1% | 89.6% |
+| Measure |Coder| Coder+gat | Coder+gat+old_eval |
+| --- |--- | --- | --- |
+| TOP1 |  51.5%|76.6% | 76.6% |
+| TOP5 | 72.6%|86.7% | 85.9% |
+| TOP10 |78.4% | 89.1% | 88.0% |
+| TOP20 | 82.4%|91.1% | 89.6% |
 
 ## AUC:
 **Similarity (256):**  
