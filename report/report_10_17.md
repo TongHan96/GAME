@@ -39,15 +39,21 @@ The accuracy is generally higher for the coder compared to sapbert.
 **Similarity (256):**  
 | | MGB | VA | UPMC |
 | --- | --- | --- | --- |
-| SAPBERT | 0.887 | 0.904 | 0.893 |
-| CODER | 0.896 | 0.898 | 0.894 |
+| SAPBERT | 0.719 | 0.691 | 0.723 |
+| CODER  | 0.812 | 0.795 | 0.823 |
+| Sppmi  | 0.824 | 0.788 | 0.748 |
+| SAPBERT + gat | 0.887 | 0.904 | 0.893 |
+| CODER + gat | 0.896 | 0.898 | 0.894 |
 
 **Related (768):**  
 | | MGB | VA | UPMC |
 | --- | --- | --- | --- |
-| SAPBERT | 0.904 | 0.889 | 0.901 |
-| CODER | 0.908 | 0.902 | 0.915 |
-| CODER + sppmi_edge | 0.933 | 0.921 | 0.936 |
+| SAPBERT | 0.712 | 0.686 | 0.709 |
+| CODER  | 0.699 | 0.660 | 0.684 |
+| Sppmi  | 0.799 | 0.757 | 0.709 |
+| SAPBERT + gat | 0.904 | 0.889 | 0.901 |
+| CODER + gat | 0.908 | 0.902 | 0.915 |
+| CODER + gat+ sppmi_edge | 0.933 | 0.921 | 0.936 |
 
 
 ## Biobank Data & Cos Sim Rank Correlation:
