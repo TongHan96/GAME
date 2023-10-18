@@ -84,7 +84,7 @@ The accuracy is generally higher for the coder compared to sapbert.
 |-----------------|-------|
 | coder           | 0.230 |
 | sapbert         | 0.140 |
-| sppmi           | 0.653 |
+| sppmi           | 0.682 |
 | sap_gat_old            | 0.325 |
 | coder_gat             | 0.329 |
 | coder_gat_sppmi_edge  | 0.497 |
