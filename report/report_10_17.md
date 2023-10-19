@@ -95,8 +95,8 @@ The accuracy is generally higher for the coder compared to sapbert.
 
 | Method                   | MGB   | VA    | UPMC  |
 |--------------------------|-------|-------|-------|
-| Coder                  | 0.544 | 0.546 | |
-| Coder + supervised     | 0.809 |  |  |
+| Coder                  | 0.544 | 0.546 | 0.541|
+| Coder + supervised     | 0.809 |  0.822 |0.812|
 | ---                      | ---   | ---   | ---   |
 | SAPBERT                  | 0.579 | 0.579 | 0.577 |
 | SAPBERT + supervised     | 0.807 | 0.802 | 0.791 |
