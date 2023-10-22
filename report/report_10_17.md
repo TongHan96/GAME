@@ -82,13 +82,11 @@ The accuracy is generally higher for the coder compared to sapbert.
 
 | Metric          | Score |
 |-----------------|-------|
-| coder           | 0.230 |
-| sapbert         | 0.140 |
-| sppmi           | 0.682 |
-| sap_gat_old            | 0.325 |
-| coder_gat             | 0.329 |
-| coder_gat_sppmi_edge  | 0.497 |
-| coder_gat_sppmi_edge_big_svd_loss  | 0.532 |
+| coder           | 0.280 |
+| sapbert         | 0.370 |
+| sppmi           | 0.719 |
+| coder_gat_sppmi_edge  | 0.532 |
+| coder_gat_sppmi_edge_big_svd_loss  | 0.564 |
 
 ## Drug side effect
 
