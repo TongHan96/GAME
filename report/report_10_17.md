@@ -112,6 +112,9 @@ The accuracy is generally higher for the coder compared to sapbert.
 | ---                      | ---   | ---   | ---   |
 | CODER_gat +sppmi_edge               | 0.643 | 0.636 | 0.641 |
 | CODER_gat + supervised +sppmi_edge   | 0.845| 0.834 | 0.833 |
+| ---                      | ---   | ---   | ---   |
+| CODER_gat +sppmi_edge +big svd loss               | 0.629 | 0.617 | 0.628 |
+| CODER_gat + supervised +sppmi_edge +big svd loss    | 0.824| 0.809 | 0.838 |
 
 
 
