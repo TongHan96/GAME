@@ -1,0 +1,468 @@
+name,desc,gpt4
+CCS:193,diagnostic ultrasound of heart (echocardiogram),0.75
+CCS:201,cardiac stress tests,0.5
+CCS:203,electrographic cardiac monitoring,0.5
+CCS:204,swan-ganz catheterization for monitoring,0.75
+CCS:225,conversion of cardiac rhythm,0.3
+CCS:236,home health services,0.2
+CCS:43,heart valve procedures,0.6
+CCS:47,"diagnostic cardiac catheterization, coronary arteriography",0.5
+CCS:48,"insertion, revision, replacement, removal of cardiac pacemaker or cardioverter/defibrillator",0.75
+CCS:49,other or heart procedures,0.5
+CCS:54,"other vascular catheterization, not heart",0.1
+CCS:58,hemodialysis,0.25
+CCS:62,other diagnostic cardiovascular procedures,0.5
+CCS:63,other non-or therapeutic cardiovascular procedures,0.5
+LOINC:10535-3,Digoxin,0.75
+LOINC:11153-4,Hematocrit,0.2
+LOINC:11559-2,Oxyhemoglobin/Hemoglobin.total,0.1
+LOINC:13508-7,Hematocrit,0.2
+LOINC:14286-9,Carnitine free (C0),0.0
+LOINC:2216-0,DOPamine,0.0
+LOINC:2230-1,EPINEPHrine,0.1
+LOINC:30934-4,Natriuretic peptide B,0.75
+LOINC:33762-6,Natriuretic peptide.B prohormone N-Terminal,0.75
+LOINC:4544-3,Hematocrit,0.2
+LOINC:4545-0,Hematocrit,0.2
+LOINC:6598-7,Troponin T.cardiac,0.5
+LOINC:721-1,Free Hemoglobin,0.1
+LOINC:801-1,Sickle cells,0.1
+LOINC:X1166-8,crp (mg/l) (group:crpt),0.2
+PheCode:276.5,hypovolemia,0.2
+PheCode:286,coagulation defects,0.2
+PheCode:286.2,encounter for long-term (current) use of anticoagulants,0.25
+PheCode:338.2,chronic pain,0.1
+PheCode:355,complex regional/central pain syndrome,0.0
+PheCode:355.1,chronic pain syndrome,0.1
+PheCode:394,rheumatic disease of the heart valves,0.5
+PheCode:394.1,mitral valve stenosis and aortic valve stenosis,0.75
+PheCode:394.7,disease of tricuspid valve,0.6
+PheCode:395,heart valve disorders,0.6
+PheCode:395.1,nonrheumatic mitral valve disorders,0.5
+PheCode:395.2,nonrheumatic aortic valve disorders,0.5
+PheCode:395.6,heart valve replaced,0.5
+PheCode:401,hypertension,0.5
+PheCode:401.2,hypertensive heart and/or renal disease,0.75
+PheCode:401.21,hypertensive heart disease,0.75
+PheCode:411,ischemic heart disease,0.75
+PheCode:411.2,myocardial infarction,0.75
+PheCode:411.3,angina pectoris,0.4
+PheCode:411.4,coronary atherosclerosis,0.75
+PheCode:411.8,"other chronic ischemic heart disease, unspecified",0.75
+PheCode:414,other forms of chronic heart disease,0.75
+PheCode:414.2,ascvd,0.75
+PheCode:415,pulmonary heart disease,0.6
+PheCode:415.1,acute pulmonary heart disease,0.6
+PheCode:416,cardiomegaly,0.7
+PheCode:418,nonspecific chest pain,0.3
+PheCode:426,cardiac conduction disorders,0.5
+PheCode:426.2,atrioventricular [av] block,0.25
+PheCode:426.7,abnormal electrocardiogram [ecg] [ekg],0.5
+PheCode:427,cardiac dysrhythmias,0.5
+PheCode:427.1,"paroxysmal tachycardia, unspecified",0.5
+PheCode:427.11,paroxysmal supraventricular tachycardia,0.35
+PheCode:427.12,paroxysmal ventricular tachycardia,0.6
+PheCode:427.2,atrial fibrillation and flutter,0.5
+PheCode:427.21,atrial fibrillation,0.5
+PheCode:427.22,atrial flutter,0.5
+PheCode:427.3,other specified cardiac dysrhythmias,0.5
+PheCode:427.5,arrhythmia (cardiac) nos,0.5
+PheCode:427.6,premature beats,0.3
+PheCode:427.7,tachycardia nos,0.5
+PheCode:427.9,palpitations,0.3
+PheCode:428,congestive heart failure; nonhypertensive,1.0
+PheCode:428.3,heart failure with reduced ef [systolic or combined heart failure],0.9
+PheCode:428.4,heart failure with preserved ef [diastolic heart failure],0.75
+PheCode:429,ill-defined descriptions and complications of heart disease,0.7
+PheCode:429.1,heart transplant/surgery,0.75
+PheCode:456,chronic venous insufficiency [cvi],0.2
+PheCode:459,other disorders of circulatory system,0.5
+PheCode:496,chronic airway obstruction,0.2
+PheCode:503,pulmonary congestion and hypostasis,0.75
+PheCode:508,pulmonary collapse; interstitial and compensatory emphysema,0.2
+PheCode:509.1,respiratory failure,0.4
+PheCode:509.8,dependence on respirator [ventilator] or supplemental oxygen,0.6
+PheCode:512.7,shortness of breath,0.7
+PheCode:512.8,cough,0.2
+PheCode:512.9,other dyspnea,0.5
+PheCode:564,functional digestive disorders,0.0
+PheCode:571,chronic liver disease and cirrhosis,0.2
+PheCode:578,gastrointestinal hemorrhage,0.1
+PheCode:585,renal failure,0.35
+PheCode:585.3,chronic renal failure [ckd],0.35
+PheCode:585.33,"chronic kidney disease, stage iii",0.25
+PheCode:747,cardiac and circulatory congenital anomalies,0.25
+PheCode:747.1,cardiac congenital anomalies,0.2
+PheCode:747.11,cardiac shunt/ heart septal defect,0.5
+PheCode:747.12,valvular heart disease/ heart chambers,0.6
+PheCode:747.13,congenital anomalies of great vessels,0.2
+PheCode:782,symptoms involving skin and other integumentary tissue,0.1
+PheCode:782.3,edema,0.5
+PheCode:788,syncope and collapse,0.3
+PheCode:797,shock,0.25
+PheCode:797.1,cardiogenic shock,0.75
+PheCode:798,malaise and fatigue,0.3
+PheCode:798.1,chronic fatigue syndrome,0.1
+RXNORM:11170,verapamil,0.0
+RXNORM:11289,warfarin,0.25
+RXNORM:3443,diltiazem,0.75
+RXNORM:4441,flecainide,0.0
+RXNORM:4603,furosemide,0.75
+RXNORM:4917,nitroglycerin,0.5
+RXNORM:52769,milrinone,0.75
+RXNORM:5470,hydralazine,0.75
+RXNORM:6918,metoprolol,0.75
+RXNORM:9947,sotalol,0.0
+RXNORM:9997,spironolactone,0.75
+LOINC:X1174-2,hct (bg) (group:hct bg),0.1
+PheCode:276.6,fluid overload,0.75
+PheCode:285.2,anemia of chronic disease,0.25
+PheCode:348.7,coma,0.1
+PheCode:395.4,nonrheumatic pulmonary valve disorders,0.2
+PheCode:401.3,other hypertensive complications,0.5
+PheCode:420,carditis,0.5
+PheCode:420.3,endocarditis,0.25
+PheCode:425,cardiomyopathy,0.75
+PheCode:425.1,primary/intrinsic cardiomyopathies,0.75
+PheCode:426.3,bundle branch block,0.5
+PheCode:426.31,right bundle branch block,0.3
+PheCode:428.1,congestive heart failure (chf) nos,1.0
+PheCode:458.9,hypotension nos,0.25
+PheCode:459.9,circulatory disease nec,0.7
+PheCode:509.3,pulmonary insufficiency or respiratory failure following trauma and surgery,0.2
+PheCode:585.1,acute renal failure,0.35
+PheCode:771.2,cramp of limb,0.1
+RXNORM:2396,chlorothiazide,0.75
+RXNORM:3407,digoxin,0.75
+RXNORM:703,amiodarone,0.5
+LOINC:X1599-0,hcv fibro-sure (group:hcv-fibro),0.0
+PheCode:395.3,nonrheumatic tricuspid valve disorders,0.5
+PheCode:401.22,hypertensive chronic kidney disease,0.5
+PheCode:411.1,unstable angina (intermediate coronary syndrome),0.35
+PheCode:411.9,other acute and subacute forms of ischemic heart disease,0.6
+PheCode:415.2,chronic pulmonary heart disease,0.5
+PheCode:418.1,precordial pain,0.5
+PheCode:420.2,pericarditis,0.3
+PheCode:425.8,other cardiomyopathy,0.7
+PheCode:426.22,mobitz ii av block,0.25
+PheCode:426.24,"atrioventricular block, complete",0.25
+PheCode:426.32,left bundle branch block,0.5
+PheCode:426.8,other cardiac conduction disorders,0.3
+PheCode:426.9,cardiac pacemaker/device in situ,0.5
+PheCode:426.91,cardiac pacemaker in situ,0.5
+PheCode:426.92,cardiac defibrillator in situ,0.75
+PheCode:427.4,cardiac arrest and ventricular fibrillation,0.7
+PheCode:427.42,cardiac arrest,0.5
+PheCode:427.61,supraventricular premature beats,0.25
+PheCode:427.8,sinoatrial node dysfunction (bradycardia),0.25
+PheCode:428.2,heart failure nos,0.9
+PheCode:429.2,abnormal function study of cardiovascular system,0.5
+PheCode:495.1,chronic obstructive asthma,0.2
+PheCode:495.11,chronic obstructive asthma with exacerbation,0.2
+PheCode:509.2,respiratory insufficiency,0.3
+PheCode:516.1,hemoptysis,0.3
+PheCode:530.9,heartburn,0.1
+PheCode:571.51,cirrhosis of liver without mention of alcohol,0.2
+PheCode:585.2,renal failure nos,0.25
+PheCode:854,"complications of cardiac/vascular device, implant, and graft",0.5
+PheCode:972,poisoning by agents primarily affecting the cardiovascular system,0.2
+RXNORM:1808,bumetanide,0.75
+RXNORM:1998,captopril,0.75
+RXNORM:20352,carvedilol,0.75
+RXNORM:28004,isosorbide mononitrate,0.75
+RXNORM:302285,conivaptan,0.75
+RXNORM:3616,dobutamine,0.75
+RXNORM:38413,torsemide,0.75
+RXNORM:6058,isosorbide dinitrate,0.75
+PheCode:260.1,cachexia,0.5
+PheCode:415.21,primary pulmonary hypertension,0.3
+PheCode:420.1,myocarditis,0.5
+PheCode:420.21,acute pericarditis,0.2
+PheCode:420.22,chronic pericarditis,0.3
+PheCode:425.11,hypertrophic obstructive cardiomyopathy,0.6
+PheCode:425.2,secondary/extrinsic cardiomyopathies,0.75
+PheCode:513.32,orthopnea,0.75
+PheCode:573.1,chronic passive congestion of liver,0.7
+PheCode:586.3,vascular disorders of kidney/hypertrophy,0.25
+RXNORM:233698,dronedarone,0.0
+RXNORM:35208,quinapril,0.75
+RXNORM:3827,enalapril,0.75
+RXNORM:49737,esmolol,0.0
+RXNORM:6054,isoproterenol,0.0
+RXNORM:6916,metolazone,0.75
+PheCode:394.2,mitral valve disease,0.6
+PheCode:394.4,acute rheumatic heart disease,0.4
+PheCode:411.41,aneurysm and dissection of heart,0.25
+PheCode:425.12,other hypertrophic cardiomyopathy,0.6
+PheCode:426.25,other heart block,0.3
+PheCode:427.41,ventricular fibrillation and flutter,0.7
+PheCode:429.3,symptoms involving cardiovascular system,0.75
+PheCode:429.9,"cardiac complications, not elsewhere classified",0.7
+PheCode:453,chronic venous hypertension,0.3
+PheCode:603.1,hydrocele,0.0
+RXNORM:1656052,cangrelor,0.1
+RXNORM:1656339,sacubitril / valsartan,0.75
+RXNORM:298869,eplerenone,0.0
+RXNORM:35296,ramipril,0.75
+RXNORM:3829,enalaprilat,0.75
+RXNORM:38454,trandolapril,0.75
+RXNORM:49247,dofetilide,0.75
+RXNORM:50166,fosinopril,0.75
+RXNORM:6926,mexiletine,0.0
+RXNORM:9068,quinidine,0.2
+RXNORM:3521,dipyridamole,0.0
+RXNORM:3541,disopyramide,0.0
+RXNORM:41289,ibutilide,0.0
+RXNORM:8700,procainamide,0.0
+PheCode:972.1,cardiac rhythm regulators causing adverse effects in therapeutic use,0.25
+LOINC:LP14714-7,Digoxin,0.75
+LOINC:LP15101-6,Hematocrit,0.2
+LOINC:LP307523-3,Oxyhemoglobin/Hemoglobin.total,0.2
+LOINC:LP18431-4,Carnitine free (C0),0.0
+LOINC:LP284877-0,Acylcarnitine/Carnitine.free (C0),0.0
+LOINC:LP28609-3,Natriuretic peptide B,0.75
+LOINC:LP31268-3,Natriuretic peptide.B prohormone N-Terminal,0.75
+LOINC:LP17145-1,Troponin T.cardiac,0.5
+LOINC:LP29058-2,Free Hemoglobin,0.2
+LOINC:LP17228-5,Sickle cells,0.1
+PheCode:1003,sudden death,0.5
+PheCode:1100,family history,0.2
+PheCode:509,"respiratory failure, insufficiency, arrest",0.4
+PheCode:563,constipation,0.1
+PheCode:974,"poisoning by water, mineral, and uric acid metabolism drugs",0.1
+ShortName:BNP,b-type natriuretic peptide,0.75
+PheCode:799,debility unspecified,0.2
+ShortName:HCT,hematocrit,0.2
+Other lab:pack279,Hematocrit,0.2
+RXNORM:794805,HEAT/MOISTURE EXCHANGE,0.1
+Other lab:1200002592,Cardiac Risk Factor Test,0.25
+RXNORM:203191,metoprolol tartrate,0.75
+Other lab:800005563,Cardiac Risk Factor Assessment,0.5
+Other lab:1200050357,Fasting Status,0.0
+CCS:245,Syncope,0.3
+LOCAL|LAB:BODY FLUID CLARITY,body fluid clarity,0.1
+LOCAL|LAB:CALC HCT(VENOUS BLD GAS),calculated hematocrit (venous blood gas),0.2
+LOCAL|LAB:FLUID OUT,fluid output,0.3
+"LOCAL|LAB:GALECTIN-3,S","galectin-3, serum",0.75
+LOCAL|LAB:RENAL FAILURE INDEX,renal failure index,0.35
+LOINC:11208-6,Atrial natriuretic factor,0.75
+LOINC:20570-8,Hematocrit,0.2
+LOINC:21526-9,Sodium,0.0
+LOINC:2912-4,Pyruvate kinase,0.1
+LOINC:32354-3,Hematocrit,0.2
+LOINC:3638-4,Flecainide,0.0
+LOINC:40869-0,Carnitine esters/Carnitine.free (C0),0.1
+LOINC:41654-5,Hematocrit,0.2
+LOINC:42908-4,Hematocrit,0.2
+LOINC:49541-6,Fasting status,0.0
+LOINC:56469-0,Cardiac heart disease risk,0.75
+RXNORM:214298,benzocaine / dextromethorphan,0.0
+LOINC:LP15149-5,Atrial natriuretic factor,0.75
+LOINC:LP15160-2,Pyruvate kinase,0.0
+LOINC:LP285221-0,Carnitine esters/Carnitine.free (C0),0.0
+LOINC:LP64577-7,Fasting status,0.0
+LOINC:LP96138-0,Cardiac heart disease risk,0.75
+RXNORM:60207,dorzolamide,0.0
+LOINC:6288-5,Yellow Hornet (Dolichovespula arenaria) IgE,0.0
+LOINC:65771-8,Peanut (Arachis hypogaea) native (nAra h) 3 IgE,0.0
+LOINC:LP36909-7,Ethyl glucuronide,0.0
+PheCode:750.21,congenital anomalies of intestine,0.0
+LOINC:2093-3,Cholesterol,0.2
+LOINC:LP15959-7,Clotting time,0.1
+RXNORM:1425099,trametinib,0.1
+LOINC:2064-4,Ceruloplasmin,0.0
+LOINC:LP286254-0,IgG clearance/Albumin clearance,0.2
+LOINC:6237-2,Salmon (Salmo salar) IgE,0.0
+LOINC:LP14597-6,Platelets,0.1
+PheCode:599.5,frequency of urination and polyuria,0.2
+LOINC:54143-3,Gardnerella vaginalis DNA,0.0
+LOINC:LP40013-2,Tissue Transglutaminase IgG,0.0
+CCS:109,procedures on the urethra,0.0
+CCS:12,other therapeutic endocrine procedures,0.1
+PheCode:367.2,astigmatism,0.0
+LOINC:LP18888-5,Alpha hydroxyalprazolam,0.0
+LOINC:LP21311-3,Indinavir,0.0
+RXNORM:1111,arsenic,0.0
+LOINC:33980-4,Voltage-gated calcium channel P/Q type binding Ab,0.1
+LOINC:3312-6,ALPRAZolam,0.0
+PheCode:433.8,late effects of cerebrovascular disease,0.2
+PheCode:290.12,dementia with cerebral degenerations,0.1
+CCS:215,other physical therapy and rehabilitation,0.2
+RXNORM:84857,anastrozole,0.0
+LOINC:7830-3,Coxiella burnetii phase 2 IgG,0.0
+LOINC:LP15650-2,Hydroxyproline,0.0
+LOINC:32730-4,Beta 1 globulin,0.1
+LOINC:2666-6,Norepinephrine,0.0
+LOINC:LP228620-3,HFE gene mutations tested for,0.1
+PheCode:795.8,abnormal tumor markers,0.1
+LOINC:30161-4,Citrulline/Creatinine,0.1
+LOINC:7556-4,Ovalbumin IgE,0.0
+RXNORM:461016,eszopiclone,0.0
+LOINC:22191-1,Chlamydia trachomatis IgG,0.0
+CCS:74,"gastrectomy, partial and total",0.0
+LOINC:LP14499-5,Follitropin,0.0
+PheCode:286.1,congenital coagulation defects,0.1
+LOINC:10579-1,Leukocytes,0.1
+LOINC:LP286666-5,N-methylhistamine/Creatinine,0.0
+PheCode:690,erythematosquamous dermatosis,0.0
+LOINC:LP15428-3,Base deficit,0.2
+PheCode:614.5,"inflammatory disease of cervix, vagina, and vulva",0.0
+LOINC:33224-7,Fine Granular Casts,0.2
+LOINC:19520-6,LORazepam,0.0
+PheCode:528.12,oral aphthae,0.0
+LOINC:LP37442-8,Brucella sp IgM,0.0
+LOINC:LP16478-7,Leukocyte phosphatase,0.1
+LOINC:20440-4,Glucose,0.2
+LOINC:LP62821-1,Glomerular filtration rate.predicted among blacks,0.2
+LOINC:56540-8,Glutamate decarboxylase 65 Ab,0.0
+PheCode:324,other cns infection and poliomyelitis,0.0
+RXNORM:3255,desoximetasone,0.0
+PheCode:478,throat pain,0.1
+PheCode:512.2,painful respiration,0.3
+RXNORM:2582,clindamycin,0.0
+LOINC:X1740-0,carbon dioxide (poc) (group:co2-poc),0.1
+LOINC:21397-5,Mononuclear cells,0.0
+LOINC:X1671-7,"creatinine, time ur (mg/dl) (group:tu-cre)",0.2
+LOINC:35126-2,Hemoglobin O-Arab/Hemoglobin.total,0.0
+RXNORM:1482790,simeprevir,0.0
+LOINC:LP38580-4,Human papilloma virus 16+18+31+33+35+45+51+52+56 DNA,0.0
+LOINC:X7176-1,norbuprenorphine-glucuronide (group:norbup-gluc),0.0
+LOINC:LP147747-2,Brazil Nut (Bertholletia excelsa) IgE,0.0
+LOINC:XC458-0,"tco2, cap, nicu (group:tco2cn)",0.0
+LOINC:LP14643-8,Alpha 1 antitrypsin,0.1
+LOINC:19928-1,Gas delivery source,0.1
+LOINC:LP17104-8,dRVVT,0.0
+LOINC:LP16098-3,cycloSPORINE,0.0
+LOINC:6075-6,Cladosporium herbarum IgE,0.0
+PheCode:871,open wounds of extremities,0.0
+LOINC:22080-6,Adenovirus Ab,0.0
+LOINC:2357-2,Glucose-6-Phosphate dehydrogenase,0.1
+LOINC:33226-2,Coarse Granular Casts,0.2
+CCS:38,other diagnostic procedures on lung and bronchus,0.2
+LOINC:X1604-8,"protein, timed urine (mg/tv) (group:utpmgtv)",0.1
+LOINC:3160-9,Specimen volume,0.0
+RXNORM:1008340,"docusate / sennosides, USP",0.0
+LOINC:11254-0,Chlamydophila pneumoniae Ab,0.1
+RXNORM:214599,guaifenesin / pseudoephedrine,0.0
+PheCode:647,infectious and parasitic complications affecting pregnancy,0.0
+LOINC:LP174025-9,Coagulation factor X activity actual/Normal,0.1
+PheCode:743.4,stress fracture,0.0
+PheCode:317.11,alcoholic liver damage,0.1
+PheCode:729.7,nontraumatic compartment syndrome,0.1
+LOINC:LP38345-2,Hepatitis D virus Ab,0.0
+PheCode:789,nausea and vomiting,0.2
+LOINC:20455-2,Leukocytes,0.1
+LOINC:13451-0,Creatinine dialysis fluid clearance,0.2
+RXNORM:91211,Fat emulsion,0.0
+LOINC:LP148152-4,Penicillium notatum IgE,0.0
+RXNORM:8691,primidone,0.0
+RXNORM:70727,fiber,0.0
+LOINC:20993-2,Deprecated C trach rRNA XXX Ql Prb,0.0
+LOINC:LP39754-4,Sjogrens syndrome-B extractable nuclear Ab,0.0
+LOINC:LP148062-5,Cocksfoot (Dactylis glomerata) IgE,0.0
+CCS:183,routine chest x-ray,0.3
+CCS:202,electrocardiogram,0.5
+LOINC:11554-3,Deprecated Magnesium SerPl-sCnc,0.1
+LOINC:3002-3,Thiocyanate,0.0
+LOINC:3273-0,Heparin unfractionated,0.2
+LOINC:35615-4,Lidocaine,0.0
+LOINC:3834-9,N-acetylprocainamide,0.0
+LOINC:3982-6,Procainamide,0.0
+LOINC:3983-4,Procainamide+N-acetylprocainamide,0.0
+LOINC:5898-2,Deprecated aPTT Plas Qn,0.0
+LOINC:6301-6,INR,0.25
+LOINC:6773-6,Deprecated CK MB SerPl EIA-cCnc,0.2
+PheCode:401.1,essential hypertension,0.3
+PheCode:496.2,chronic bronchitis,0.2
+PheCode:496.21,obstructive chronic bronchitis,0.2
+RXNORM:3628,dopamine,0.0
+LOINC:X1043-2,sequence (group:seq),0.0
+RXNORM:4109,ethacrynic acid,0.75
+RXNORM:1116632,ticagrelor,0.0
+RXNORM:75635,eptifibatide,0.0
+RXNORM:1056,aprotinin,0.0
+RXNORM:24853,fenoldopam,0.0
+RXNORM:73137,tirofiban,0.0
+LOINC:LP15888-8,Thiocyanate,0.0
+LOINC:LP16209-6,N-acetylprocainamide,0.0
+LOINC:LP16261-7,Procainamide,0.0
+LOINC:LP16262-5,Procainamide+N-acetylprocainamide,0.0
+ShortName:CKMB - Abs,creatine kinase-mb - absolute count,0.2
+ShortName:INR,international normalized ratio,0.2
+ShortName:PT,prothrombin time,0.1
+ShortName:Troponin I,troponin i,0.5
+LOCAL|LAB:CATH LAB SAMPLE SITE,catheterization laboratory sample site,0.2
+LOCAL|LAB:INSULIN COVERAGE GLUCOSE,insulin coverage glucose,0.1
+LOCAL|LAB:PERITONEAL FLUID CELL COUNT,peritoneal fluid cell count,0.1
+LOCAL|LAB:POST TRANSFUSION ABO/RH,post transfusion blood type and rhesus factor,0.0
+LOCAL|LAB:PRE TRANSFUSION ABO/RH,pre transfusion blood type and rhesus factor determination,0.0
+LOINC:13916-2,Bordetella parapertussis Ag,0.0
+LOINC:29300-1,Procedure,0.0
+LOINC:550-4,Bordetella pertussis Ag,0.0
+RXNORM:1007807,ascorbic acid / folic acid / iron carbonyl / vitamin B12,0.1
+RXNORM:19666,nesiritide,0.75
+RXNORM:203223,digoxin antibodies Fab fragments,0.75
+RXNORM:54552,perindopril,0.75
+RXNORM:8513,polyethylene glycol 300,0.0
+LOINC:LP37307-3,Bordetella parapertussis Ag,0.0
+LOINC:LP37313-1,Bordetella pertussis Ag,0.0
+CCS:44,coronary artery bypass graft (cabg),0.5
+CCS:45,percutaneous transluminal coronary angioplasty (ptca),0.5
+LOINC:10839-9,Troponin I.cardiac,0.5
+LOINC:33914-3,Predicted Glomerular filtration rate,0.2
+LOINC:5902-2,Prothrombin time (PT),0.1
+PheCode:433.1,occlusion and stenosis of precerebral arteries,0.2
+PheCode:510,other diseases of lung,0.2
+PheCode:512,other symptoms of respiratory system,0.3
+RXNORM:214199,albuterol / ipratropium,0.1
+RXNORM:6185,labetalol,0.75
+PheCode:250.22,type 2 diabetes with renal manifestations,0.2
+PheCode:480.3,pneumonia due to fungus (mycoses),0.2
+RXNORM:11149,vasopressin (USP),0.25
+RXNORM:197,acetylcysteine,0.0
+RXNORM:613391,prasugrel,0.0
+RXNORM:69749,valsartan,0.75
+RXNORM:1008712,Glucose / Heparin,0.0
+RXNORM:89887,Latrodectus mactans antivenin,0.0
+RXNORM:35829,ranolazine,0.0
+RXNORM:7895,papaverine,0.0
+RXNORM:8825,protamine sulfate (USP),0.0
+LOINC:LP14890-5,Troponin I.cardiac,0.5
+PheCode:1013,asphyxia and hypoxemia,0.2
+PheCode:1089,acquired absence of limb,0.0
+RXNORM:705070,THICK-IT,0.0
+RXNORM:693221,SOLO SITE,0.0
+LOCAL|LAB:BASE EXCESS (POCT),base excess (point-of-care testing),0.2
+LOCAL|LAB:CYP2C19 GENOTYPE,cytochrome p450 2c19 genotype,0.1
+LOCAL|LAB:D-DIMER QUANTITATIVE,d-dimer quantitative,0.2
+LOCAL|LAB:HEMOGLOBIN CCATH,hemoglobin central catheter,0.1
+LOCAL|LAB:IPAP,inspiratory positive airway pressure,0.2
+LOCAL|LAB:LEGIONELLA DFA AND CULTURE REPORT,legionella direct fluorescent antibody and culture report,0.0
+LOCAL|LAB:LRG UNIDEN MONOCUCLEAR CELL S,large unidentified mononuclear cells,0.1
+LOCAL|LAB:MAST CELLS,mast cells,0.1
+LOCAL|LAB:POSITION,position,0.0
+LOCAL|LAB:PTT MIXING STUDY,partial thromboplastin time mixing study,0.1
+LOCAL|LAB:ST,streptococcus test,0.1
+LOCAL|LAB:STATUS INFORMATION,status information,0.0
+"LOCAL|LAB:TOTAL PROTEIN, FLUID","total protein, fluid",0.2
+LOCAL|LAB:VIRUS CULTURE REPORT,virus culture report,0.05
+LOINC:1963-8,Bicarbonate,0.2
+LOINC:29723-4,Bordetella parapertussis DNA,0.0
+LOINC:31185-2,Platelet IgA,0.0
+LOINC:31186-0,Platelet IgM,0.0
+LOINC:33037-3,Anion gap,0.1
+LOINC:6927-8,Platelet IgG,0.0
+LOINC:75162-8,Biphasic positive airway pressure (BIPAP) activity,0.65
+LOINC:7799-0,Deprecated D Dimer PPP-aCnc,0.1
+PheCode:255.22,Mineralocorticoid deficiency,0.2
+RXNORM:1594955,capsaicin / lidocaine / menthol,0.0
+RXNORM:2045114,andexanet alfa,0.1
+RXNORM:8153,phentolamine,0.0
+RXNORM:8299,physostigmine,0.0
+LOINC:LP285966-0,EPINEPHrine/Creatinine,0.0
+LOINC:LP14311-2,Mesothelial cells,0.0
+LOINC:LP37308-1,Bordetella parapertussis DNA,0.0
+LOINC:LP39428-5,Platelet IgA,0.0
+LOINC:LP39430-1,Platelet IgM,0.0
+LOINC:LP39429-3,Platelet IgG,0.0
+LOINC:LP182425-1,Biphasic positive airway pressure (BIPAP) activity,0.65
