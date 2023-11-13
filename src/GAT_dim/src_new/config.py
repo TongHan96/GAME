@@ -33,9 +33,9 @@ config = {
     'scale_LTOL':5, 
     'scale_REL': 5, 
     'scale_LSAP': 1e-2, 
-    'scale_LSVD' : 1e-2, 
+    'scale_LSVD' : 1, 
     'scale_SIM_NO_HIE': 1,
-    'scale_attention':1e+3,
+    'scale_attention':1e-2,
     'SEED': 1, 
     'res': False,
     'rmax': 256, 
@@ -57,6 +57,6 @@ config = {
     'low_dim' : None,
     'Truncate' : None,
     'path_origin' : None,
-    'path': '/root/current_code/GAT_model_10_4', 
+    'path': '/root/current_code/GAT_model_10_16', 
     'FROZEN' : None
 }  

@@ -12,7 +12,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.nn import GATConv
 from torch_geometric.utils import softmax, dropout_adj, add_self_loops, remove_self_loops
-from torch_scatter import scatter
+# from torch_scatter import scatter
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -32,13 +32,13 @@ class GATLayer_A(nn.Module):
         \alpha_{ij} &= \frac{exp(e_{ij})}{\sum_{k \in \mathcal{N}_i}exp(e_{ik})}\\
         h_i' &=||_{k=1}^K \sigma(\sum_{j \in \mathcal{N}_i} \alpha_{ij}^k  h_j)
     \end{align}   
-    
+
     \begin{align}
         e_{ij} &=  h_i^T VV^T h_j  \\
         \alpha_{ij} &= \frac{exp(e_{ij})}{\sum_{k \in \mathcal{N}_i}exp(e_{ik})}\\
         h_i' &=||_{k=1}^K \sigma(\sum_{j \in \mathcal{N}_i} \alpha_{ij}^k W^k h_j)
     \end{align} 
-    
+
     :param low_dim is dimension of V if not 0
     '''
     def __init__(self, in_features, out_features, K, low_dim=0, residual=False):
@@ -456,27 +456,67 @@ def custom_loss(my_objects, x, x_rel, now_index, device, name_all,COS_origin_sap
     return P_LOSS_one_one, N_LOSS_one_one, P_LOSS_hie, N_LOSS_hie, P_LOSS_OTOL, N_LOSS_OTOL, P_LOSS_LTOL, N_LOSS_LTOL, P_LOSS_REL, N_LOSS_REL, P_LOSS_SIM_NO_HIE, N_LOSS_SIM_NO_HIE, P_LOSS_SAP1, P_LOSS_SAP2, P_LOSS_SVD1, P_LOSS_SVD2
   
 
-def sppmi_edge_loss(x, edge_pos, edge_neg):
-    # Get embeddings for positive and negative edges
+# def sppmi_edge_loss(x, edge_pos, edge_neg):
+#     # Get embeddings for positive and negative edges
+#     emb_start_pos = x[edge_pos[0, :]]
+#     emb_end_pos = x[edge_pos[1, :]]
+#     emb_start_neg = x[edge_neg[0, :]]
+#     emb_end_neg = x[edge_neg[1, :]]
+
+#     # Calculate score for positive and negative edges
+#     score_pos = torch.sum(emb_start_pos * emb_end_pos, dim=-1)
+#     score_neg = torch.sum(emb_start_neg * emb_end_neg, dim=-1)
+
+#     # Calculate loss for positive and negative edges
+#     # loss_pos = nn.functional.relu(1 - score_pos).sum()
+#     # loss_pos = torch.log(1 + torch.exp(- score_pos)).sum()
+#     loss_pos = (1 / config['AA']) * torch.log(1 + torch.exp(- (config['AA'] * score_pos - config['lambd']))).sum()
+#     # loss_pos = 10 * F.binary_cross_entropy_with_logits(score_pos, torch.ones_like(score_pos))
+#     # loss_neg = nn.functional.relu(score_neg).sum()
+#     # loss_neg = torch.log(1 + torch.exp(score_neg)).sum()
+#     # loss_neg = F.binary_cross_entropy_with_logits(score_neg, torch.zeros_like(score_neg))
+#     loss_neg = (1 / config['BB']) * torch.log(1 + torch.exp(config['BB'] * score_neg - config['lambd'])).sum()
+#     # Combine the losses
+#     loss = loss_pos + loss_neg
+#     print(f'sppmi_pos_loss: {loss_pos}')
+#     print(f'sppmi_neg_loss: {loss_neg}')
+#     # return loss
+#     return loss
+
+def sppmi_edge_loss(x, edge_pos, edge_neg, config):
+    # Compute positive edge scores
     emb_start_pos = x[edge_pos[0, :]]
     emb_end_pos = x[edge_pos[1, :]]
+    score_pos = torch.sum(emb_start_pos * emb_end_pos, dim=-1)
+
+    # Compute negative edge scores
     emb_start_neg = x[edge_neg[0, :]]
     emb_end_neg = x[edge_neg[1, :]]
-
-    # Calculate score for positive and negative edges
-    score_pos = torch.sum(emb_start_pos * emb_end_pos, dim=-1)
     score_neg = torch.sum(emb_start_neg * emb_end_neg, dim=-1)
 
-    # Calculate loss for positive and negative edges
-    # loss_pos = nn.functional.relu(1 - score_pos).sum()
-    # loss_pos = torch.log(1 + torch.exp(- score_pos)).sum()
-    loss_pos = F.binary_cross_entropy_with_logits(score_pos, torch.ones_like(score_pos))
-    # loss_neg = nn.functional.relu(score_neg).sum()
-    # loss_neg = torch.log(1 + torch.exp(score_neg)).sum()
-    loss_neg = F.binary_cross_entropy_with_logits(score_neg, torch.zeros_like(score_neg))
-    # Combine the losses
-    loss = loss_pos + loss_neg
-    print(f'sppmi_pos_loss: {loss_pos}')
-    print(f'sppmi_neg_loss: {loss_neg}')
-    # return loss
+    # Aggregate scores by node for positive and negative edges
+    node_agg_pos = torch.zeros(x.shape[0])
+    node_agg_neg = torch.zeros(x.shape[0])
+    
+    # Assuming edge_pos and edge_neg are 2D arrays where each column is an edge, 
+    # with the first row being the source and the second being the target
+    for src, tgt, score in zip(edge_pos[0], edge_pos[1], score_pos):
+        node_agg_pos[src] += torch.exp(- config['AA'] * (score - config['lambd']))
+        node_agg_pos[tgt] += torch.exp(- config['AA'] * (score - config['lambd']))
+
+    for src, tgt, score in zip(edge_neg[0], edge_neg[1], score_neg):
+        node_agg_neg[src] += torch.exp(config['BB'] * (score - config['lambd']))
+        node_agg_neg[tgt] += torch.exp(config['BB'] * (score - config['lambd']))
+
+    # Calculate the log term per node for positive and negative scores
+    log_term_pos = (1 / config['AA']) * torch.log(1 + node_agg_pos)
+    print(node_agg_neg)
+    log_term_neg = (1 / config['BB']) * torch.log(1 + node_agg_neg)
+
+    # Sum log terms across all nodes to compute the final loss
+    loss = log_term_pos.sum() + log_term_neg.sum()
+
+    print(f'sppmi_pos_loss: {log_term_pos.sum()}')
+    print(f'sppmi_neg_loss: {log_term_neg.sum()}')
+
     return loss

@@ -173,7 +173,8 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
         edge_index = data.edge_index.to(device)
         edge_index = torch.cat((torch.cat((torch.tensor(edge_index), torch.tensor(edges_rel)), dim=1), torch.tensor(edges_sim)), dim=1)
     else:
-        edge_index = torch.cat((torch.tensor(edges_rel), torch.tensor(edges_sppmi)), dim=1).to(device)
+        # edge_index = torch.cat((torch.tensor(edges_rel), torch.tensor(edges_sppmi)), dim=1).to(device)
+        edge_index = torch.cat((torch.cat((torch.tensor(edges_rel), torch.tensor(edges_sppmi)), dim=1), torch.tensor(pos_sppmi)), dim=1).to(device)
 
     undirected_edge_index = to_undirected(edge_index)
     
@@ -217,7 +218,7 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
                 P_LOSS_SAP1, P_LOSS_SAP2, 
                 P_LOSS_SVD1, P_LOSS_SVD2) = custom_loss(my_objects, x_sim if config['path_origin'] is None else None, x_rel if str(config['ONLY_SIMI']).lower() == 'false' else None, batch_indices, device, name_all, COS_origin_sap, COS_origin_svd)
                 if str(config['ONLY_SIMI']).lower() == 'false':
-                    loss_sppmi = config['scale_attention'] * sppmi_edge_loss(x_rel, edges_sppmi, neg_sppmi)
+                    loss_sppmi = config['scale_attention'] * sppmi_edge_loss(x_rel, pos_sppmi, neg_sppmi, config)
                 
             else:                            
                 if str(config['FROZEN']).lower() is False:
@@ -371,7 +372,10 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
                 else:
                     print(f'MGB_REL:{sum_(RELA_MGB_AUC_origin)}    VA_REL:{sum_(RELA_VA_AUC_origin)}    UP_REL:{sum_(RELA_UP_AUC_origin)}')
                     rel_all = sum([sum_(RELA_MGB_AUC_origin),sum_(RELA_VA_AUC_origin),sum_(RELA_UP_AUC_origin)])/3
+                    print(f'rel_all = {rel_all}')
+                    print(f'best_PRE_0 = {best_PRE_0}')
                     case_store = (rel_all >= best_PRE_0) 
+                    # case_store = True
 
                     if case_store:
                         best_PRE_0 = rel_all

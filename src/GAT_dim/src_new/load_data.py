@@ -132,8 +132,13 @@ edges_sim = np.load(f"{config['path']}/input/edges_sim.npy", allow_pickle=True)
 # edges_sppmi = np.load(f"{config['path']}/input/edges_sppmi.npy", allow_pickle=True)
 # neg_sppmi = np.load(f"{config['path']}/input/edges_neg_sppmi.npy", allow_pickle=True)
 
-edges_sppmi = np.load(f"{config['path']}/input/edges_sppmi_2.npy", allow_pickle=True)
-neg_sppmi = np.load(f"{config['path']}/input/edges_neg_sppmi_2.npy", allow_pickle=True)
+# edges_sppmi = np.load(f"{config['path']}/input/edges_sppmi_2.npy", allow_pickle=True)
+# neg_sppmi = np.load(f"{config['path']}/input/edges_neg_sppmi_2.npy", allow_pickle=True)
+# edges_sppmi = np.load(f"{config['path']}/input/edges_pos_fair_sppmi.npy", allow_pickle=True)
+# neg_sppmi = np.load(f"{config['path']}/input/edges_neg_fair_sppmi.npy", allow_pickle=True)
+edges_sppmi = np.load(f"{config['path']}/input/common_edge.npy", allow_pickle=True)
+pos_sppmi = np.load(f"{config['path']}/input/pos_edge_1110.npy", allow_pickle=True)
+neg_sppmi = np.load(f"{config['path']}/input/neg_edge_1110.npy", allow_pickle=True)
 ALL_sim_val_pairs =  pd.concat([val_sim_no_hie_pairs, val_sim_pairs], ignore_index=True)
 
 if config['latent']:
@@ -199,10 +204,10 @@ code_list = ["PheCode_714.1", "PheCode_555.1", "PheCode_411.4", "PheCode_555.2",
 # edge_attention, true_rank = generate_edges([code.replace(':',"_") for code in code_list],name_all)
 # np.save(f"{config['path']}/input/rank_edges.npy", edge_attention)
 # np.save(f"{config['path']}/input/rank_true.npy", true_rank)
-edge_attention = np.load(f"{config['path']}/input/rank_edges.npy", allow_pickle=True)
-true_rank = np.load(f"{config['path']}/input/rank_true.npy", allow_pickle=True)
-edge_attention = edge_attention.astype(int)
-index_pos_pairs = np.where(true_rank>=0.7)[0] # 23583
-index_neg_pairs = np.where(true_rank<=0.1)[0] # 29236
-edge_pos_att = edge_attention[:,index_pos_pairs]
-edge_neg_att = edge_attention[:,index_neg_pairs]
+# edge_attention = np.load(f"{config['path']}/input/rank_edges.npy", allow_pickle=True)
+# true_rank = np.load(f"{config['path']}/input/rank_true.npy", allow_pickle=True)
+# edge_attention = edge_attention.astype(int)
+# index_pos_pairs = np.where(true_rank>=0.7)[0] # 23583
+# index_neg_pairs = np.where(true_rank<=0.1)[0] # 29236
+# edge_pos_att = edge_attention[:,index_pos_pairs]
+# edge_neg_att = edge_attention[:,index_neg_pairs]

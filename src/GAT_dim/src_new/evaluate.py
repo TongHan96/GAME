@@ -69,7 +69,7 @@ def predict_fun(emb_other, emb_loinc, other_name, loinc_name, item_dict, LEVEL=[
 
 def output(new_emb, name_all=name_all, LEVEL=[1], NUM=False):
     
-    OtherToLoincLabel = np.load('/root/current_code/GAT_model_8_25/input/OtherToLoinc_new.npy',
+    OtherToLoincLabel = np.load(f"{config['path']}/input/OtherToLoinc_new.npy",
                                 allow_pickle=True).item()
     existed_row = np.where(np.in1d(name_all, list(OtherToLoincLabel.keys())))[0]
     index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:LP", x)]  # loinc code
