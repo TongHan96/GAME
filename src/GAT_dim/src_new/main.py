@@ -3,7 +3,7 @@
 """
 Title: main.py
 Author: Han Tong
-Date: 2023-10-04
+Date: 2023-12-06
 Python Version: Python 3.11.3
 Description: main file of our attention model
 """
@@ -40,8 +40,8 @@ def update_config_from_args():
                         help="Parameter drop_out prob. Default: 0.0.") 
     parser.add_argument("--has_origin_model", type=str, default=False,
                         help="Whether loading original model or not. Default: False.")
-    parser.add_argument("--lr", type=float, default=5e-4,
-                        help="Parameter learning rate. Default: 5e-4.")    
+    parser.add_argument("--lr", type=float, default=1e-3,
+                        help="Parameter learning rate. Default: 1e-3.")    
     parser.add_argument("--AA", type=float, default=1.0,
                         help="Parameter AA. Default: 1.0")
     parser.add_argument("--BB", type=float, default=5.0,
@@ -171,9 +171,8 @@ def main(ATTENTION_TYPE, want_TOP1, want_TOP20):
     
     if config['path_origin'] is None:
         edge_index = data.edge_index.to(device)
-        edge_index = torch.cat((torch.cat((torch.tensor(edge_index), torch.tensor(edges_rel)), dim=1), torch.tensor(edges_sim)), dim=1)
+        edge_index = torch.cat((torch.tensor(edge_index), torch.tensor(edges_sim)), dim=1)
     else:
-        # edge_index = torch.cat((torch.tensor(edges_rel), torch.tensor(edges_sppmi)), dim=1).to(device)
         edge_index = torch.cat((torch.cat((torch.tensor(edges_rel), torch.tensor(edges_sppmi)), dim=1), torch.tensor(pos_sppmi)), dim=1).to(device)
 
     undirected_edge_index = to_undirected(edge_index)

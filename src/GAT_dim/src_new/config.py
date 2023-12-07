@@ -1,7 +1,7 @@
 """"
 Title: config.py
 Author: Han Tong
-Date: 2023-10-04
+Date: 2023-12-06
 Python Version: Python 3.11.3
 Description: All parameter we need
 """
@@ -57,6 +57,6 @@ config = {
     'low_dim' : None,
     'Truncate' : None,
     'path_origin' : None,
-    'path': '/root/current_code/GAT_model_10_16', 
+    'path': '/home/ec2-user/SageMaker/GNN_1206', 
     'FROZEN' : None
 }  

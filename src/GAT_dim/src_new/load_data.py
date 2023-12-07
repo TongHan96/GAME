@@ -3,7 +3,7 @@
 """
 Title: load_data.py
 Author: Han Tong
-Date: 2023-10-04
+Date: 2023-12-06
 Python Version: Python 3.11.3
 Description: Load all data we need in this file
 
@@ -21,6 +21,7 @@ import warnings
 import torch
 import re
 import os
+import pickle
 
 from config import get_config
 config = get_config()
@@ -33,14 +34,8 @@ from utils import split_set, weighted_sum_x, get_latent_related, get_parent
 from data_structure import *
 
 # the original embedding we need
-# datax = pd.read_csv("https://han-attention.s3.amazonaws.com/input/emb/emb_Z0_825.csv")
-# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/all_sppmi_rotate_1015.csv')
-datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/all_coder_1015.csv')
-# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/all_sapbert_1015.csv')
-# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/coder_sppmi_1016.csv')
-# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/sap_sppmi_1016.csv')
-# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/rotate_sap_sppmi_1016.csv')
-name_desc_all = pd.read_csv('https://han-attention.s3.amazonaws.com/input/name_desc/name_desc_all_GPT4_LP.csv')
+datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/emb/emb_Z0_1206.csv')
+name_desc_all = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/name_desc/name_desc_all_GPT4_LP_new.csv')
 typeofZ = name_desc_all.iloc[:, 0]
 index1 = [i for i, x in enumerate(typeofZ) if re.search("LOINC", x)]  # loinc
 index2 = [i for i, x in enumerate(typeofZ) if re.search("RXNORM", x)]  # RxNorm
@@ -59,24 +54,20 @@ dict_VA = name_all[config['VA_index']]
 dict_UP = name_all[config['UP_index']]
 
 # the name of latent nodes
-unique_name = pd.read_csv('https://han-attention.s3.amazonaws.com/input/name_desc/unique_name.csv')
+unique_name = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/name_desc/unique_name.csv')
 unique_name = unique_name['x'].values
 name_new = unique_name[np.setdiff1d(np.arange(len(unique_name)), [i for i, x in enumerate(unique_name) if re.search("^LOINC:(?!LP)", x)])]
 
-# the frequency we need
-freq_all = pd.read_csv('https://han-attention.s3.amazonaws.com/input/latent_node/freq_all.csv')
-freq_all = freq_all.iloc[:,1]
-
 # the hierarchy of loinc, rxnorm and phecode we need.
-hie_loinc_rxn_phe = pd.read_csv('https://han-attention.s3.amazonaws.com/input/Hierarchy/hie_loinc_rxn_phe_9_2.csv')
+hie_loinc_rxn_phe = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/name_desc/name_desc_all_GPT4_LP_new.csv')
 
 # Other Lab map to LOINC (gpt4)
-P_OTOL = pd.read_csv('https://han-attention.s3.amazonaws.com/input/Other%26Local-Loinc/OtherToLoinc_Positive.csv')
-N_OTOL = pd.read_csv('https://han-attention.s3.amazonaws.com/input/Other%26Local-Loinc/OtherToLoinc_Negative.csv')
+P_OTOL = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/Other%26Local-Loinc/OtherToLoinc_Positive.csv')
+N_OTOL = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/Other%26Local-Loinc/OtherToLoinc_Negative.csv')
 
 # Local Lab map to LOINC (gpt4)
-P_LTOL = pd.read_csv('https://han-attention.s3.amazonaws.com/input/Other%26Local-Loinc/LocalToLoinc_Positive.csv')
-N_LTOL = pd.read_csv('https://han-attention.s3.amazonaws.com/input/Other%26Local-Loinc/LocalToLoinc_Negative.csv')
+P_LTOL = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/Other%26Local-Loinc/LocalToLoinc_Positive.csv')
+N_LTOL = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/Other%26Local-Loinc/LocalToLoinc_Negative.csv')
 
 if config['latent']:
 
@@ -86,63 +77,56 @@ if config['latent']:
     N_LTOL_LP = get_parent(N_LTOL, list(np.arange(1,N_LTOL.shape[1])), DROP=False)
 
 # Related pairs we have
-REL_pairs = pd.read_csv('https://han-attention.s3.amazonaws.com/input/similar_related_pairs/related_pairs_0917.csv')
+REL_pairs = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/similar_related_pairs/related_pairs_1206.csv')
 
 # no-hie similar pairs we have
-SIM_no_hie_pairs = pd.read_csv('https://han-attention.s3.amazonaws.com/input/similar_related_pairs/similar_pairs_no_hie_9_17.csv')
+SIM_no_hie_pairs = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/similar_related_pairs/similar_pairs_no_hie_1206.csv')
 
 # train hie-similar pairs we have
-val_sim_pairs = pd.read_csv('https://han-attention.s3.amazonaws.com/input/similar_related_pairs/similar_pairs_hie_val_9_18.csv')
+val_sim_pairs = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/similar_related_pairs/similar_pairs_hie_val_1206.csv')
 
-# initialize the train, validation and test set of related pairs
+# # initialize the train, validation and test set of related pairs
 # train_rel_pairs, val_rel_pairs, test_rel_pairs = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, REL_pairs=REL_pairs, scale=[0.5,0.3], ADJ_ONLY=False)
-# np.save(f"{config['path']}/input/rel_pairs.npy", [train_rel_pairs, val_rel_pairs, test_rel_pairs])
-train_rel_pairs,  val_rel_pairs, test_rel_pairs = np.load(f"{config['path']}/input/rel_pairs.npy", allow_pickle=True)
+# with open(f"{config['path']}/input/rel_pairs.pkl", 'wb') as f:
+#     pickle.dump([train_rel_pairs, val_rel_pairs, test_rel_pairs], f)
+with open(f"{config['path']}/input/rel_pairs.pkl", 'rb') as f:
+    train_rel_pairs, val_rel_pairs, test_rel_pairs = pickle.load(f)
 
 if config['latent']:
-
     train_rel_pairs_LP, val_rel_pairs_LP, test_rel_pairs_LP = get_latent_related(train_rel_pairs, val_rel_pairs, test_rel_pairs)
 
-# initialize the train, validation and test set of similar no hie pairs
+# # initialize the train, validation and test set of similar no hie pairs
 # train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, REL_pairs=SIM_no_hie_pairs, scale=[0.5,0.3], ADJ_ONLY=False)
-# np.save(f"{config['path']}/input/sim_no_hie_pairs.npy", [train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs])
-train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs = np.load(f"{config['path']}/input/sim_no_hie_pairs.npy", allow_pickle=True)
+# with open(f"{config['path']}/input/sim_no_hie_pairs.pkl", 'wb') as f:
+#     pickle.dump([train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs], f)
+with open(f"{config['path']}/input/sim_no_hie_pairs.pkl", 'rb') as f:
+    train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs = pickle.load(f)
+
 
 if config['latent']:
-
     train_sim_no_hie_pairs_LP, val_sim_no_hie_pairs_LP, test_sim_no_hie_pairs_LP = get_latent_related(train_sim_no_hie_pairs,  val_sim_no_hie_pairs, test_sim_no_hie_pairs)
 
-# edges = pd.read_csv('https://han-attention.s3.amazonaws.com/input/adj/adj_train_9_17.csv')  # (63413,2)
+# edges = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/adj/adj_train_1206.csv')
 # edges['Var1'] = edges['Var1'] - 1
 # edges['Var2'] = edges['Var2'] - 1
 # edges = torch.tensor(np.array(edges))
 # np.save(f"{config['path']}/input/edges.npy", np.transpose(edges))
 
-# edges_rel = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, combine=False, train_pairs=train_rel_pairs) # (75990,2) 
-
-# edges_sim = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, combine=False, train_pairs=train_sim_no_hie_pairs) # (132555,2)
-
+# edges_rel = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, combine=False, train_pairs=train_rel_pairs) 
+# edges_sim = split_set(dict_MGB=dict_MGB, dict_VA=dict_VA, dict_UP=dict_UP, combine=False, train_pairs=train_sim_no_hie_pairs)
 # np.save(f"{config['path']}/input/edges_rel.npy", edges_rel.transpose())
 # np.save(f"{config['path']}/input/edges_sim.npy", edges_sim.transpose())
 
-# np.save(f"{config['path']}/input/edges.npy", edges)
 edges = np.load(f"{config['path']}/input/edges.npy", allow_pickle=True)
 edges_rel = np.load(f"{config['path']}/input/edges_rel.npy", allow_pickle=True)
 edges_sim = np.load(f"{config['path']}/input/edges_sim.npy", allow_pickle=True)
-# edges_sppmi = np.load(f"{config['path']}/input/edges_sppmi.npy", allow_pickle=True)
-# neg_sppmi = np.load(f"{config['path']}/input/edges_neg_sppmi.npy", allow_pickle=True)
 
-# edges_sppmi = np.load(f"{config['path']}/input/edges_sppmi_2.npy", allow_pickle=True)
-# neg_sppmi = np.load(f"{config['path']}/input/edges_neg_sppmi_2.npy", allow_pickle=True)
-# edges_sppmi = np.load(f"{config['path']}/input/edges_pos_fair_sppmi.npy", allow_pickle=True)
-# neg_sppmi = np.load(f"{config['path']}/input/edges_neg_fair_sppmi.npy", allow_pickle=True)
 edges_sppmi = np.load(f"{config['path']}/input/common_edge.npy", allow_pickle=True)
 pos_sppmi = np.load(f"{config['path']}/input/pos_edge_1110.npy", allow_pickle=True)
 neg_sppmi = np.load(f"{config['path']}/input/neg_edge_1110.npy", allow_pickle=True)
 ALL_sim_val_pairs =  pd.concat([val_sim_no_hie_pairs, val_sim_pairs], ignore_index=True)
 
 if config['latent']:
-
     ALL_sim_val_pairs_LP =  get_parent(ALL_sim_val_pairs, [0,1])
     rel_index_LP = get_index(train_rel_pairs_LP, name_new)
     sim_no_hie_index_LP = get_index(train_sim_no_hie_pairs_LP, name_new)
@@ -150,19 +134,19 @@ if config['latent']:
 rel_index = get_index(train_rel_pairs, name_all)
 sim_no_hie_index = get_index(train_sim_no_hie_pairs, name_all)
 
-# generate my_objects using hie_train
-# Origin_term can take half an hour. We can load my_objects that have been generated
+# # generate my_objects using hie_train
+# # Origin_term can take 10 min. We can load my_objects that have been generated
 # my_objects = origin_term(name_all, P_OTOL, N_OTOL, P_LTOL, N_LTOL, hie_loinc_rxn_phe, 
 #                          train_rel_pairs, train_sim_no_hie_pairs, rel_index, sim_no_hie_index)
 # np.save(f"{config['path']}/input/my_objects.npy", my_objects)
-
 my_objects = np.load(f"{config['path']}/input/my_objects.npy", allow_pickle=True)
  
-if config['latent']:
-    # my_objects2 = origin_term(name_new, P_OTOL_LP, N_OTOL_LP, P_LTOL_LP, N_LTOL_LP, hie_loinc_rxn_phe, train_rel_pairs_LP, train_sim_no_hie_pairs_LP, rel_index_LP, sim_no_hie_index_LP, INST=False)
-    # np.save(f"{config['path']}/input/my_objects2.npy", my_objects2)
-    my_objects2 = np.load(f"{config['path']}/input/my_objects2.npy", allow_pickle=True)
-   
+# if config['latent']:
+
+#     my_objects2 = origin_term(name_new, P_OTOL_LP, N_OTOL_LP, P_LTOL_LP, N_LTOL_LP, hie_loinc_rxn_phe, train_rel_pairs_LP, train_sim_no_hie_pairs_LP, rel_index_LP, sim_no_hie_index_LP, INST=False)
+#     np.save(f"{config['path']}/input/my_objects2.npy", my_objects2)
+#     my_objects2 = np.load(f"{config['path']}/input/my_objects2.npy", allow_pickle=True)
+
 
 # COS similarity of original sapbert embeddings and svd-PPMI embeddings
 features_torch = torch.from_numpy(datax.iloc[:, 1:1537].to_numpy())#.cuda()  # runing on GPU to accelerate
@@ -173,7 +157,7 @@ COS_origin_svd = torch.mm(features_torch[:, 768:1536], features_torch[:, 768:153
 # process embedding x into tensor
 x_tensor = torch.tensor(datax.iloc[:, 1:1537].to_numpy(), dtype=torch.float32, requires_grad=True)
     
-    
+
 data = tg.data.Data(x=x_tensor, edge_index=torch.tensor(edges, dtype=torch.long))
 
 mask = np.zeros((config['num_latent'], config['num_nodes']))
@@ -184,7 +168,7 @@ for i in range(config['num_latent']):
 
 # Convert the mask to a torch tensor
 mask = torch.tensor(mask, dtype=torch.float32)
-origin_weight = create_weight_matrix(name_all, name_new, freq_all)
+# origin_weight = create_weight_matrix(name_all, name_new, freq_all)
 
 code_list = ["PheCode_714.1", "PheCode_555.1", "PheCode_411.4", "PheCode_555.2", 
              "PheCode_428.1", "PheCode_250.1", "PheCode_250.2", "PheCode_296.2",
@@ -200,14 +184,3 @@ code_list = ["PheCode_714.1", "PheCode_555.1", "PheCode_411.4", "PheCode_555.2",
              'RXNORM:9895','RXNORM:73044','RXNORM:1424','RXNORM:6972','RXNORM:435','RXNORM:9601',
             'CCS:118','CCS:212','CCS:141','CCS:22','CCS:210',
              'LOINC:4485-9','LOINC:LP147743-1','LOINC:20491-7','LOINC:24398-0','LOINC:LP16294-8']
-
-# edge_attention, true_rank = generate_edges([code.replace(':',"_") for code in code_list],name_all)
-# np.save(f"{config['path']}/input/rank_edges.npy", edge_attention)
-# np.save(f"{config['path']}/input/rank_true.npy", true_rank)
-# edge_attention = np.load(f"{config['path']}/input/rank_edges.npy", allow_pickle=True)
-# true_rank = np.load(f"{config['path']}/input/rank_true.npy", allow_pickle=True)
-# edge_attention = edge_attention.astype(int)
-# index_pos_pairs = np.where(true_rank>=0.7)[0] # 23583
-# index_neg_pairs = np.where(true_rank<=0.1)[0] # 29236
-# edge_pos_att = edge_attention[:,index_pos_pairs]
-# edge_neg_att = edge_attention[:,index_neg_pairs]

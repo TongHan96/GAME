@@ -3,7 +3,7 @@
 """"
 Title: Utils.py
 Author: Han Tong
-Date: 2023-10-04
+Date: 2023-12-06
 Python Version: Python 3.11.3
 Description: All useful functions we use
 """
@@ -133,8 +133,7 @@ def find_same_par_gra(hie_loinc_rxn_phe, name_all, PARENT=1, name_id=-1, INST=Tr
     parent_values = hie_loinc_rxn_phe.iloc[:, PARENT].values
 
     name_map = id_map([name], hie_loinc_rxn_phe.iloc[:, 0])
-
-    if not name_map:
+    if not name_map.any():
         return []
 
     now_id = name_map[0]
@@ -677,7 +676,7 @@ def create_weight_matrix(name_all, name_new, freq_all):
 def get_parent(pairs, CHANGE_INDEX=[0, 1], DROP=True):
 
     pairs_new = pairs.copy()
-    hie_all = pd.read_csv("https://han-attention.s3.amazonaws.com/input/Hierarchy/hie_loinc_rxn_phe_9_2.csv")
+    hie_all = pd.read_csv("https://han-attention.s3.amazonaws.com/input_new/Hierarchy/hie_rxn_phe_loi_0902.csv")
     to_remove = []  # list to store indices to be removed
 
     for col_idx in CHANGE_INDEX:

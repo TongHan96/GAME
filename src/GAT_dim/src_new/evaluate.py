@@ -3,7 +3,7 @@
 """
 Title: evaluate.py
 Author: Han Tong
-Date: 2023-10-04
+Date: 2023-12-06
 Python Version: Python 3.11.3
 Description: evaluate AUC and accuracy functions can be seen here
 """
@@ -72,8 +72,8 @@ def output(new_emb, name_all=name_all, LEVEL=[1], NUM=False):
     OtherToLoincLabel = np.load(f"{config['path']}/input/OtherToLoinc_new.npy",
                                 allow_pickle=True).item()
     existed_row = np.where(np.in1d(name_all, list(OtherToLoincLabel.keys())))[0]
-    index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:LP", x)]  # loinc code
-    # index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:", x)] 
+    # index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:LP", x)]  # loinc code
+    index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:", x)] 
     emb_loinc = new_emb[index1, :]
     emb_other = new_emb[existed_row, :]
 

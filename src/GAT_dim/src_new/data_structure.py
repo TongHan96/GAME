@@ -3,7 +3,7 @@
 """
 Title: data_structure.py
 Author: Han Tong
-Date: 2023-10-04
+Date: 2023-12-06
 Python Version: Python 3.11.3
 Description: define the class of each node, the dataset structures, and the initialize function of them
 """
@@ -94,38 +94,34 @@ def origin_term(name_all, pos_OTOL, neg_OTOL, pos_LTOL, neg_LTOL, hie_loinc_rxn_
     my_objects = []
     config = get_config()
     # print(f'In data structure{config}')
-    try:
-        for i in tqdm(range(len(name_all))):
-            obj = item_node(name=name_all[i])
+
+    for i in tqdm(range(len(name_all))):
+        obj = item_node(name=name_all[i])
+        
+
+        if grepl('^Other lab:', obj.name):
+            obj.P_other = find_other_local(obj.name, pos_OTOL, name_all)
+            obj.N_other = find_other_local(obj.name, neg_OTOL, name_all)
+
+        if grepl('^LOCAL\\|LAB:', obj.name):
+            obj.P_local = find_other_local(obj.name, pos_LTOL, name_all)
+            obj.N_local = find_other_local(obj.name, neg_LTOL, name_all)
+
+        if grepl('^RXNORM:|PheCode:|LOINC:', obj.name):
+            obj.same_par = find_same_par_gra(hie_loinc_rxn_phe, name_all, PARENT=1, name_id = i, INST=INST)
+            obj.same_gra = find_same_par_gra(hie_loinc_rxn_phe, name_all, PARENT=2, name_id = i, INST=INST)
+
+        if not (grepl('^LOINC:', obj.name) & (not grepl('^LOINC:LP', obj.name))):  
+            # LOINC but not LOINC:LP, one-one set is none
+            obj.one_one = find_one_one(obj.name, i, name_all)
+
+        if i in rel_index:
+            obj.rel = find_rel(i, Train_REL_pairs, name_all, INST=INST)
             
+        if i in sim_no_hie_index:
+            obj.sim_no_hie = find_rel(i, Train_sim_no_hie_pairs, name_all, INST=INST)
 
-            if grepl('^Other lab:', obj.name):
-                obj.P_other = find_other_local(obj.name, pos_OTOL, name_all)
-                obj.N_other = find_other_local(obj.name, neg_OTOL, name_all)
-
-            if grepl('^LOCAL\\|LAB:', obj.name):
-                obj.P_local = find_other_local(obj.name, pos_LTOL, name_all)
-                obj.N_local = find_other_local(obj.name, neg_LTOL, name_all)
-
-            if grepl('^RXNORM:|PheCode:|LOINC:', obj.name):
-                obj.same_par = find_same_par_gra(hie_loinc_rxn_phe, name_all, PARENT=1, name_id = i, INST=INST)
-                obj.same_gra = find_same_par_gra(hie_loinc_rxn_phe, name_all, PARENT=2, name_id = i, INST=INST)
-
-            if not (grepl('^LOINC:', obj.name) & (not grepl('^LOINC:LP', obj.name))):  
-                # LOINC but not LOINC:LP, one-one set is none
-                obj.one_one = find_one_one(obj.name, i, name_all)
-
-            if i in rel_index:
-                obj.rel = find_rel(i, Train_REL_pairs, name_all, INST=INST)
-                
-            if i in sim_no_hie_index:
-                obj.sim_no_hie = find_rel(i, Train_sim_no_hie_pairs, name_all, INST=INST)
-
-            my_objects.append(obj)
-
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return my_objects
+        my_objects.append(obj)
 
     return my_objects
 
@@ -147,14 +143,13 @@ def origin_term_temp(name_temp, set1, set2, DIFF=True, max_len=10):
     create a term for each node temp, including name, sampled_set1, sampled_set2
     '''
     my_objects = []
-    try:
-        for i in range(len(name_temp)):
-            obj =item_node_temp(name = name_temp[i])
-            obj.sampled_set1 = sample(set1[i], max_len)
-            obj.sampled_set2 = nega_sample(set(set1[i]), set(set2[i]), max_len, DIFF)
-            my_objects.append(obj)
-    except Exception as e:
-        print(f"An error occurred: {e}")
+
+    for i in range(len(name_temp)):
+        obj =item_node_temp(name = name_temp[i])
+        obj.sampled_set1 = sample(set1[i], max_len)
+        obj.sampled_set2 = nega_sample(set(set1[i]), set(set2[i]), max_len, DIFF)
+        my_objects.append(obj)
+
     return my_objects   
 
 
