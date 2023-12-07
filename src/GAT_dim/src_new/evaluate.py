@@ -29,7 +29,7 @@ def predict_fun(emb_other, emb_loinc, other_name, loinc_name, item_dict, LEVEL=[
     
     item = list(item_dict.items())
     right_top1_ = right_top1 = np.zeros(n)
-    rright_top5_ = ight_top5 = np.zeros(n)
+    right_top5_ = right_top5 = np.zeros(n)
     right_top10_ = right_top10 = np.zeros(n)
     right_top20_ = right_top20 = np.zeros(n)
     
@@ -89,8 +89,8 @@ def output(new_emb, name_all=name_all, LEVEL=[1], NUM=False):
         return np.array([np.sum(pre[:, i])/N1 for i in range(4)])*100, np.array([np.sum(pre0[:, i])/N0 for i in range(4)])*100
     
     else:
-        N1 = sum([bool(set(name_new) & set(OtherToLoincLabel[x]['LEVEL1'])) for x in OtherToLoincLabel])
-        # N1 = 2024
+        # N1 = sum([bool(set(name_new) & set(OtherToLoincLabel[x]['LEVEL1'])) for x in OtherToLoincLabel])
+        N1 = 2024
         print(N1)
         pre = predict_fun(emb_other, emb_loinc, get_values(name_all[existed_row]), get_values(name_all[index1]), OtherToLoincLabel, LEVEL)
         return np.array([np.sum(pre[:, i])/N1 for i in range(4)])*100
