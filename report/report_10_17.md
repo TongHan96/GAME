@@ -8,9 +8,8 @@
 
 
 ## Accuracy Calculation Method:
-By focusing solely on LP codes, **TOP1 accuracy tends to be slightly lower, while TOP20 accuracy tends to be slightly higher**. This trend makes sense because:
-- The exact matches have become rarer and more challenging (hence, the drop in TOP1).
-- The overall comparison objects have decreased (hence, the rise in TOP20).
+By focusing solely on LP codes, **accuracy tends to be slightly lower**. This trend makes sense because:
+- The exact matches have become rarer and more challenging (hence, the drop in especially TOP1).
 
 ## Accuracy Results:
 ### 1. SAPBERT:
@@ -19,10 +18,10 @@ With this new embedding approach (leaf LOINC sapbert equals LP code), the accura
 **Accuracy Rates:**  
 | Measure | Sap | Sap+Procrutes(GPT4)| Sap+gat | SAP+gat+old_eval| Old gat (256) |
 | --- | --- |--- | --- | --- | --- |
-| TOP1 |59.1%| 71.8%|71.6% | 74.8% | 75.4% |
-| TOP5 | 77.7%|82.2%|82.5% | 83.7% | 85.8% |
-| TOP10 |80.7%  |83.7%| 85.6% | 85.5% | 88.4% |
-| TOP20 |83.1%| 85.0%|88.1% | 87.5% | 90.0% |
+| TOP1 |59.1%| 71.8%|71.6% | 74.2% | 75.4% |
+| TOP5 | 77.7%|82.2%|82.5% | 85.7% | 85.8% |
+| TOP10 |80.7%  |83.7%| 85.6% | 87.2% | 88.4% |
+| TOP20 |83.1%| 85.0%|88.1% | 89.6% | 90.0% |
 
 ### 2. CODER:
 The accuracy is generally higher for the coder compared to sapbert.
