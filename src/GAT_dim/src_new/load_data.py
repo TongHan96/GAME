@@ -33,7 +33,10 @@ from utils import split_set, weighted_sum_x, get_latent_related, get_parent
 from data_structure import *
 
 # the original embedding we need
-datax = pd.read_csv("https://han-attention.s3.amazonaws.com/input/emb/emb_Z0_825.csv")
+# datax = pd.read_csv("https://han-attention.s3.amazonaws.com/input/emb/emb_Z0_825.csv")
+datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/emb_Z0_sapbert_LP.csv')
+# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input/emb/emb_Z0_coder.csv')
+# datax = pd.read_csv('https://han-attention.s3.amazonaws.com/input_new/emb/emb_Z0_1206.csv')
 typeofZ = datax.iloc[:, 0]
 index1 = [i for i, x in enumerate(typeofZ) if re.search("LOINC", x)]  # loinc
 index2 = [i for i, x in enumerate(typeofZ) if re.search("RXNORM", x)]  # RxNorm
