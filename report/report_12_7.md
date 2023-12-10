@@ -7,7 +7,7 @@
 4. The **construction of Latent Nodes** has changed: Use concatenate of three inst. embeddings; Use rotation to pad the embeddings for missing codes in some inst. Then we use them to do feature selection.
 5. Use **edges generated from sppmi emb** in related training part. **Really helpful for feature selection!**
 
--
+
 ## Code Mapping Job
 ### Sapbert embedding
 **Accuracy Rates:**  
@@ -47,7 +47,6 @@
 | TOP10 |80.8%  |81.7%| 86.3% | 88.4% |
 | TOP20 |85.1%| 86.2%| 91.2% | 90.6% |
 
--
 ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
 #### RA
