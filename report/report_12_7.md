@@ -1,5 +1,15 @@
-# Readme
-## Sapbert embedding
+# Result Summary
+
+## Changes
+1. **Sapbert/coder embedding**: generated from their descriptions of their descriptions+LP code descriptions
+2. We have also changed the **accuracy calculation method** to use both LOINC and LP codes.
+3. The **rotation mode for sppmi** has changed: VA and UPMC revolve around MGB.
+4. The **construction of Latent Nodes** has changed: Use concatenate of three inst. embeddings; Use rotation to pad the embeddings for missing codes in some inst. Then we use them to do feature selection.
+5. Use **edges generated from sppmi emb** in related training part. **Really helpful for feature selection!**
+
+-
+## Code Mapping Job
+### Sapbert embedding
 **Accuracy Rates:**  
 | Measure | short | dict| full | gat(256) |
 | --- | --- |--- | --- | --- |
@@ -9,7 +19,7 @@
 | TOP20 |75.1%| 78.4%| 86.3% | 89.9% |
 
 
-## Sapbert+LP embedding
+### Sapbert+LP embedding
 **Accuracy Rates:**  
 | Measure | short | dict| full | gat(256) |
 | --- | --- |--- | --- | --- |
@@ -19,7 +29,7 @@
 | TOP20 |73.3%| 77.4%| 83.9% | 89.6% |
 
 
-## Coder embedding
+### Coder embedding
 **Accuracy Rates:**  
 | Measure | short | dict| full | gat(256) |
 | --- | --- |--- | --- | --- |
@@ -28,7 +38,7 @@
 | TOP10 |78.9%  |79.9%| 85.9% | 88.3% |
 | TOP20 |83.3%| 84.6%| 91.1% | 90.2% |
 
-## Coder+LP embedding
+### Coder+LP embedding
 **Accuracy Rates:**  
 | Measure | short | dict| full | gat(256) |
 | --- | --- |--- | --- | --- |
@@ -36,3 +46,7 @@
 | TOP5 | 74.9%|75.6%| 80.7% | 86.2% |
 | TOP10 |80.8%  |81.7%| 86.3% | 88.4% |
 | TOP20 |85.1%| 86.2%| 91.2% | 90.6% |
+
+-
+## Feature Selection
+
