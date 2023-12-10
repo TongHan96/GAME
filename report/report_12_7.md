@@ -8,6 +8,7 @@
 | TOP10 |71.3%| 74.9%| 83.3% | 87.6% |
 | TOP20 |75.1%| 78.4%| 86.3% | 89.9% |
 
+
 ## Sapbert+LP embedding
 **Accuracy Rates:**  
 | Measure | short | dict| full | gat(256) |
