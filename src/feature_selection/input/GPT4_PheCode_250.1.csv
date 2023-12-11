@@ -1,0 +1,511 @@
+desc,gpt4
+diagnostic endocrine procedures,0.5
+"debridement of wound, infection or burn",0.2
+destruction of lesion of retina and choroid,0.75
+other non-or therapeutic procedures on skin and breast,0.1
+hemodialysis,0.2
+peritoneal dialysis,0.25
+Pancreatic islet cell Ab,0.85
+C peptide,0.75
+Glucose,0.75
+Fructosamine,0.75
+Proinsulin,0.75
+Islet cell 512 Ab,0.75
+Insulin,0.9
+Acetone,0.75
+Insulin Ab,0.9
+Beta hydroxybutyrate,0.75
+glucose (poc) (group:glu-poc),0.75
+herpes simplex,0.0
+human immunodeficiency virus [hiv] disease,0.0
+dermatophytosis / dermatomycosis,0.1
+dermatophytosis,0.1
+dermatophytosis of nail,0.1
+screening for malignant neoplasms of the skin,0.0
+graves' disease,0.2
+diabetes mellitus,0.75
+type 1 diabetes,1.0
+type 2 diabetes,0.0
+type 2 diabetes with ketoacidosis,0.2
+type 2 diabetes with neurological manifestations,0.0
+insulin pump user,0.9
+abnormal glucose,0.75
+other abnormal glucose,0.5
+other disorders of pancreatic internal secretion,0.75
+hypoglycemia,0.75
+proteinuria,0.6
+hyperglyceridemia,0.3
+hyperpotassemia,0.2
+other disorders of metabolism,0.2
+obesity,0.2
+other anemias,0.2
+major depressive disorder,0.2
+tobacco use disorder,0.1
+other retinal disorders,0.75
+other nondiabetic retinopathy,0.25
+glaucoma,0.2
+cataract,0.35
+hypertension,0.2
+essential hypertension,0.2
+hypertensive heart and/or renal disease,0.2
+acute pancreatitis,0.2
+nephritis and nephropathy without mention of glomerulonephritis,0.75
+nephritis and nephropathy in diseases classified elsewhere,0.75
+chronic renal failure [ckd],0.75
+end stage renal disease,0.75
+"chronic kidney disease, stage iii",0.75
+"chronic kidney disease, stage iv",0.75
+"chronic kidney disease, stage i or ii",0.75
+"other conditions or status of the mother complicating pregnancy, childbirth, or the puerperium",0.2
+"diseases of nail, nos",0.05
+symptoms of the muscles,0.2
+edema,0.3
+hydralazine,0.0
+Insulin soluble,0.75
+diabetes insipidus,0.0
+anemia of chronic disease,0.2
+other hypertensive complications,0.2
+"peripheral vascular disease, unspecified",0.25
+noninfectious disorders of lymphatic channels,0.0
+circulatory disease nec,0.2
+disorders of function of stomach,0.1
+gastroparesis,0.75
+renal dialysis,0.75
+chronic ulcer of unspecified site,0.25
+chromosomal anomalies,0.1
+complication due to other implant and internal device,0.1
+effects radiation nos,0.0
+glucose,0.75
+pancreatic cancer,0.1
+secondary diabetes mellitus,0.0
+type 1 diabetes with ketoacidosis,1.0
+type 1 diabetes with neurological manifestations,1.0
+type 2 diabetes with renal manifestations,0.0
+type 2 diabetes with ophthalmic manifestations,0.0
+impaired fasting glucose,0.5
+hyperparathyroidism,0.1
+anemia in chronic kidney disease,0.25
+spinocerebellar disease,0.0
+peripheral autonomic neuropathy,0.75
+other demyelinating diseases of central nervous system,0.1
+macular degeneration (senile) of retina nos,0.2
+diplopia and disorders of binocular vision,0.1
+disorders of vitreous body,0.2
+hypertensive chronic kidney disease,0.25
+celiac disease,0.5
+nephrotic syndrome without mention of glomerulonephritis,0.6
+renal failure nos,0.6
+disorders resulting from impaired renal function,0.75
+secondary hyperparathyroidism (of renal origin),0.2
+known or suspected fetal abnormality affecting management of mother,0.0
+"cellulitis and abscess of foot, toe",0.35
+sarcoidosis,0.0
+chronic ulcer of leg or foot,0.7
+liraglutide,0.75
+glucagon,0.75
+"maltase, tissue (group:maltase-tiss)",0.1
+type 1 diabetes with renal manifestations,1.0
+diabetic retinopathy,0.9
+retinal vascular changes and abnomalities,0.75
+"chorioretinal inflammations, scars, and other disorders of choroid",0.25
+peripheral angiopathy in diseases classified elsewhere,0.75
+diabetes or abnormal glucose tolerance complicating pregnancy,0.75
+perinatal disorders of digestive system,0.05
+corns and callosities,0.2
+arthropathy associated with other disorders classified elsewhere,0.2
+arthropathy associated with neurological disorders,0.2
+open wound of toe(s),0.2
+insulins and antidiabetic agents causing adverse effects in therapeutic use,0.75
+olmesartan,0.0
+glyburide,0.2
+exenatide,0.0
+graft-versus-host disease,0.0
+cancer of eye,0.0
+type 1 diabetes with ophthalmic manifestations,1.0
+diabetes type 1 with peripheral circulatory disorders,1.0
+diabetes type 2 with peripheral circulatory disorders,0.0
+polyneuropathy in diabetes,1.0
+retinal detachments and defects,0.7
+drusen (degenerative) of retina,0.1
+hereditary retinal dystrophies,0.1
+retinal edema,0.75
+disorders of iris and ciliary body,0.1
+"renal sclerosis, nos",0.25
+renal osteodystrophy,0.25
+conditions involving the integument and temperature regulation of fetus and newborn,0.0
+nontraumatic compartment syndrome,0.1
+gangrene,0.75
+complication of amputation stump,0.5
+empagliflozin,0.75
+dulaglutide,0.75
+glimepiride,0.25
+repaglinide,0.75
+isopropyl alcohol,0.0
+saxagliptin,0.75
+canagliflozin,0.75
+retinal detachment with retinal defect,0.35
+congenital anomalies of the eye,0.05
+congenital anomalies of posterior segment of eye,0.05
+acute graft-versus-host disease,0.0
+nonsenile cataract,0.35
+invert sugar,0.0
+chlorpropamide,0.75
+choroidal degenerations,0.1
+HIV 1 Ab,0.0
+Urine Glucose Qualitative,0.75
+family history,0.5
+LANCET,0.5
+"INSERTER,MINIMED",0.75
+"RESERVOIR,MINIMED",0.75
+hemoglobin a1c,0.75
+c-peptide,0.75
+fasting glucose,0.75
+Urine Glucose Test,0.75
+Accu-Chek Blood Glucose Test,0.75
+Urinary Glucose,0.75
+GLUCERNA,0.0
+INFUSION SET,0.75
+NEEDLE,0.1
+Mean Blood Glucose Concentration,0.75
+Alpha-1 Globulin Electrophoresis,0.1
+Capillary Blood Glucose,0.75
+GLUCOSE TEST,0.75
+GLUCOSE CONTROL,0.75
+NEEDLE/SYRINGE,0.75
+"CARTRIDGE,ANIMAS",0.75
+Calculated Average Glucose,0.75
+"Estimated Average Glucose, Blood",0.75
+GLUCOSE SENSOR,0.75
+glutamic acid decarboxylase antibody,0.9
+insulin antibody,0.75
+Laboratory Reference Glucose Test,0.75
+GLUCOSE/KETONE TEST,0.75
+Calculated Mean Glucose,0.75
+"RESERVOIR,T SLIM",0.75
+alogliptin,0.75
+KETONE TEST,0.75
+ranibizumab,0.75
+DIABETISOURCE,0.0
+Glucose Peripheral Blood,0.75
+Glucose Intracellular,0.2
+Serum Glucose,0.75
+tolazamide,0.75
+Diurnal Urine Glucose,0.75
+Glucose Corrected Index,0.75
+tolbutamide,0.75
+Estimated Mean Blood Glucose,0.75
+date 1,0.0
+Basal (Resting) Blood Glucose Level,0.75
+beta hydroxybutyrate comment,0.75
+beta hydroxybutyrate (millimoles per liter),0.75
+beta hydroxybutyrate - point of care,0.75
+glucose tolerance reference range,0.7
+"glucose, jackson-pratt drainage",0.2
+"glucose, whole blood immediate testing analysis test",0.75
+human leukocyte antigen blood draw 1 red,0.5
+"human leukocyte antigen luminex class two antibody complement component 1, q subcomponent binding assay donor specific antibody",0.1
+insulin coverage glucose,0.85
+"insulin, pediatric",0.85
+isolate 1,0.0
+methaqualone,0.0
+procalcitonin study day 1,0.1
+total urea (per time period),0.2
+total urea nitrogen (per time period),0.25
+Orotate,0.0
+Diabetes status,0.75
+Glimepride,0.75
+TOLBUTamide,0.75
+IDDM Patient Ql,1.0
+Insulin Free,0.75
+Creatinine,0.5
+"insulin isophane / insulin, regular, human",0.75
+dapagliflozin,0.75
+insulin isophane,0.75
+insulin degludec,0.75
+glucose / potassium chloride,0.2
+"insulin isophane, human",0.75
+"insulin, regular, human",0.9
+insulin glargine,0.75
+"insulin isophane, beef",0.75
+"insulin aspart protamine, human",0.75
+"insulin glulisine, human",0.75
+"insulin aspart, human",0.75
+chromium picolinate,0.2
+insulin lispro,0.75
+dorzolamide,0.0
+Yellow Hornet (Dolichovespula arenaria) IgE,0.0
+Peanut (Arachis hypogaea) native (nAra h) 3 IgE,0.0
+Ethyl glucuronide,0.0
+congenital anomalies of intestine,0.05
+Cholesterol,0.2
+Clotting time,0.1
+trametinib,0.0
+Ceruloplasmin,0.0
+IgG clearance/Albumin clearance,0.2
+Salmon (Salmo salar) IgE,0.0
+Platelets,0.0
+frequency of urination and polyuria,0.75
+Gardnerella vaginalis DNA,0.0
+Tissue Transglutaminase IgG,0.75
+procedures on the urethra,0.1
+other therapeutic endocrine procedures,0.5
+astigmatism,0.0
+Alpha hydroxyalprazolam,0.0
+Indinavir,0.0
+arsenic,0.0
+Voltage-gated calcium channel P/Q type binding Ab,0.1
+ALPRAZolam,0.0
+late effects of cerebrovascular disease,0.1
+dementia with cerebral degenerations,0.1
+other physical therapy and rehabilitation,0.2
+anastrozole,0.0
+Coxiella burnetii phase 2 IgG,0.0
+Hydroxyproline,0.1
+Beta 1 globulin,0.0
+Norepinephrine,0.0
+HFE gene mutations tested for,0.1
+abnormal tumor markers,0.1
+Citrulline/Creatinine,0.1
+Ovalbumin IgE,0.0
+eszopiclone,0.0
+Chlamydia trachomatis IgG,0.0
+"gastrectomy, partial and total",0.1
+Follitropin,0.0
+congenital coagulation defects,0.0
+Leukocytes,0.1
+N-methylhistamine/Creatinine,0.0
+erythematosquamous dermatosis,0.1
+Base deficit,0.2
+"inflammatory disease of cervix, vagina, and vulva",0.0
+Fine Granular Casts,0.2
+LORazepam,0.0
+oral aphthae,0.1
+Brucella sp IgM,0.0
+Leukocyte phosphatase,0.0
+Glomerular filtration rate.predicted among blacks,0.2
+Glutamate decarboxylase 65 Ab,0.9
+other cns infection and poliomyelitis,0.0
+desoximetasone,0.0
+throat pain,0.05
+painful respiration,0.1
+clindamycin,0.0
+carbon dioxide (poc) (group:co2-poc),0.1
+Mononuclear cells,0.1
+"creatinine, time ur (mg/dl) (group:tu-cre)",0.2
+Hemoglobin O-Arab/Hemoglobin.total,0.0
+simeprevir,0.0
+Human papilloma virus 16+18+31+33+35+45+51+52+56 DNA,0.0
+norbuprenorphine-glucuronide (group:norbup-gluc),0.0
+Brazil Nut (Bertholletia excelsa) IgE,0.0
+"tco2, cap, nicu (group:tco2cn)",0.0
+Alpha 1 antitrypsin,0.0
+Gas delivery source,0.0
+dRVVT,0.0
+cycloSPORINE,0.1
+Cladosporium herbarum IgE,0.0
+open wounds of extremities,0.2
+Adenovirus Ab,0.0
+Glucose-6-Phosphate dehydrogenase,0.1
+Coarse Granular Casts,0.2
+other diagnostic procedures on lung and bronchus,0.05
+cardiac and circulatory congenital anomalies,0.1
+"protein, timed urine (mg/tv) (group:utpmgtv)",0.5
+Specimen volume,0.0
+"docusate / sennosides, USP",0.0
+Chlamydophila pneumoniae Ab,0.0
+guaifenesin / pseudoephedrine,0.0
+infectious and parasitic complications affecting pregnancy,0.1
+Coagulation factor X activity actual/Normal,0.1
+stress fracture,0.1
+alcoholic liver damage,0.0
+Hepatitis D virus Ab,0.0
+hct (bg) (group:hct bg),0.2
+nausea and vomiting,0.2
+Creatinine dialysis fluid clearance,0.2
+Fat emulsion,0.0
+Penicillium notatum IgE,0.0
+primidone,0.0
+fiber,0.0
+Deprecated C trach rRNA XXX Ql Prb,0.0
+Sjogrens syndrome-B extractable nuclear Ab,0.1
+Cocksfoot (Dactylis glomerata) IgE,0.0
+Deprecated Mean Glucose Bld gHb Est-aCnc,0.75
+disorders of the globe,0.0
+corneal opacity and other disorders of cornea,0.2
+blindness and low vision,0.6
+disorders of lacrimal system,0.05
+disorders of optic nerve and visual pathways,0.2
+other disorders of eye,0.2
+nephritis and nephropathy with pathological lesion,0.75
+disorders of conjunctiva,0.1
+other disorders of eyelids,0.1
+chorioretinal scars,0.2
+"uveitis, noninfectious or nos",0.2
+benign neoplasm of eye,0.0
+cystoid macular degeneration of retina,0.5
+retinal hemorrhage/ischemia,0.75
+minoxidil,0.0
+Cobalamin,0.1
+"BANDAGE,GAUZE",0.1
+beta-hydroxybutyrate,0.75
+microalbumin spot,0.75
+microalbumin/creatinine ratio,0.75
+acetone titer,0.75
+glycosylated hemoglobin,0.75
+streck sedimentation rate,0.2
+Benzodiazepines,0.0
+Barbiturates,0.0
+Benzoylecgonine,0.0
+Methadone,0.0
+Phencyclidine,0.0
+Cannabinoids,0.0
+Opiates,0.0
+TOLAZamide,0.75
+ascorbic acid / folic acid / iron carbonyl / vitamin B12,0.1
+glucose / sodium chloride,0.2
+"insulin lispro protamine, human",0.9
+hydroxocobalamin,0.1
+Cyanocobalamin.unsaturated Binding Capacity,0.1
+optic neuritis/neuropathy,0.2
+kidney replaced by transpant,0.25
+open wound or laceration of eye or eyelid,0.05
+other disorders of lipoid metabolism,0.2
+strabismus (not specified as paralytic),0.05
+peripheral vascular disease,0.5
+cellulitis and abscess of fingers/toes,0.2
+Hemoglobin A1c/Hemoglobin.total,0.75
+acute osteomyelitis,0.25
+amputation of lower extremity,0.6
+"keratoderma, acquired",0.1
+calcium acetate,0.1
+osteomyelitis,0.25
+"osteomyelitis, periostitis, and other infections involving bone",0.25
+nephritis; nephrosis; renal sclerosis,0.75
+renal failure,0.7
+open wound of foot except toe(s) alone,0.2
+atherosclerosis of the extremities,0.6
+paricalcitol,0.1
+ingrowing nail,0.0
+unspecified osteomyelitis,0.2
+hypercholesterolemia,0.25
+atherosclerosis of native arteries of the extremities with ulceration or gangrene,0.75
+keratoconus,0.1
+corneal opacity,0.2
+myopia,0.0
+corneal dystrophy,0.1
+corneal degenerations,0.2
+separation of retinal layers,0.7
+disorders of refraction and accommodation; blindness and low vision,0.2
+peripheral retinal degenerations,0.7
+disorders of the orbit,0.0
+exophthalmos,0.1
+mixed hyperlipidemia,0.3
+dry eyes,0.2
+optic atrophy,0.2
+IgG subclass 1,0.1
+"glucose, pericardial fluid",0.2
+"1,3 beta glucan",0.0
+Estimated Average Glucose,0.75
+Estimated average glucose,0.75
+glucose oxidase,0.5
+molecular class one typing,0.1
+Yeast,0.0
+lot number capillary glucose,0.75
+Point of Care Urine Glucose,0.75
+IgA subclass 1,0.1
+Nidus,0.0
+cellulose,0.0
+Fingerstick Glucose,0.75
+fingerstick glucose,0.75
+Aldolase,0.0
+HIV genotype,0.0
+direct immunofluorescence,0.1
+dimethyl fumarate,0.0
+diagnosis code,0.0
+Amylase,0.1
+Urinary Glucose Concentration,0.75
+rate,0.0
+Acetohexamide,0.75
+insulin detemir,0.75
+Adenovirus,0.0
+date contacted,0.0
+DEXTROSE/SODIUM CHLORIDE,0.2
+glucose tolerance 50 gram screen,0.5
+cushing's syndrome,0.1
+"glucose, capillary blood. device comment.",0.75
+Daily Mean Blood Glucose Concentration,0.75
+dysthymic disorder,0.0
+Hemoglobin A1c,0.75
+Alpha 1 antitrypsin phenotype,0.0
+iatrogenic endocrine disorders,0.5
+immunoelectrophoresis: alpha 1 globulin,0.1
+primary open angle glaucoma,0.2
+Occult Blood Test Day 1,0.1
+alpha-1-antitrypsin deficiency,0.1
+Calculated Average Plasma Glucose,0.75
+quick parathyroid hormone number 1,0.1
+streptozocin,0.75
+primary angle-closure glaucoma,0.1
+chronic ulcer of skin,0.3
+presbyopia,0.0
+chronic osteomyelitis,0.2
+other forms of chronic heart disease,0.25
+traumatic amputation,0.2
+senile cataract,0.5
+"lactase, tissue (group:lactase-tiss)",0.0
+hyperlipidemia,0.25
+disorders of lipoid metabolism,0.25
+aflibercept,0.0
+glyburide / metformin,0.75
+telmisartan,0.25
+glycosuria or acetonuria,0.75
+perindopril,0.0
+valsartan,0.0
+benazepril,0.25
+disorders of calcium/phosphorus metabolism,0.2
+sodium ferric gluconate complex,0.0
+becaplermin,0.0
+moexipril,0.0
+cinacalcet,0.0
+doxercalciferol,0.0
+hypothyroidism nos,0.1
+flutamide,0.0
+disorders of phosphorus metabolism,0.2
+other endocrine disorders,0.5
+other disorders of carbohydrate transport and metabolism,0.7
+preeclampsia and eclampsia,0.2
+"hypertension complicating pregnancy, childbirth, and the puerperium",0.0
+congenital anomalies of face and neck,0.0
+disorders of the autonomic nervous system,0.25
+acute renal failure,0.5
+hyperosmolality and/or hypernatremia,0.5
+disorders of porphyrin metabolism,0.1
+severe protein-calorie malnutrition,0.2
+cystic kidney disease,0.1
+fluid overload,0.2
+Urine Glucose Concentration,0.75
+dme and supplies,0.5
+Oligosaccharides,0.0
+Ketones,0.75
+Alpha 1 globulin,0.1
+time 1,0.0
+IgD,0.0
+eating disorder,0.1
+device,0.0
+Alpha ketoglutarate,0.1
+sucrose,0.0
+HIV 1 RNA,0.0
+Cell type,0.0
+Acid alpha glucosidase,0.1
+dornase alfa,0.0
+herpes simplex virus 1 immunoglobulin m titer,0.0
+Glycated Hemoglobin A1c,0.75
+anemia during pregnancy,0.1
+Occult Blood Day 1 Screening Test,0.1
+diseases of pancreas,0.75
+congenital hypothyroidism,0.1
+takayasu's disease,0.0
+breast cancer [male],0.0
+polyglandular activity in multiple endocrine adenomatosis,0.25
+"thyroiditis, acute and subacute",0.1
+Estimated Average Glucose (eAG),0.75
