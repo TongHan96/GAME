@@ -50,7 +50,7 @@
 ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
 #### RA
-| Method          | Correlationn|
+| Method          | Correlation|
 |-----------------|-------|
 | coder           | 0.276 |
 | sapbert         | 0.176 |
@@ -64,7 +64,7 @@
 | gat(sap_LP)     | 0.464 |
 
 #### CHF
-| Method          | Correlationn|
+| Method          | Correlation|
 |-----------------|-------|
 | coder           | 0.341 |
 | sapbert         | 0.473 |
@@ -79,7 +79,7 @@
 
 #### Depression
 
-| Method          | Correlationn|
+| Method          | Correlation|
 |-----------------|-------|
 | coder           | 0.132 |
 | sapbert         | -0.115 |
@@ -93,7 +93,7 @@
 | gat(sap_LP)     | 0.754 |
 
 #### Type 1 Diabetes
-| Method          | Correlationn|
+| Method          | Correlation|
 |-----------------|-------|
 | coder           | 0.384 |
 | sapbert         | 0.374 |
@@ -105,3 +105,7 @@
 | sapbert_LP      | 0.392 |
 | gat(coder_LP)   | 0.406 |
 | gat(sap_LP)     | 0.460 |
+
+## Detect Drug Side Effect
+
+
