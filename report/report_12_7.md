@@ -112,7 +112,30 @@
 | coder           | 0.540 | 0.810             |
 | sapbert         | 0.578 | 0.782             |
 | sppmi           | 0.570 | 0.737             |
-| GAT             | 0.636 | 0.824             |
+| GAT             | 0.636 | 0.834             |
 
+## Detect Relatedness and Similarity
 
+### MGB
+| Method          | Related AUC   | Similarity AUC  |
+|-----------------|-------|-------------------|
+| coder           | 0.689 | 0.767             |
+| sapbert         | 0.685 | 0.745             |
+| sppmi           | 0.775 | 0.871             |
+| GAT             | 0.901 | 0.927             |
 
+### VA
+| Method          | Related AUC   | Similarity AUC  |
+|-----------------|-------|-------------------|
+| coder           | 0.656 | 0.809             |
+| sapbert         | 0.676 | 0.737             |
+| sppmi           | 0.721 | 0.836             |
+| GAT             | 0.904 | 0.915             |
+
+### UPMC
+| Method          | Related AUC   | Similarity AUC  |
+|-----------------|-------|-------------------|
+| coder           | 0.681 | 0.747             |
+| sapbert         | 0.671 | 0.742             |
+| sppmi           | 0.679 | 0.793             |
+| GAT             | 0.913 | 0.913             |
