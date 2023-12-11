@@ -107,5 +107,13 @@
 | gat(sap_LP)     | 0.460 |
 
 ## Detect Drug Side Effect
+| Method          | AUC   | After Supervised  |
+|-----------------|-------|-------------------|
+| coder           | 0.540 | 0.810             |
+| sapbert         | 0.578 | 0.782             |
+| sppmi           | 0.570 | 
+| gat(coder)      | 0.410 |
+| gat(sap)        | 0.464 |
+
 
 
