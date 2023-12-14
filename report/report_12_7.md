@@ -47,7 +47,7 @@
 | TOP10 |80.8%  |81.7%| 86.3% | 88.4% |
 | TOP20 |85.1%| 86.2%| 91.2% | 90.6% |
 
-## Feature Selection
+<!-- ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
 #### RA
 | Method          | Correlation|
@@ -112,7 +112,10 @@
 | coder           | 0.540 | 0.810             |
 | sapbert         | 0.578 | 0.782             |
 | sppmi           | 0.570 | 0.744             |
-| GAT             | 0.636 | 0.834             |
+| GAT             | 0.636 | 0.834             |-->
+
+
+
 
 ## Detect Relatedness and Similarity
 
