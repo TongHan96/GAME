@@ -47,6 +47,50 @@
 | TOP10 |80.8%  |81.7%| 86.3% | 88.4% |
 | TOP20 |85.1%| 86.2%| 91.2% | 90.6% |
 
+## Feature Selection
+### GPT4 Scoring & Cos Sim Rank Correlation:
+#### RA
+| Method          | 768*3 Correlation| 768 Correlation|
+|-----------------|-------|-------|
+| coder           | 0.303 | 0.287|
+| sapbert         | 0.189 | 0.180|
+| sppmi           | 0.592 | 0.580|
+| gat(sap)        | 0.500 | 0.526|
+
+#### CHF
+| Method          | 768*3 Correlation| 768 Correlation|
+|-----------------|-------|-------|
+| coder           | 0.443 | 0.451|
+| sapbert         | 0.565 | 0.569|
+| sppmi           | 0.750 | 0.749|
+| gat(sap)        | 0.759 | 0.763|
+
+#### Depression
+
+| Method          | 768*3 Correlation| 768 Correlation|
+|-----------------|-------|-------|
+| coder           | 0.302 | 0.301|
+| sapbert         | -0.003 | 0.007|
+| sppmi           | 0.724 | 0.718|
+| gat(sap)        | 0.805 | 0.800|
+
+#### Type 1 Diabetes
+
+| Method          | 768*3 Correlation| 768 Correlation|
+|-----------------|-------|-------|
+| coder           | 0.427 | 0.426|
+| sapbert         | 0.407 | 0.412|
+| sppmi           | 0.469 | 0.497|
+| gat(sap)        | 0.528 | 0.510|
+
+## Detect Drug Side Effect
+| Method          | AUC   | After Supervised  |
+|-----------------|-------|-------------------|
+| coder           | 0.540 | 0.810             |
+| sapbert         | 0.578 | 0.782             |
+| sppmi           | 0.570 | 0.744             |
+| GAT             | 0.636 | 0.834             |
+
 <!-- ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
 #### RA
