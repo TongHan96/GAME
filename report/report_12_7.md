@@ -83,13 +83,29 @@
 | sppmi           | 0.469 | 0.497|
 | gat(sap)        | 0.528 | 0.510|
 
-## Detect Drug Side Effect
-| Method          | AUC   | After Supervised  |
-|-----------------|-------|-------------------|
-| coder           | 0.540 | 0.810             |
-| sapbert         | 0.578 | 0.797             |
-| sppmi           | 0.525 | 0.751             |
-| GAT             | 0.633 | 0.834             |
+## Detect Drug Side Effect (Using Concatenate Emb)
+| Method          | AUC   | After Supervised  | Before Reduct Dimension  |
+|-----------------|-------|-------------------|--------------------------|
+| coder           | 0.540 | 0.810             ||
+| sapbert         | 0.578 | 0.797             ||
+| sppmi           | 0.525 | 0.751             | 0.570, 0.744|
+| GAT             | 0.633 | 0.770             | 0.636, 0.827|
+
+## Detect Drug Side Effect 
+
+| Method                   | MGB   | VA    | UPMC  |
+|--------------------------|-------|-------|-------|
+| Coder                  | 0.544 | 0.546 | 0.541|
+| Coder + supervised     | 0.809 |  0.822 |0.812|
+| ---                      | ---   | ---   | ---   |
+| SAPBERT                  | 0.579 | 0.579 | 0.577 |
+| SAPBERT + supervised     | 0.807 | 0.802 | 0.791 |
+| ---                      | ---   | ---   | ---   |
+| SVD                      | 0.573 | 0.545 | 0.558 |
+| SVD + supervised         | 0.762 | 0.740 | 0.710 |
+| ---                      | ---   | ---   | ---   |
+| SAP_gat                  | 0.629 | 0.630 | 0.634 |
+| SAP_gat + supervised     | 0.820 | 0.824 | 0.828 |
 
 <!-- ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
