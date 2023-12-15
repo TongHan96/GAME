@@ -88,8 +88,8 @@
 |-----------------|-------|-------------------|
 | coder           | 0.540 | 0.810             |
 | sapbert         | 0.578 | 0.782             |
-| sppmi           | 0.570 | 0.744             |
-| GAT             | 0.636 | 0.834             |
+| sppmi           | 0.525 | 0.751             |
+| GAT             | 0.633 | 0.834             |
 
 <!-- ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
