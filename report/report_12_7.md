@@ -83,15 +83,15 @@
 | sppmi           | 0.469 | 0.497|
 | gat(sap)        | 0.528 | 0.510|
 
-## Detect Drug Side Effect (Using Concatenate Emb)
-| Method          | AUC   | After Supervised  | Before Reduct Dimension  |
+## Detect Drug Side Effect (Using Concatenate Emb) 
+| Method          | AUC (768)  | After Supervised (768) | Before Reduct Dimension (768*3)  |
 |-----------------|-------|-------------------|--------------------------|
 | coder           | 0.540 | 0.810             ||
 | sapbert         | 0.578 | 0.797             ||
 | sppmi           | 0.525 | 0.751             | 0.570, 0.744|
 | GAT             | 0.633 | 0.770             | 0.636, 0.827|
 
-## Detect Drug Side Effect 
+## Detect Drug Side Effect (dim = 768)
 
 | Method                   | MGB   | VA    | UPMC  |
 |--------------------------|-------|-------|-------|
