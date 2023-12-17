@@ -105,7 +105,7 @@
 | SVD + supervised         | 0.762 | 0.740 | 0.710 |
 | ---                      | ---   | ---   | ---   |
 | SAP_gat                  | 0.629 | 0.630 | 0.634 |
-| SAP_gat + supervised     | 0.820 | 0.824 | 0.828 |
+| SAP_gat + supervised     | 0.820 | 0.827 | 0.828 |
 
 <!-- ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
