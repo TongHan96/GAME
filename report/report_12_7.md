@@ -185,7 +185,7 @@
 | coder           | 0.689 | 0.767             |
 | sapbert         | 0.661 | 0.746             |
 | sppmi           | 0.784 | 0.871             |
-| GAT             | 0.901 | 0.927             |
+| GAT             | 0.906 | 0.928             |
 
 ### VA
 | Method          | Related AUC   | Similarity AUC  |
@@ -193,7 +193,7 @@
 | coder           | 0.656 | 0.809             |
 | sapbert         | 0.641 | 0.739             |
 | sppmi           | 0.750 | 0.837             |
-| GAT             | 0.904 | 0.915             |
+| GAT             | 0.889 | 0.915             |
 
 ### UPMC
 | Method          | Related AUC   | Similarity AUC  |
@@ -201,5 +201,7 @@
 | coder           | 0.681 | 0.747             |
 | sapbert         | 0.636 | 0.743             |
 | sppmi           | 0.679 | 0.792             |
-| GAT             | 0.913 | 0.913             |
+| GAT             | 0.914 | 0.910             |
+
+
 
