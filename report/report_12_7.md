@@ -70,16 +70,16 @@
 | Method                   | MGB   | VA    | UPMC  |
 |--------------------------|-------|-------|-------|
 | Coder                  | 0.544 | 0.546 | 0.541|
-| Coder + supervised     | 0.809 |  0.822 |0.812|
+| Coder + supervised     | 0.821 |  0.814 |0.831|
 | ---                      | ---   | ---   | ---   |
-| SAPBERT                  | 0.579 | 0.579 | 0.577 |
-| SAPBERT + supervised     | 0.807 | 0.802 | 0.791 |
+| SAPBERT                  | 0.579 | 0.578 | 0.577 |
+| SAPBERT + supervised     | 0.806 | 0.806 | 0.810 |
 | ---                      | ---   | ---   | ---   |
 | SVD                      | 0.573 | 0.545 | 0.558 |
-| SVD + supervised         | 0.762 | 0.740 | 0.710 |
+| SVD + supervised         | 0.763 | 0.745 | 0.727 |
 | ---                      | ---   | ---   | ---   |
-| SAP_gat                  | 0.621 | 0.620 | 0.630 |
-| SAP_gat + supervised     | 0.820 | 0.827 | 0.828 |
+| SAP_gat                  | 0.618 | 0.617 | 0.619 |
+| SAP_gat + supervised     | 0.820 | 0.801 | 0.803 |
 
 <!-- ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
