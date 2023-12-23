@@ -85,7 +85,7 @@
 | SAP_gat_no_sppmi + supervised     | 0.834 | 0.819 | 0.812 |
 | ---                      | ---   | ---   | ---   |
 | SAP_gat_no_sppmi_edge    | 0.629 | 0.622 | 0.627 |
-| SAP_gat_no_sppmi_edge  + supervised | 0.836 | 0.820 | 0.803 |
+| SAP_gat_no_sppmi_edge  + supervised | 0.836 | 0.820 | 0.813 |
 
 <!-- ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
