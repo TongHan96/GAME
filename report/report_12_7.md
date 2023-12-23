@@ -81,6 +81,15 @@
 | SAP_gat                  | 0.618 | 0.617 | 0.619 |
 | SAP_gat + supervised     | 0.820 | 0.801 | 0.803 |
 | ---                      | ---   | ---   | ---   |
+| SAP_gat_Attention_h^{T}Bh                  | 0.618 | 0.613 | 0.619 |
+| SAP_gat_Attention_h^{T}Bh + supervised     | 0.813 | 0.796 | 0.794 |
+| ---                      | ---   | ---   | ---   |
+| SAP_gat_Attention_low1                  | 0.635 | 0.630 | 0.633 |
+| SAP_gat_Attention_low1 + supervised     | 0.816 | 0.803 | 0.801 |
+| ---                      | ---   | ---   | ---   |
+| SAP_gat_Attention_low2                  | 0.622 | 0.621 | 0.623 |
+| SAP_gat_Attention_low2 + supervised     | 0.808 | 0.793 | 0.801 |
+| ---                      | ---   | ---   | ---   |
 | SAP_gat_no_sppmi                  | 0.636 | 0.628 | 0.631 |
 | SAP_gat_no_sppmi + supervised     | 0.834 | 0.819 | 0.812 |
 | ---                      | ---   | ---   | ---   |
