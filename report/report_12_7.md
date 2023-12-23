@@ -81,8 +81,8 @@
 | SAP_gat                  | 0.618 | 0.617 | 0.619 |
 | SAP_gat + supervised     | 0.820 | 0.801 | 0.803 |
 | ---                      | ---   | ---   | ---   |
-| SAP_gat                  | 0.618 | 0.617 | 0.619 |
-| SAP_gat + supervised     | 0.820 | 0.801 | 0.803 |
+| SAP_gat_no_sppmi                  | 0.636 | 0.628 | 0.631 |
+| SAP_gat_no_sppmi + supervised     | 0.834 | 0.819 | 0.812 |
 | ---                      | ---   | ---   | ---   |
 | SAP_gat_no_sppmi_edge    | 0.629 | 0.622 | 0.627 |
 | SAP_gat_no_sppmi_edge  + supervised | 0.836 | 0.820 | 0.803 |
