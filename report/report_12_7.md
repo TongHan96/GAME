@@ -78,8 +78,8 @@
 | SVD                      | 0.573 | 0.545 | 0.558 |
 | SVD + supervised         | 0.763 | 0.745 | 0.727 |
 | ---                      | ---   | ---   | ---   |
-| SAP_gat                  | 0.618 | 0.617 | 0.619 |
-| SAP_gat + supervised     | 0.820 | 0.801 | 0.803 |
+| SAP_gat                  | 0.624 | 0.624 | 0.627 |
+| SAP_gat + supervised     | 0.827 | 0.807 | 0.803 |
 | ---                      | ---   | ---   | ---   |
 | SAP_gat_Attention_h^{T}Bh                  | 0.618 | 0.613 | 0.619 |
 | SAP_gat_Attention_h^{T}Bh + supervised     | 0.813 | 0.796 | 0.794 |
