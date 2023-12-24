@@ -65,6 +65,16 @@
 | sppmi           | 0.515 | 0.751             | 0.568, 0.744|
 | GAT             | 0.625 | 0.770             | 0.626, 0.827| 
 
+
+## Detect Drug Side Effect (Using MGB part Emb) 
+| Method          | AUC (768)  | After Supervised (768) | Before Reduct Dimension (768*3)  |
+|-----------------|-------|-------------------|--------------------------|
+| coder           | 0.541 | 0.810             ||
+| sapbert         | 0.578 | 0.797             ||
+| sppmi           | 0.563 | 0.751             | 0.568, 0.744|
+| GAT             | 0.623 | 0.770             | 0.626, 0.827| 
+
+
 ## Detect Drug Side Effect (dim = 768)
 
 | Method                   | MGB   | VA    | UPMC  |
