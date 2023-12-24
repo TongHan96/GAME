@@ -90,7 +90,7 @@
 | ---                      | ---   | ---   | ---   |
 | SAP_gat                  | 0.624 | 0.624 | 0.627 |
 | SAP_gat + supervised     | 0.827 | 0.807 | 0.803 |
-| ---                      | ---   | ---   | ---   |
+<!--| ---                      | ---   | ---   | ---   |
 | SAP_gat_Attention_h^{T}Bh                  | 0.618 | 0.613 | 0.619 |
 | SAP_gat_Attention_h^{T}Bh + supervised     | 0.813 | 0.796 | 0.794 |
 | ---                      | ---   | ---   | ---   |
@@ -104,7 +104,8 @@
 | SAP_gat_no_sppmi + supervised     | 0.834 | 0.819 | 0.812 |
 | ---                      | ---   | ---   | ---   |
 | SAP_gat_no_sppmi_edge    | 0.629 | 0.622 | 0.627 |
-| SAP_gat_no_sppmi_edge  + supervised | 0.836 | 0.820 | 0.813 |
+| SAP_gat_no_sppmi_edge  + supervised | 0.836 | 0.820 | 0.813 |-->
+
 
 <!-- ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
