@@ -72,7 +72,7 @@
 | coder           | 0.541 | 0.810             |
 | sapbert         | 0.578 | 0.793             |
 | sppmi           | 0.563 | 0.751             |
-| GAT             | 0.623 | 0.802             |
+| GAT             | 0.623 | 0.811             |
 
 
 ## Detect Drug Side Effect (dim = 768)
