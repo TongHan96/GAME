@@ -31,6 +31,7 @@
 | sppmi           | 0.592 | 0.580|
 | gat(sap)        | 0.500 | 0.526|
 
+
 #### CHF
 | Method          | 768*3 Correlation| 768 Correlation|
 |-----------------|-------|-------|
@@ -107,64 +108,45 @@
 | SAP_gat_no_sppmi_edge  + supervised | 0.836 | 0.820 | 0.813 |-->
 
 
-<!-- ## Feature Selection
+## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
+
+
+
+
 #### RA
 | Method          | Correlation|
 |-----------------|-------|
-| coder           | 0.276 |
-| sapbert         | 0.176 |
-| sppmi           | 0.586 |
-| gat(coder)      | 0.443 |
-| gat(sap)        | 0.468 |
-|-----------------|-------|
-| coder_LP        | 0.284 |
-| sapbert_LP      | 0.174 |
-| gat(coder_LP)   | 0.354 |
-| gat(sap_LP)     | 0.464 |
+| coder           | 0.203 |
+| sapbert         | 0.022 |
+| sppmi           | 0.445 |
+| GAME        | 0.441 |
 
 #### CHF
 | Method          | Correlation|
 |-----------------|-------|
-| coder           | 0.341 |
-| sapbert         | 0.473 |
-| sppmi           | 0.683 |
-| gat(coder)      | 0.690 |
-| gat(sap)        | 0.707 |
-|-----------------|-------|
-| coder_LP        | 0.350 |
-| sapbert_LP      | 0.479 |
-| gat(coder_LP)   | 0.667 |
-| gat(sap_LP)     | 0.698 |
+| coder           | 0.189 |
+| sapbert         | 0.351 |
+| sppmi           | 0.571 |
+| game      | 0.623 |
 
 #### Depression
 
 | Method          | Correlation|
 |-----------------|-------|
-| coder           | 0.132 |
-| sapbert         | -0.115 |
-| sppmi           | 0.626 |
-| gat(coder)      | 0.772 |
-| gat(sap)        | 0.765 |
-|-----------------|-------|
-| coder_LP        | 0.133 |
-| sapbert_LP      | -0.138 |
-| gat(coder_LP)   | 0.768 |
-| gat(sap_LP)     | 0.754 |
+| coder           | 0.124 |
+| sapbert         | -0.311 |
+| sppmi           | 0.636 |
+| gat(coder)      | 0.764 |
 
 #### Type 1 Diabetes
 | Method          | Correlation|
 |-----------------|-------|
-| coder           | 0.384 |
-| sapbert         | 0.374 |
-| sppmi           | 0.403 |
-| gat(coder)      | 0.410 |
-| gat(sap)        | 0.464 |
-|-----------------|-------|
-| coder_LP        | 0.380 |
-| sapbert_LP      | 0.392 |
-| gat(coder_LP)   | 0.406 |
-| gat(sap_LP)     | 0.460 |
+| coder           | 0.329 |
+| sapbert         | 0.336 |
+| sppmi           | 0.306 |
+| coder      | 0.361 |
+
 
 ## Detect Drug Side Effect
 | Method          | AUC   | After Supervised  |
@@ -172,7 +154,7 @@
 | coder           | 0.540 | 0.810             |
 | sapbert         | 0.578 | 0.782             |
 | sppmi           | 0.570 | 0.744             |
-| GAT             | 0.636 | 0.834             |-->
+| GAT             | 0.636 | 0.834             |
 
 
 
