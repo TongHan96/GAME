@@ -202,7 +202,7 @@ def custom_loss(my_objects, x, now_index, device, name_all, config):
     else:
         if CHECK_ALL:
             print('Relative Loss:')  
-        P_LOSS_REL, N_LOSS_REL = calculate_loss('related_pairs', my_objects, x_rel, now_index, name_all, config['scale_REL'])
+        P_LOSS_REL, N_LOSS_REL = calculate_loss('related_pairs', my_objects, x, now_index, name_all, config['scale_REL'])
         # if CHECK_ALL:
         #     print('SVD embedding Cosine Loss:')  
         # P_LOSS_SVD1, P_LOSS_SVD2 = calculate_loss2(COS_origin_svd, x_rel/torch.sqrt(torch.tensor(2, dtype=torch.float32)), now_index, scale_LSVD, device)

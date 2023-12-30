@@ -260,16 +260,18 @@ def write_file(Epoch, Batch, config, loss=None, pre=None, SIM_AUC=None, REL_AUC=
             losswriter.writerow(["EPOCH", "BATCH", "P_REL", "N_REL"])           
         lossfile.close()
         
-        # pre
-        prefile = open(f"{config['path']}/output/{start_time}/ALL_PRE.csv", "a")
-        prewriter = csv.writer(prefile)
-        prewriter.writerow(["EPOCH", "BATCH", "TOP1", "TOP5", "TOP10", "TOP20"])
-        prefile.close()
-        # auc
         if config['path_origin'] is None:
+            # auc
             write_file_sub(SIM_AUC, "SIM_AUC")
+            # pre
+            prefile = open(f"{config['path']}/output/{start_time}/ALL_PRE.csv", "a")
+            prewriter = csv.writer(prefile)
+            prewriter.writerow(["EPOCH", "BATCH", "TOP1", "TOP5", "TOP10", "TOP20"])
+            prefile.close()
         else:
+            # auc
             write_file_sub(REL_AUC, "REL_AUC")
+            
         # tuning parameters
         save_hyperparameters(config, start_time)
         

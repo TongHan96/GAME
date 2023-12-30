@@ -103,9 +103,7 @@ def main(config):
     
     if config['path_origin'] is not None:
         print('load origin embedding!')
-        mgb_sim, va_sim, upmc_sim = torch.load(f"{config['path']}/output/{config['path_origin']}/sim_emb_1.pth")
-    else:
-        mgb_sim, va_sim, upmc_sim = mgb_emb, va_emb, upmc_emb
+        x_sim = torch.load(f"{config['path']}/output/{config['path_origin']}/sim_emb.pth")
 
     # device
     device = torch.device(config['DEVICE'])
@@ -133,7 +131,7 @@ def main(config):
     for epoch in range(1, config['epochs']+1):
         print('------------------------Epoch: {:03d}-----------------------'.format(epoch))
     
-        start_time = time.time()
+        now_time = time.time()
         optimizer0.zero_grad()
         
         for name, param in model_all.named_parameters():
@@ -172,9 +170,10 @@ def main(config):
             # evaluate
             AUC_new = test(x_rel, unique_name, config, related_pairs=val_rel_pairs, PRE=False, AUC=True, AUC_type=True)
             # write
-            write_file(epoch, 0, config, loss=loss, REL_AUC=AUC_new[0][0])
+            write_file(epoch, 0, config, loss=loss, REL_AUC=AUC_new[0][0][0])
             
-            rel_all = sum_(AUC_new[0])
+            rel_all = sum_(AUC_new[0][0])
+            print(f'AUC = {rel_all}')
             case_store = (rel_all >= best_PRE_0)
             if case_store:
                 best_PRE_0 = rel_all
@@ -197,7 +196,7 @@ def main(config):
         
         # record time
         end_time = time.time()
-        time_elapsed = end_time - start_time
+        time_elapsed = end_time - now_time
         print(f"Epoch {epoch+1} of {config['epochs']} took {time_elapsed:.2f}s")
         
         # clean cache

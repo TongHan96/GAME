@@ -192,7 +192,7 @@ def test(x, name_all, config, related_pairs=None, similar_pairs=None, PRE=True, 
             SIMI = compute_auc(x_low_dim, similar_pairs)
             results.append([SIMI])
         else:
-            RELA = compute_auc(x_rel, related_pairs)
+            RELA = compute_auc(x, related_pairs)
             results.append([RELA])
 
     return tuple(results)
