@@ -34,8 +34,8 @@ def update_config_from_args():
                         help="Top1 performance threshold for storing model and embedding. Default: 70.2.")
     parser.add_argument("--drop_out", type=float, default=0.0,
                         help="Parameter drop_out prob. Default: 0.0.") 
-    parser.add_argument("--lr", type=float, default=1e-3,
-                        help="Parameter learning rate. Default: 1e-3.")    
+    parser.add_argument("--lr", type=float, default=1e-6,
+                        help="Parameter learning rate. Default: 1e-6.")    
     parser.add_argument("--AA", type=float, default=1.0,
                         help="Parameter AA. Default: 1.0")
     parser.add_argument("--BB", type=float, default=5.0,
@@ -64,6 +64,8 @@ def update_config_from_args():
                     help='Total Epochs. Default: 3.')
     parser.add_argument("--CHECK_ALL", type=str, default=False,
                     help='whether to check attention or not. Default: False.')
+    parser.add_argument("--DEVICE", type=str, default='cuda:0',
+                    help='Use GPU or CPU. Default: cuda:0.')
 
     args = parser.parse_args()
 
@@ -84,6 +86,7 @@ def update_config_from_args():
     config['path_origin'] = args.path_origin
     config['epochs'] = args.epochs
     config['CHECK_ALL'] = args.CHECK_ALL
+    config['DEVICE'] = args.DEVICE
     
     seed = config['SEED']
     random.seed(seed)
@@ -105,33 +108,39 @@ def main(config):
         mgb_sim, va_sim, upmc_sim = mgb_emb, va_emb, upmc_emb
 
     # device
-    device = torch.device('cpu')
+    device = torch.device(config['DEVICE'])
+    
+    mgb_emb = mgb_emb.to(device)
+    va_emb =  va_emb.to(device)
+    upmc_emb = upmc_emb.to(device)
     
     # load GAT model
     model_all = inst_encoder(config)
     model_all = model_all.to(device)
-        
-    print(model_all.MGB_S_R)
 
     optimizer0 = optim.SGD(model_all.parameters(), lr=config['base_lr'])
-    scheduler0 = CustomExponentialLR(optimizer0, gamma=config['gamma'], min_lr=1e-5)
-    
-    # # clean cache
-    # torch.cuda.empty_cache()
-    # gc.collect()
+    # scheduler0 = CustomExponentialLR(optimizer0, gamma=config['gamma'], min_lr=1e-5)
     
     if config['path_origin'] is None:
         edge_index = torch.cat((torch.tensor(edges), torch.tensor(edges_sim)), dim=1)
     else:
         edge_index = torch.cat((torch.cat((torch.tensor(edges_rel), torch.tensor(edges_sppmi)), dim=1), torch.tensor(pos_sppmi)), dim=1).to(device)
         
-    undirected_edge_index = to_undirected(edge_index)
+    undirected_edge_index = to_undirected(edge_index).to(device)
     best_PRE_0 = -float('inf')
     
     # train part
     for epoch in range(1, config['epochs']+1):
         print('------------------------Epoch: {:03d}-----------------------'.format(epoch))
+    
+        start_time = time.time()
         optimizer0.zero_grad()
+        
+        for name, param in model_all.named_parameters():
+            print('Name: ', name)
+            print('Values: ', param.data)
+            break
+        
         if config['path_origin'] is None:
             # get new embedding
             x_sim = model_all(mgb_emb, va_emb, upmc_emb, undirected_edge_index)
@@ -173,7 +182,7 @@ def main(config):
         # update
         loss0.backward()
         optimizer0.step()
-        scheduler0.step()
+        # scheduler0.step()
         
         print('EPOCH: {:03d}     LOSS: {:.4f}'.format(epoch, loss0))
         # Store the embedding or not
@@ -186,9 +195,16 @@ def main(config):
                 torch.save(x_rel, f"{config['path']}/output/{start_time}/rel_emb.pth")
                 torch.save(model_all.state_dict(), f"{config['path']}/output/{start_time}/model_rel.pth")   
         
-       
+        # record time
+        end_time = time.time()
+        time_elapsed = end_time - start_time
+        print(f"Epoch {epoch+1} of {config['epochs']} took {time_elapsed:.2f}s")
+        
+        # clean cache
+        torch.cuda.empty_cache()
+        gc.collect()
+            
 if __name__ == "__main__":
-    
     
     update_config_from_args()
     

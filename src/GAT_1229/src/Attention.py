@@ -130,11 +130,9 @@ def custom_loss(my_objects, x, now_index, device, name_all, config):
 
 
     def calculate_loss(loss_type, my_objects, x, now_index, name_all, scale, DIFF=True,  AA=config['AA'], BB=config['BB'], lambd=config['lambd']):
-
         '''
         Aggragate the first 5 parts Loss
         '''
-
         if loss_type == 'one_one':
             if CHECK_ALL:
                 print('One-one loss:')
@@ -192,7 +190,6 @@ def custom_loss(my_objects, x, now_index, device, name_all, config):
             print("Positive_Loss_{} = {:.4f}".format(loss_type, P_LOSS))
             print("Negative_Loss_{} = {:.4f}".format(loss_type, N_LOSS))
         return P_LOSS, N_LOSS
-    
     
     if config['path_origin'] is None:    
         P_LOSS_hie, N_LOSS_hie = calculate_loss('hierarchy', my_objects, x, now_index, name_all, config['scale_hie'])
