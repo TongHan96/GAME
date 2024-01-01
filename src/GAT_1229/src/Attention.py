@@ -1,7 +1,7 @@
 """"
 Title: Attention.py
 Author: Han Tong
-Date: 2023-12-29
+Date: 2024-01-01
 Python Version: Python 3.11.3
 Description: All attention model we use
 """
@@ -21,24 +21,25 @@ from load_data import *
 config = get_config()
 CHECK_ALL = config['CHECK_ALL']
 
-'''
-Naive Attention
-'''
     
+'''
+Models
+'''
 class GATLayer(nn.Module):
     def __init__(self, in_features, out_features, heads, concat, dropout):
         super(GATLayer, self).__init__()
         self.gat_conv = GATConv(in_features, out_features, heads, concat=concat, add_self_loops=True, bias=True)
         self.batch_norm = nn.BatchNorm1d(out_features * heads)
-        self.dropout = nn.Dropout(dropout)
         self.activation = nn.ReLU()
-
+        self.dropout_rate = dropout
+        
     def forward(self, x, edge_index):
+        # only training step will drop edge
+        edge_index, _ = dropout_adj(edge_index, p=self.dropout_rate, force_undirected=True, training=self.training)
+        
         out, attention_weights = self.gat_conv(x, edge_index, return_attention_weights=True)
         out = self.batch_norm(out)
-        out = self.dropout(out)
         out = self.activation(out)
-            
         return out, attention_weights
 
     
@@ -56,13 +57,9 @@ class GATModel(nn.Module):
         x1, attention1 = self.gat1(x, edge_index)
         x2, attention2 = self.gat2(x1, edge_index)
         x_out = self.linear(x2)
-        # x_out = x_out / torch.norm(x_out, dim=1, keepdim=True) 
         return x_out, attention1, attention2
 
     
-'''
-Combine the related and similar model
-'''
 class SandR_Model(nn.Module):
     def __init__(self, config):
         super(SandR_Model, self).__init__()
@@ -70,7 +67,7 @@ class SandR_Model(nn.Module):
             self.S_Model = GATModel(config, SIMI=True)
         else:
             self.R_Model = GATModel(config, SIMI=False)
-            
+
     def forward(self, x, edge_index):
         if config['path_origin'] is None:
             x_sim, _, _ = self.S_Model(x, edge_index)
@@ -78,24 +75,24 @@ class SandR_Model(nn.Module):
         else:
             x_rel_part, _, _ = self.R_Model(x, edge_index)
             return x_rel_part
+    
 
-'''
-Total model
-'''
 class inst_encoder(nn.Module):
     def __init__(self, config):
         super(inst_encoder, self).__init__()
         self.MGB_S_R = SandR_Model(config)
         self.VA_S_R = SandR_Model(config)
         self.UPMC_S_R = SandR_Model(config)
-        
+
     def forward(self, mgb_emb, va_emb, upmc_emb, edge_index):
+        # Use self.training to determine if the model is in training mode
         MGB_emb = self.MGB_S_R(mgb_emb, edge_index)
         VA_emb = self.VA_S_R(va_emb, edge_index)
         UPMC_emb = self.UPMC_S_R(upmc_emb, edge_index)
         all_emb = MGB_emb + VA_emb + UPMC_emb
-        out = all_emb / torch.norm(all_emb, dim=1, keepdim=True) 
+        out = all_emb / torch.norm(all_emb, dim=1, keepdim=True)
         return out
+    
     
 '''
 Loss Functions
@@ -210,6 +207,9 @@ def custom_loss(my_objects, x, now_index, device, name_all, config):
   
 
 def sppmi_edge_loss(x, edge_pos, edge_neg, config):
+    # Determine the device based on the input tensor 'x'
+    device = x.device
+
     # Compute positive edge scores
     emb_start_pos = x[edge_pos[0, :]]
     emb_end_pos = x[edge_pos[1, :]]
@@ -220,12 +220,11 @@ def sppmi_edge_loss(x, edge_pos, edge_neg, config):
     emb_end_neg = x[edge_neg[1, :]]
     score_neg = torch.sum(emb_start_neg * emb_end_neg, dim=-1)
 
-    # Aggregate scores by node for positive and negative edges
-    node_agg_pos = torch.zeros(x.shape[0])
-    node_agg_neg = torch.zeros(x.shape[0])
+    # Initialize node aggregates on the same device as x
+    node_agg_pos = torch.zeros(x.shape[0], device=device)
+    node_agg_neg = torch.zeros(x.shape[0], device=device)
     
-    # Assuming edge_pos and edge_neg are 2D arrays where each column is an edge, 
-    # with the first row being the source and the second being the target
+    # Loop through positive and negative edges
     for src, tgt, score in zip(edge_pos[0], edge_pos[1], score_pos):
         node_agg_pos[src] += torch.exp(- config['AA'] * (score - config['lambd']))
         node_agg_pos[tgt] += torch.exp(- config['AA'] * (score - config['lambd']))
@@ -236,13 +235,12 @@ def sppmi_edge_loss(x, edge_pos, edge_neg, config):
 
     # Calculate the log term per node for positive and negative scores
     log_term_pos = (1 / config['AA']) * torch.log(1 + node_agg_pos)
-    print(node_agg_neg)
     log_term_neg = (1 / config['BB']) * torch.log(1 + node_agg_neg)
 
     # Sum log terms across all nodes to compute the final loss
     loss = log_term_pos.sum() + log_term_neg.sum()
-
-    print(f'sppmi_pos_loss: {log_term_pos.sum()}')
-    print(f'sppmi_neg_loss: {log_term_neg.sum()}')
+    if config['CHECK_ALL']:
+        print(f'sppmi_pos_loss: {log_term_pos.sum()}')
+        print(f'sppmi_neg_loss: {log_term_neg.sum()}')
 
     return loss

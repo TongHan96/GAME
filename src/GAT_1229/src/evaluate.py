@@ -3,7 +3,7 @@
 """
 Title: evaluate.py
 Author: Han Tong
-Date: 2023-12-29
+Date: 2023-12-30
 Python Version: Python 3.11.3
 Description: evaluate AUC and accuracy functions can be seen here
 """
@@ -56,7 +56,7 @@ def output(new_emb, name_all=unique_name, NUM=False):
         return PRE
     
     N1 = 2024
-    print(N1)
+    # print(N1)
     pre = predict_fun(emb_other, emb_loinc, get_values(name_all[existed_row]), get_values(name_all[index1]), OtherToLoincLabel)
     return np.array([np.sum(pre[:, i])/N1 for i in range(4)])*100
 

@@ -1,7 +1,7 @@
 """"
 Title: config.py
 Author: Han Tong
-Date: 2023-12-29
+Date: 2023-12-31
 Python Version: Python 3.11.3
 Description: All parameter we need
 """
@@ -22,7 +22,7 @@ config = {
     'epochs': 3, 
     'base_lr':  1e-3, 
     'batch_size': 256, 
-    'gamma': 0.8, 
+    'gamma': 0.99, 
     'scale_hie':1, 
     'scale_OTOL':50, 
     'scale_REL': 5, 
