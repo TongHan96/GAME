@@ -1,0 +1,675 @@
+desc,gpt4
+psychological and psychiatric evaluation and therapy,0.75
+alcohol and drug rehabilitation/detoxification,0.5
+ophthalmologic and otologic diagnosis and treatment,0.0
+pathology,0.1
+ancillary services,0.2
+Sexual abstinence duration,0.2
+Interpretation,0.0
+cloZAPine,0.75
+Venlafaxine,0.9
+Dexamethasone,0.1
+Lithium,0.75
+Amitriptyline,0.75
+Character,0.0
+Temazepam,0.5
+Suberate,0.0
+carBAMazepine,0.5
+clomiPRAMINE,1.0
+FLUoxetine,1.0
+Nortriptyline,0.9
+traZODone,0.75
+Imipramine,0.9
+Ref Lab Name,0.0
+Hypochromia,0.0
+hypothyroidism,0.2
+hypothyroidism nos,0.2
+diabetes mellitus,0.2
+type 2 diabetes with ketoacidosis,0.1
+hypoglycemia,0.2
+vitamin deficiency,0.2
+hypercholesterolemia,0.0
+hypovolemia,0.0
+other persistent mental disorders due to conditions classified elsewhere,0.5
+neurological disorders,0.5
+memory loss,0.5
+schizophrenia and other psychotic disorders,0.25
+psychosis,0.5
+mood disorders,0.9
+bipolar,0.75
+depression,1.0
+major depressive disorder,1.0
+suicidal ideation or attempt,0.9
+suicidal ideation,0.85
+suicide or self-inflicted injury,0.85
+"anxiety, phobic and dissociative disorders",0.75
+anxiety disorder,0.75
+generalized anxiety disorder,0.5
+"agorophobia, social phobia, and panic disorder",0.75
+obsessive-compulsive disorders,0.5
+dysthymic disorder,1.0
+acute reaction to stress,0.5
+personality disorders,0.5
+antisocial/borderline personality disorder,0.5
+sexual and gender identity disorders,0.25
+adjustment reaction,0.7
+eating disorder,0.5
+other mental disorder,0.5
+pervasive developmental disorders,0.5
+attention deficit hyperactivity disorder,0.3
+substance addiction and disorders,0.7
+alcohol-related disorders,0.5
+alcoholism,0.5
+tobacco use disorder,0.2
+sleep disorders,0.7
+insomnia,0.7
+organic or persistent insomnia,0.7
+chronic pain,0.5
+chronic pain syndrome,0.5
+disorders of the globe,0.0
+other retinal disorders,0.0
+other nondiabetic retinopathy,0.0
+corneal opacity and other disorders of cornea,0.0
+glaucoma,0.0
+primary angle-closure glaucoma,0.0
+cataract,0.0
+senile cataract,0.0
+disorders of refraction and accommodation; blindness and low vision,0.0
+blindness and low vision,0.2
+visual disturbances,0.2
+disorders of lacrimal system,0.0
+dry eyes,0.2
+disorders of optic nerve and visual pathways,0.0
+optic neuritis/neuropathy,0.0
+other disorders of eye,0.0
+angina pectoris,0.0
+ill-defined descriptions and complications of heart disease,0.0
+hypotension,0.2
+asthma,0.0
+dependence on respirator [ventilator] or supplemental oxygen,0.1
+urinary incontinence,0.2
+absent or infrequent menstruation,0.2
+irregular menstrual bleeding,0.2
+dysmenorrhea,0.2
+disturbance of skin sensation,0.1
+alopecia,0.1
+osteoporosis,0.1
+back pain,0.2
+contusion,0.0
+trazodone,0.75
+mirtazapine,0.9
+amphetamine / dextroamphetamine,0.25
+clonazepam,0.75
+lamotrigine,0.75
+escitalopram,1.0
+dexamethasone,0.0
+paroxetine,1.0
+doxepin,0.75
+sertraline,1.0
+topiramate,0.25
+venlafaxine,0.9
+bupropion,0.75
+fluoxetine,1.0
+haloperidol,0.25
+quetiapine,0.75
+hydroxyzine,0.25
+amitriptyline,0.75
+naltrexone,0.5
+duloxetine,0.75
+aripiprazole,0.75
+pituitary hypofunction,0.25
+anorexia,0.5
+lack of normal physiological development,0.3
+delayed milestones,0.2
+"lack of normal physiological development, unspecified",0.2
+neutropenia,0.0
+other specified nonpsychotic and/or transient mental disorders,0.5
+alteration of consciousness,0.3
+altered mental status,0.5
+psychogenic and somatoform disorders,0.75
+somatoform disorder,0.5
+conduct disorders,0.3
+tics and stuttering,0.2
+autism,0.25
+learning disorder,0.25
+mental retardation,0.2
+coma,0.1
+myopia,0.0
+strabismus and other disorders of binocular eye movements,0.0
+cardiomyopathy,0.1
+congestive heart failure (chf) nos,0.0
+hypotension nos,0.1
+apnea,0.2
+decubitus ulcer,0.0
+open wound or laceration of eye or eyelid,0.0
+risperidone,0.75
+guanfacine,0.2
+"infestation (lice, mites)",0.0
+hypocalcemia,0.1
+immunity deficiency,0.2
+dementias,0.5
+vascular dementia,0.25
+hallucinations,0.5
+schizophrenia,0.25
+paranoid disorders,0.25
+posttraumatic stress disorder,0.75
+decreased libido,0.7
+psychogenic disorder,0.75
+mental disorders durring/after pregnancy,0.75
+impulse control disorder,0.3
+parasomnia,0.3
+circadian rhythm sleep disorder,0.5
+degeneration of macula and posterior pole of retina,0.0
+macular degeneration (senile) of retina nos,0.0
+open-angle glaucoma,0.0
+diplopia and disorders of binocular vision,0.1
+visual field defects,0.1
+subjective visual disturbances,0.2
+disorders of conjunctiva,0.0
+other disorders of eyelids,0.0
+ptosis of eyelid,0.0
+disorders of vitreous body,0.0
+cardiac arrest,0.1
+sinoatrial node dysfunction (bradycardia),0.0
+lurasidone,0.75
+buspirone,0.75
+chlorpromazine,0.5
+clomipramine,0.75
+buprenorphine / naloxone,0.25
+fluvoxamine,0.9
+olanzapine,0.75
+lithium,0.75
+nortriptyline,0.75
+prazosin,0.25
+phobia,0.5
+dissociative disorder,0.5
+anorexia nervosa,0.7
+retinal vascular changes and abnomalities,0.1
+"chorioretinal inflammations, scars, and other disorders of choroid",0.0
+chorioretinal scars,0.0
+inflammation of the eye,0.0
+inflammation of eyelids,0.0
+anomalies of pupillary function,0.1
+poisoning by psychotropic agents,0.5
+tranylcypromine,0.9
+desipramine,0.9
+disulfiram,0.0
+atomoxetine,0.5
+imipramine,0.9
+paliperidone,0.5
+benign neoplasm of eye,0.0
+nutritional marasmus,0.1
+senile dementia,0.5
+progressive myopia,0.0
+retinal detachments and defects,0.0
+cystoid macular degeneration of retina,0.0
+macular puckering of retina,0.0
+drusen (degenerative) of retina,0.0
+peripheral retinal degenerations,0.0
+hereditary retinal dystrophies,0.0
+corneal opacity,0.0
+corneal degenerations,0.0
+corneal dystrophy,0.0
+primary open angle glaucoma,0.0
+astigmatism,0.0
+hypermetropia,0.0
+amblyopia,0.0
+anisometropia,0.0
+ectropion or entropion,0.0
+dermatochalasis,0.0
+optic atrophy,0.0
+strabismus (not specified as paralytic),0.0
+disorders of iris and ciliary body,0.0
+non-healing surgical wound,0.1
+vilazodone,0.9
+schizoid personality disorder,0.3
+"macular degeneration, dry",0.0
+abnormal posture,0.2
+congenital anomalies of the eye,0.0
+congenital anomalies of posterior segment of eye,0.0
+nonsenile cataract,0.0
+pseudoexfoliation glaucoma,0.0
+traumatic cataract,0.0
+congenital cataract and lens anomalies,0.0
+Tricyclic antidepressants,1.0
+Norsertraline,0.5
+Sertraline,1.0
+Amphetamines,0.25
+Opiates,0.5
+Cocaine,0.0
+Cannabinoids,0.2
+Desipramine,0.75
+Norclomipramine,0.75
+Doxepin,0.9
+Norfluoxetine,0.0
+Imipramine+Desipramine,0.9
+visual aids and other optical supplies,0.0
+Benzodiazepines,0.5
+MASK,0.0
+SUPPLY,0.0
+DRESSING,0.0
+pain,0.5
+debility unspecified,0.2
+PAD,0.0
+BAG,0.0
+Specimen Type,0.0
+diarrhea,0.1
+ADAPT,0.0
+presbyopia,0.0
+Tablet,0.0
+CONTAINER,0.0
+DRAIN,0.0
+RESOURCE,0.0
+SYRINGE,0.0
+Lotion,0.0
+GENTLE CREAM,0.0
+Cold cream,0.0
+amoxapine,0.75
+KIT,0.0
+Negative Occult Control,0.0
+protriptyline,0.75
+trimipramine,0.9
+maprotiline,0.9
+Syncope,0.2
+chart diagnosis,0.0
+clinical impression,0.5
+comment,0.0
+consultant,0.0
+device,0.0
+diagnosis code,0.0
+dimorphism,0.0
+dose,0.0
+draw and hold,0.0
+interpretation,0.0
+low-density lipoprotein cholesterol risk interpretation,0.1
+medications,0.5
+message,0.0
+negative control (point of care),0.0
+phenotype,0.0
+product code,0.0
+product identification,0.0
+rate,0.0
+reason,0.0
+released by,0.0
+report,0.0
+resolution,0.0
+result,0.0
+see below,0.0
+source,0.0
+specimen,0.0
+specimen type,0.0
+stressors,0.75
+supernatant,0.0
+time low,0.0
+titer,0.0
+Rh,0.0
+QUEtiapine,0.75
+Procedure,0.0
+Medication prescribed,0.5
+Class,0.0
+Nidus,0.0
+Clinical info,0.0
+Specimen type,0.0
+Specimen condition,0.0
+Specimen container,0.0
+Symptom,0.0
+Citation,0.0
+Laboratory comment,0.0
+risperiDONE,0.75
+Composition,0.0
+levomilnacipran,1.0
+naldemedine,0.0
+lithium carbonate,0.75
+lithium citrate,0.75
+carBAMazepine free,0.5
+clomiPRAMINE+Norclomipramine,0.9
+dorzolamide,0.0
+Yellow Hornet (Dolichovespula arenaria) IgE,0.0
+Peanut (Arachis hypogaea) native (nAra h) 3 IgE,0.0
+Ethyl glucuronide,0.0
+congenital anomalies of intestine,0.0
+Cholesterol,0.0
+Clotting time,0.0
+trametinib,0.0
+Ceruloplasmin,0.0
+IgG clearance/Albumin clearance,0.0
+Salmon (Salmo salar) IgE,0.0
+Platelets,0.0
+frequency of urination and polyuria,0.1
+Gardnerella vaginalis DNA,0.0
+Tissue Transglutaminase IgG,0.0
+procedures on the urethra,0.0
+other therapeutic endocrine procedures,0.1
+Alpha hydroxyalprazolam,0.0
+Indinavir,0.0
+arsenic,0.0
+Voltage-gated calcium channel P/Q type binding Ab,0.1
+ALPRAZolam,0.75
+late effects of cerebrovascular disease,0.25
+dementia with cerebral degenerations,0.5
+other physical therapy and rehabilitation,0.2
+anastrozole,0.1
+Coxiella burnetii phase 2 IgG,0.0
+Hydroxyproline,0.0
+Beta 1 globulin,0.0
+Norepinephrine,0.75
+HFE gene mutations tested for,0.1
+abnormal tumor markers,0.1
+Citrulline/Creatinine,0.0
+Ovalbumin IgE,0.0
+eszopiclone,0.5
+Chlamydia trachomatis IgG,0.0
+"gastrectomy, partial and total",0.0
+Follitropin,0.0
+congenital coagulation defects,0.0
+Leukocytes,0.0
+N-methylhistamine/Creatinine,0.0
+erythematosquamous dermatosis,0.0
+Base deficit,0.0
+"inflammatory disease of cervix, vagina, and vulva",0.0
+Fine Granular Casts,0.0
+LORazepam,0.75
+oral aphthae,0.1
+Brucella sp IgM,0.0
+Leukocyte phosphatase,0.0
+Glucose,0.1
+Glomerular filtration rate.predicted among blacks,0.0
+Glutamate decarboxylase 65 Ab,0.1
+other cns infection and poliomyelitis,0.0
+desoximetasone,0.0
+throat pain,0.1
+painful respiration,0.2
+clindamycin,0.0
+carbon dioxide (poc) (group:co2-poc),0.0
+Mononuclear cells,0.0
+"creatinine, time ur (mg/dl) (group:tu-cre)",0.0
+Hemoglobin O-Arab/Hemoglobin.total,0.0
+simeprevir,0.0
+Human papilloma virus 16+18+31+33+35+45+51+52+56 DNA,0.0
+norbuprenorphine-glucuronide (group:norbup-gluc),0.0
+Brazil Nut (Bertholletia excelsa) IgE,0.0
+"tco2, cap, nicu (group:tco2cn)",0.0
+Alpha 1 antitrypsin,0.0
+Gas delivery source,0.0
+dRVVT,0.0
+cycloSPORINE,0.0
+Cladosporium herbarum IgE,0.0
+open wounds of extremities,0.0
+Adenovirus Ab,0.0
+Glucose-6-Phosphate dehydrogenase,0.0
+Coarse Granular Casts,0.0
+other diagnostic procedures on lung and bronchus,0.0
+cardiac and circulatory congenital anomalies,0.0
+"protein, timed urine (mg/tv) (group:utpmgtv)",0.0
+Specimen volume,0.0
+"docusate / sennosides, USP",0.0
+Chlamydophila pneumoniae Ab,0.0
+guaifenesin / pseudoephedrine,0.0
+infectious and parasitic complications affecting pregnancy,0.0
+Coagulation factor X activity actual/Normal,0.0
+stress fracture,0.1
+alcoholic liver damage,0.25
+nontraumatic compartment syndrome,0.0
+Hepatitis D virus Ab,0.0
+hct (bg) (group:hct bg),0.0
+nausea and vomiting,0.2
+Creatinine dialysis fluid clearance,0.0
+Fat emulsion,0.0
+Penicillium notatum IgE,0.0
+primidone,0.0
+fiber,0.0
+Deprecated C trach rRNA XXX Ql Prb,0.0
+Sjogrens syndrome-B extractable nuclear Ab,0.2
+Cocksfoot (Dactylis glomerata) IgE,0.0
+"other diagnostic procedures (interview, evaluation, consultation)",0.5
+Deprecated Mean Glucose Bld gHb Est-aCnc,0.0
+Tetrahydrocannabinol,0.2
+Ethanol,0.2
+Barbiturates,0.5
+clonazePAM,0.75
+Phencyclidine,0.2
+Oxazepam,0.75
+Choriogonadotropin,0.0
+Leptin,0.0
+Epithelial cells,0.0
+Bacteria,0.0
+Clue cells,0.0
+Yeast,0.0
+M-chlorophenylpiperazine,0.75
+Ibuprofen,0.0
+Methamphetamine,0.5
+6-Monoacetylmorphine,0.0
+Benzoylecgonine,0.0
+Methadone,0.2
+Amphetamine,0.25
+sleep related movement disorders,0.3
+restless legs syndrome,0.25
+migraine,0.25
+ethanol (tox panel) (group:tox1),0.2
+ats (tox panel) (group:tox2),0.1
+barbiturates (tox panel) (group:tox3),0.2
+benzo (tox panel) (group:tox4),0.2
+tricyclics (tox panel) (group:tox5),0.75
+other findings (tox) (group:otfi),0.1
+develomental delays and disorders,0.25
+nicotine polacrilex,0.1
+PARoxetine,1.0
+Barbiturates Concentration,0.2
+other signs and symptoms involving emotional state,0.75
+other tests,0.0
+"persons with potential health hazards related to socioeconomic, psychosocial, and other circumstances",0.75
+Drug Screen Creatinine Concentration,0.0
+"Down Syndrome Interpretation, Risk",0.2
+persons encountering health services in circumstances related to reproduction,0.2
+AMPHETAMINE RESIN COMPLEX,0.2
+venlafaxine hydrochloride,1.0
+MEDICATION ORGANIZER,0.0
+OLANZapine,0.75
+cetyl lactate,0.0
+"other diagnostic procedures, female organs",0.0
+mammography,0.0
+Phenylpropanolamine,0.0
+Choriogonadotropin (pregnancy test),0.0
+Deprecated Cyanocobalamin.true Ser-mCnc,0.0
+Buprenorphine,0.25
+HYDROmorphone,0.0
+17-Hydroxypregnenolone,0.2
+ovarian dysfunction,0.2
+other endocrine disorders,0.2
+disorders of the autonomic nervous system,0.2
+other headache syndromes,0.2
+palpitations,0.3
+irritable bowel syndrome,0.25
+abnormal findings on mammogram or breast exam,0.0
+lump or mass in breast,0.0
+other nonmalignant breast conditions,0.0
+inflammatory diseases of female pelvic organs,0.1
+vaginitis and vulvovaginitis,0.0
+disorders of menstruation and other abnormal bleeding from female genital tract,0.2
+irregular menstrual cycle/bleeding,0.2
+menopausal and postmenopausal disorders,0.3
+symptomatic menopause,0.5
+diseases of sebaceous glands,0.1
+acne,0.0
+myalgia and myositis unspecified,0.1
+symptoms of the muscles,0.2
+abnormal papanicolaou smear of cervix and cervical hpv,0.0
+amphetamine,0.35
+mild cognitive impairment,0.3
+cervical intraepithelial neoplasia [cin] [cervical dysplasia],0.0
+voice disturbance,0.2
+benign mammary dysplasias,0.0
+cystic mastopathy,0.0
+ovarian cyst,0.0
+papanicolaou smear of cervix or vagina with atypical squamous cells,0.0
+interpretation (tox) (group:toxint),0.0
+galactorrhea,0.1
+hirsutism,0.2
+other disorders of carbohydrate transport and metabolism,0.1
+"rheumatism, unspecified and fibrositis",0.2
+Cocaethylene,0.0
+Cocaine+Benzoylecgonine,0.2
+Urine Cocaine Test,0.1
+Chlamydia trachomatis and Neisseria gonorrhoeae DNA,0.0
+Chlamydia trachomatis+Neisseria gonorrhoeae DNA,0.0
+Chlamydia trachomatis+Neisseria gonorrhoeae rRNA,0.0
+Oxycodone Quantitative Analysis by Gas Chromatography-Mass Spectrometry,0.0
+CONTACT LENS CLEANING SOLUTION,0.0
+Tramadol Concentration,0.1
+Urine Oxycodone Qualitative Screening,0.0
+CCS:998,0.0
+CCS:999,0.0
+african american,0.0
+Carboxy tetrahydrocannabinol,0.0
+INR,0.0
+fentaNYL,0.0
+Leukocyte clumps,0.0
+Cotinine,0.0
+Naloxone,0.0
+Bifidobacterium longum,0.0
+albiglutide,0.0
+Chamomile Oil,0.0
+aspirin / calcium carbonate,0.0
+extrapyramidal disease and abnormal movement disorders,0.2
+complex regional/central pain syndrome,0.25
+valproic acid,0.75
+sumatriptan,0.1
+ibuprofen,0.0
+melatonin,0.2
+naloxone,0.0
+clonidine,0.2
+hypersomnia,0.7
+temazepam,0.5
+buprenorphine,0.25
+dextroamphetamine,0.5
+nicotine,0.2
+lisdexamfetamine,0.25
+methohexital,0.0
+Norclozapine,0.0
+Nordiazepam,0.2
+Chloral hydrate,0.2
+Amitriptyline+Nortriptyline,0.75
+diphenhydrAMINE,0.1
+other findings ii (tox) (group:otfii),0.0
+cloZAPine+Norclozapine,0.75
+"nortriptyline, quantitative.",0.75
+oxyCODONE,0.0
+"thc/cannabinoids, urine (confirm) (group:uthccfm)",0.0
+thiamine,0.0
+chlordiazepoxide,0.5
+pain in joint,0.2
+acamprosate,0.5
+cervicalgia,0.2
+premenstrual tension syndromes,0.6
+gabapentin,0.5
+7-Aminoclonazepam,0.0
+toxic effect of (non-ethyl) alcohol and petroleum and other solvents,0.2
+delirium dementia and amnestic and other cognitive disorders,0.4
+delirium due to conditions classified elsewhere,0.25
+mode,0.0
+CONNECTOR,0.0
+specimen source,0.0
+Specimen source,0.0
+ENSURE,0.0
+labetalol,0.0
+Lactate dehydrogenase,0.0
+prophylaxis,0.1
+screener,0.5
+called results,0.0
+quantitative count,0.1
+clerical check,0.0
+chemotherapy,0.2
+edrophonium,0.0
+cerebral ischemia,0.2
+DIAPER,0.0
+MEDICATION DISPOSAL,0.0
+Reducing substances,0.0
+dislocation,0.0
+FILTER,0.0
+Morphology,0.0
+product order,0.0
+COVERLET,0.0
+specific nonpsychotic mental disorders due to brain damage,0.5
+facial weakness,0.2
+adrenal hypofunction,0.2
+ischemic heart disease,0.2
+"overweight, obesity and other hyperalimentation",0.2
+torsion dystonia,0.2
+zolpidem,0.25
+perphenazine,0.75
+"Carbamazepine 10,11-Epoxide",0.0
+Patient symptoms,0.0
+Acetaminophen,0.0
+Procedure type,0.0
+SaO2% Device Class,0.0
+Specimen condition Ur-Imp,0.0
+Citation Ref Lab Test,0.0
+Character Ur,0.0
+Rh Bld,0.0
+Compn Stone,0.0
+Spec container Spec,0.0
+Suberate Ur Ql,0.0
+Laboratory comment Report,0.0
+Dexamethasone SerPl-mCnc,0.1
+Nidus Stone Ql,0.0
+Interpretation SerPl IFE-Imp,0.0
+Interpretation Ur IFE-Imp,0.0
+Interpretation SerPl IEP-Imp,0.0
+Interpretation CSF IFE-Imp,0.0
+Interpretation Ur IEP-Imp,0.0
+Symptoms 2.5h p Lac PO Patient-Imp,0.0
+Sex Abstin duration Time Patient,0.1
+Hypochromia Bld Ql Smear,0.0
+Buprenorphine Ur Ql,0.1
+oxyCODONE Ur Ql,0.1
+Lithium SerPl-sCnc,0.75
+Nortrip SerPl Scn-mCnc,0.75
+FLUoxetine SerPl Scn-mCnc,1.0
+clomiPRAMINE SerPl-mCnc,0.9
+LORazepam Ur Ql Scn,0.25
+clonazePAM Ur-mCnc,0.5
+LORazepam Sal-mCnc,0.25
+Barbiturates Gast Ql,0.1
+LORazepam SerPl Scn-mCnc,0.5
+Amitrip Peak SerPl-mCnc,0.75
+Nortrip Ur Ql Cfm,0.75
+Temazepam Ur Cfm-mCnc,0.2
+Desipramine Ur-mCnc,0.75
+carBAMazepine SerPl-mCnc,0.5
+Amitrip Ur-mCnc,0.75
+Venlafaxine SerPl Ql,0.9
+carBAMazepine SerPl Scn-mCnc,0.5
+Imipramine Ur Ql,0.75
+Imipramine SerPl-mCnc,0.75
+Yellow Hornet IgE Qn,0.0
+Peanut (nAra h) 3 IgE Qn,0.0
+Cholest SerPl-mCnc,0.0
+Ceruloplasmin SerPl-mCnc,0.0
+Salmon IgE Qn,0.0
+G vaginalis DNA Vag Ql Probe+sig amp,0.0
+VGCC-P/Q Bind Ab Ser-sCnc,0.1
+Alpraz SerPl-mCnc,0.75
+C burnet Ph2 IgG Ser-aCnc,0.0
+Beta1 Glob SerPl Elph-mCnc,0.0
+Norepineph Plas-mCnc,0.75
+Citrulline/Creat Ur-Rto,0.0
+Ovalb IgE Qn,0.0
+C trach IgG Titr Ser,0.0
+WBC # Smn,0.0
+Fine Gran Casts #/area UrnS HPF,0.0
+Glucose 1.5h p Glc SerPl-mCnc,0.0
+GAD65 Ab Ser IA-aCnc,0.2
+Mononuc Cells # Fld Manual,0.0
+Hgb O-Arab MFr Bld,0.0
+Gas deliv source Respiratory,0.0
+C herbarum IgE Qn,0.0
+HAdV Ab Titr Ser,0.0
+G6PD RBC-cCnc,0.0
+Coarse Gran Casts #/area UrnS HPF,0.0
+Specimen vol Smn,0.0
+C pneum Ab Titr Ser,0.0
+WBC UrnS Ql Micro,0.0
+Creat Cl Dial fld+SerPl-vRate,0.0
+Salicylates,0.0
+ziprasidone,0.75
+cyclobenzaprine,0.1

@@ -1,0 +1,761 @@
+desc,gpt4
+bunionectomy or repair of toe deformities,0.2
+arthrocentesis,0.75
+"injections and aspirations of muscles, tendons, bursa, joints and soft tissue",0.75
+amputation of lower extremity,0.1
+spinal fusion,0.25
+other or therapeutic procedures on bone,0.5
+other or therapeutic procedures on joints,0.75
+other non-or therapeutic procedures on musculoskeletal system,0.75
+therapeutic radiology,0.3
+"traction, splints, and other wound care",0.2
+"extracorporeal shock wave, other than urinary",0.1
+pathology,0.05
+other laboratory,0.05
+home health services,0.25
+"incision of pleura, thoracentesis, chest drainage",0.2
+esophageal dilatation,0.1
+CRP SerPl Ql,0.75
+ENA SM Ab Ser-aCnc,0.2
+Rheumatoid fact Snv-aCnc,0.75
+Rheumatoid fact Titr Snv Aggl,1.0
+Dexamethasone SerPl-mCnc,0.75
+Rheumatoid fact Titr Ser Neph,0.9
+Rheumatoid fact Ser Neph-aCnc,0.75
+Reticulin Ab Ser Ql,0.2
+ENA SS-B Ab Ser-aCnc,0.2
+ENA SS-A Ab Ser-aCnc,0.75
+RPR Ser Ql,0.1
+RPR SerPl-aCnc,0.75
+Renin Plas-cCnc,0.1
+CRP SerPl HS-mCnc,0.75
+cCP Ab Ser IA-aCnc,0.9
+cCP IgG SerPl-aCnc,0.85
+Ibuprofen SerPl Scn-mCnc,0.75
+inFLIXimab SerPl-mCnc,0.75
+ESR Bld Qn Westrgrn,0.75
+MRN,0.0
+VDRL CSF-aCnc,0.0
+Crystals Snv Micro,0.1
+Rouleaux Bld Ql Smear,0.2
+crp (mg/l) (group:crpt),0.75
+bacterial enteritis,0.1
+bacteremia,0.1
+human immunodeficiency virus [hiv] disease,0.1
+amyloidosis,0.3
+gout and other crystal arthropathies,0.2
+gout,0.1
+gouty arthropathy,0.0
+other disorders of metabolism,0.1
+disorders involving the immune mechanism,0.7
+purpura and other hemorrhagic conditions,0.1
+primary thrombocytopenia,0.1
+lymphadenitis,0.2
+other persistent mental disorders due to conditions classified elsewhere,0.0
+"anxiety, phobic and dissociative disorders",0.1
+acute reaction to stress,0.0
+eating disorder,0.0
+attention deficit hyperactivity disorder,0.0
+multiple sclerosis,0.0
+disorders of the autonomic nervous system,0.1
+chronic pain,0.5
+other peripheral nerve disorders,0.1
+complex regional/central pain syndrome,0.1
+inflammatory and toxic neuropathy,0.25
+other retinal disorders,0.1
+corneal opacity and other disorders of cornea,0.2
+disorders of lacrimal system,0.1
+optic neuritis/neuropathy,0.1
+rheumatic disease of the heart valves,0.3
+hypertensive heart disease,0.0
+other forms of chronic heart disease,0.2
+raynaud's syndrome,0.3
+orthostatic hypotension,0.1
+diseases of the larynx and vocal cords,0.1
+allergic rhinitis,0.0
+asthma,0.0
+other diseases of lung,0.1
+regional enteritis,0.0
+ulcerative colitis,0.1
+impaction of intestine,0.0
+other disorders of urethra and urinary tract,0.0
+"noninflammatory disorders of ovary, fallopian tube, and broad ligament",0.0
+noninflammatory disorders of vagina,0.0
+symptoms affecting skin,0.2
+rash and other nonspecific skin eruption,0.2
+disorder of skin and subcutaneous tissue nos,0.1
+erythematous conditions,0.2
+rosacea,0.0
+lupus (localized and systemic),0.2
+cutaneous lupus erythematosus,0.2
+psoriasis and related disorders,0.25
+psoriasis,0.25
+other hypertrophic and atrophic conditions of skin,0.1
+"diseases of nail, nos",0.1
+disorders of sweat glands,0.0
+acne,0.0
+sicca syndrome,0.5
+rheumatoid arthritis and other inflammatory polyarthropathies,1.0
+rheumatoid arthritis,1.0
+other inflammatory spondylopathies,0.2
+spinal stenosis,0.2
+spinal stenosis of lumbar region,0.2
+spondylosis and allied disorders,0.2
+spondylosis without myelopathy,0.0
+intervertebral disc disorders,0.1
+displacement of intervertebral disc,0.1
+degeneration of intervertebral disc,0.1
+peripheral enthesopathies and allied syndromes,0.5
+enthesopathy,0.5
+"other disorders of synovium, tendon, and bursa",0.75
+other disorders of bone and cartilage,0.25
+acquired foot deformities,0.5
+curvature of spine,0.2
+kyphoscoliosis and scoliosis,0.1
+other acquired musculoskeletal deformity,0.5
+osteoarthrosis,0.0
+osteoarthritis; localized,0.0
+"osteoarthrosis, localized, primary",0.0
+symptoms and disorders of the joints,0.75
+stiffness of joint,0.75
+joint effusions,0.75
+"osteoporosis, osteopenia and pathological fracture",0.25
+osteoporosis,0.25
+osteoporosis nos,0.25
+osteopenia or other disorder of bone and cartilage,0.25
+pain in joint,0.75
+cardiac congenital anomalies,0.0
+congenital deformities of feet,0.1
+other and unspecified congenital anomalies,0.0
+"neuralgia, neuritis, and radiculitis nos",0.1
+myalgia and myositis unspecified,0.25
+edema,0.25
+skull and face fracture and other intercranial injury,0.0
+joint/ligament sprain,0.2
+"mechanical complication of unspecified genitourinary device, implant, and graft",0.0
+personal history of allergy to medicinal agents,0.1
+triamcinolone,0.75
+celecoxib,0.75
+infliximab,0.75
+acetaminophen / hydrocodone,0.25
+CALCIUM CARBONATE/VITAMIN D,0.1
+leucovorin calcium,0.1
+cholecalciferol,0.2
+ketorolac tromethamine,0.5
+loratadine,0.0
+diclofenac,0.75
+folic acid,0.75
+alendronate,0.5
+hydroxychloroquine,0.75
+ibuprofen,0.75
+methotrexate,0.9
+methylprednisolone,0.75
+naproxen,0.75
+duloxetine,0.25
+prednisone,0.75
+glucocorticoid deficiency,0.2
+anemia of chronic disease,0.5
+aphasia/speech disturbance,0.1
+mental retardation,0.0
+infantile cerebral palsy,0.0
+noninfectious disorders of lymphatic channels,0.1
+hypotension nos,0.0
+gingival and periodontal diseases,0.2
+unspecified erythematous condition,0.2
+chronic ulcer of unspecified site,0.1
+bursitis,0.3
+synovitis and tenosynovitis,0.75
+contracture of joint,0.6
+digestive congenital anomalies,0.0
+muscle weakness,0.35
+symptoms involving nervous and musculoskeletal systems,0.5
+effects radiation nos,0.1
+tuberculosis,0.0
+sexually transmitted infections (not hiv or hepatitis),0.0
+spirochetal infection,0.1
+reticulosarcoma,0.0
+crystal arthropathies,0.2
+immunity deficiency,0.2
+deficiency of humoral immunity,0.2
+abnormality of red blood cells,0.2
+decreased libido,0.1
+other degenerative diseases of the basal ganglia,0.0
+degenerative disease of the spinal cord,0.1
+other demyelinating diseases of central nervous system,0.0
+disorders of conjunctiva,0.2
+other disorders of eyelids,0.1
+left bundle branch block,0.1
+other disorders of arteries and arterioles,0.2
+pneumonia due to fungus (mycoses),0.2
+peritoneal or intestinal adhesions,0.0
+known or suspected fetal abnormality affecting management of mother,0.0
+other dyschromia,0.1
+systemic lupus erythematosus,0.2
+psoriatic arthropathy,0.4
+sarcoidosis,0.0
+"osteomyelitis, periostitis, and other infections involving bone",0.2
+acute osteomyelitis,0.1
+unspecified osteomyelitis,0.1
+arthropathy associated with infections,0.25
+pyogenic arthritis,0.2
+juvenile rheumatoid arthritis,1.0
+sacroiliitis nec,0.5
+ankylosing spondylitis,0.2
+other arthropathies,0.5
+arthropathy nos,0.5
+other allied disorders of spine,0.2
+torticollis,0.1
+disorders of sacrum,0.1
+rupture of synovium,0.75
+other disorders of soft tissues,0.2
+acquired toe deformities,0.3
+hammer toe (acquired),0.1
+hallux valgus (bunion),0.2
+kyphosis (acquired),0.1
+"osteoarthrosis, localized, secondary",0.2
+spina bifida,0.0
+congenital osteodystrophies,0.1
+elevated prostate specific antigen [psa],0.0
+"complications of cardiac/vascular device, implant, and graft",0.1
+complication of internal orthopedic device,0.35
+tramadol,0.25
+azathioprine,0.75
+nabumetone,0.75
+prednisolone,0.75
+relative risk (chol/hdl) (group:relrisk),0.1
+radioiodine therapy (group:radiod),0.0
+varicella infection,0.0
+diabetic retinopathy,0.0
+phobia,0.0
+nerve plexus lesions,0.1
+myasthenia gravis,0.0
+retinal vascular changes and abnomalities,0.2
+"uveitis, noninfectious or nos",0.5
+giant cell arteritis,0.5
+disease of capillaries,0.1
+urinary obstruction,0.1
+galactorrhea,0.0
+pelvic inflammatory disease (pid),0.0
+noninflammatory disorders of cervix,0.0
+rhesus isoimmunization in pregnancy,0.0
+congenital anomalies of skin,0.0
+erythema nodosum,0.5
+keloid scar,0.0
+systemic sclerosis,0.2
+unspecified diffuse connective tissue disease,0.5
+behcet's syndrome,0.2
+arthropathy associated with other disorders classified elsewhere,0.5
+arthropathy associated with neurological disorders,0.2
+unspecified polyarthropathy or polyarthritis,0.75
+schmorl's nodes,0.1
+bursitis disorders,0.3
+aseptic necrosis of bone,0.3
+chondromalacia,0.2
+osteoarthrosis nos,0.0
+elevated c-reactive protein (crp),0.75
+injuries to the nervous system,0.1
+sulindac,0.75
+tetracycline,0.0
+auranofin,0.75
+etanercept,1.0
+chloroquine,0.75
+leflunomide,1.0
+valdecoxib,0.75
+adalimumab,1.0
+terconazole,0.0
+indomethacin,0.75
+ketoprofen,0.75
+piroxicam,0.75
+rheumatic fever / chorea,0.2
+diseases of thymus gland,0.2
+rickets or osteomalacia,0.0
+other disorders of carbohydrate transport and metabolism,0.1
+lipoprotein disorders,0.1
+anterior horn cell disease,0.0
+drusen (degenerative) of retina,0.0
+hereditary retinal dystrophies,0.0
+disorders of iris and ciliary body,0.1
+acute rheumatic heart disease,0.1
+other hypertrophic cardiomyopathy,0.1
+ventricular fibrillation and flutter,0.0
+pneumoconiosis,0.0
+renal osteodystrophy,0.0
+toxic erythema,0.1
+dermatitis herpetiformis,0.1
+pemphigus and pemphigoid,0.1
+other specified diseases of hair and hair follicles,0.0
+polymyositis,0.2
+dermatomyositis,0.2
+chronic osteomyelitis,0.1
+reiter's disease,0.3
+polymyalgia rheumatica,0.5
+postlaminectomy syndrome,0.0
+synoviopathy,0.75
+laxity of ligament or hypermobility syndrome,0.2
+"rheumatism, unspecified and fibrositis",0.5
+osteitis deformans [paget's disease of bone],0.1
+"osteoarthrosis, generalized",0.0
+"osteoarthrosis involving more than one site, but not specified as generalized",0.1
+ankylosis of joint,0.75
+senile osteoporosis,0.1
+other specified osteoporosis,0.2
+other specified congenital anomalies of kidney,0.0
+"congenital anomalies of upper limb, including shoulder girdle",0.1
+elevated sedimentation rate,0.5
+traumatic arthropathy,0.2
+tofacitinib,0.9
+cortisone,0.75
+diflunisal,0.75
+Rho(D) immune globulin,0.0
+flurbiprofen,0.75
+aurothioglucose,0.75
+tocilizumab,1.0
+abatacept,0.9
+anakinra,1.0
+sulfasalazine,0.75
+hemarthrosis,0.5
+thalidomide,0.75
+cleft palate,0.0
+redundant prepuce and phimosis/bxo,0.0
+congenital anomalies of posterior segment of eye,0.0
+unspecified monoarthritis,0.5
+contracture of tendon (sheath),0.25
+unequal leg length (acquired),0.1
+loose body in joint,0.25
+articular cartilage disorder,0.5
+oxaprozin,0.75
+golimumab,0.9
+palindromic rheumatism,0.75
+"vaginal enterocele, congenital or acquired",0.0
+spinal enthesopathy,0.3
+toxic maculopathy of retina,0.1
+tolmetin,0.75
+C reactive protein,0.75
+Rheumatoid factor,1.0
+Reticulin Ab,0.5
+Reagin Ab,0.1
+Renin,0.1
+Cyclic citrullinated peptide Ab,1.0
+Cyclic Citrullinated Peptide IgG,1.0
+Erythrocyte sedimentation rate,0.5
+inFLIXimab Ab,0.9
+Rouleaux,0.5
+arthroscopy,0.5
+body fluid rheumatoid factor,1.0
+rheumatoid arthritis titer,1.0
+rheumatoid factor titer,1.0
+rheumatoid factor,1.0
+Rh Bld,0.0
+Rheumatoid fact SerPl-aCnc,1.0
+Cortisone SerPl-mCnc,0.5
+cycloSPORINE Bld IA-mCnc,0.5
+RF IgG Ser-aCnc,0.75
+cycloSPORINE Trough Bld-mCnc,0.5
+Rheumatoid fact Snv Ql LA,0.9
+Rh,0.0
+Rheumatoid factor IgG,1.0
+chondrocalcinosis,0.2
+disorders of iron metabolism,0.1
+other immunological findings,0.5
+develomental delays and disorders,0.0
+meningitis,0.0
+extrapyramidal disease and abnormal movement disorders,0.0
+essential tremor,0.0
+scleritis and episcleritis,0.75
+extrinsic allergic alveolitis,0.1
+psoriasis vulgaris,0.2
+hidradenitis,0.0
+hyperhidrosis,0.1
+diffuse diseases of connective tissue,0.75
+"disorders of muscle, ligament, and fascia",0.2
+fasciitis,0.2
+"derangement of joint, non-traumatic",0.5
+other derangement of joint,0.5
+congenital anomalies of face and neck,0.0
+musculoskeletal symptoms referable to limbs,0.7
+swelling of limb,0.5
+pain in limb,0.5
+aspirin,0.25
+"cyclosporine, modified",0.75
+sodium hyaluronate,0.5
+certolizumab pegol,0.9
+penicillamine,0.75
+cyclic citrullinated peptide antibody,1.0
+c-reactive protein,0.75
+erythrocyte sedimentation rate,0.75
+dorzolamide,0.0
+Yellow Hornet IgE Qn,0.0
+Peanut (nAra h) 3 IgE Qn,0.0
+Ethyl glucuronide,0.0
+congenital anomalies of intestine,0.0
+Cholest SerPl-mCnc,0.0
+Clotting time,0.1
+trametinib,0.0
+Ceruloplasmin SerPl-mCnc,0.1
+IgG clearance/Albumin clearance,0.1
+Salmon IgE Qn,0.0
+Platelets,0.1
+frequency of urination and polyuria,0.1
+G vaginalis DNA Vag Ql Probe+sig amp,0.0
+Tissue Transglutaminase IgG,0.1
+procedures on the urethra,0.0
+other therapeutic endocrine procedures,0.1
+astigmatism,0.0
+Alpha hydroxyalprazolam,0.0
+Indinavir,0.0
+arsenic,0.0
+VGCC-P/Q Bind Ab Ser-sCnc,0.1
+Alpraz SerPl-mCnc,0.0
+late effects of cerebrovascular disease,0.0
+dementia with cerebral degenerations,0.0
+other physical therapy and rehabilitation,0.5
+anastrozole,0.0
+C burnet Ph2 IgG Ser-aCnc,0.0
+Hydroxyproline,0.2
+Beta1 Glob SerPl Elph-mCnc,0.1
+Norepineph Plas-mCnc,0.0
+HFE gene mutations tested for,0.1
+abnormal tumor markers,0.1
+Citrulline/Creat Ur-Rto,0.75
+Ovalb IgE Qn,0.1
+eszopiclone,0.0
+C trach IgG Titr Ser,0.0
+"gastrectomy, partial and total",0.05
+Follitropin,0.0
+congenital coagulation defects,0.0
+WBC # Smn,0.1
+N-methylhistamine/Creatinine,0.1
+erythematosquamous dermatosis,0.1
+Base deficit,0.0
+"inflammatory disease of cervix, vagina, and vulva",0.1
+Fine Gran Casts #/area UrnS HPF,0.0
+LORazepam Ur Ql Scn,0.0
+oral aphthae,0.2
+Brucella sp IgM,0.0
+Leukocyte phosphatase,0.1
+Glucose 1.5h p Glc SerPl-mCnc,0.0
+Glomerular filtration rate.predicted among blacks,0.0
+GAD65 Ab Ser IA-aCnc,0.1
+other cns infection and poliomyelitis,0.0
+desoximetasone,0.5
+throat pain,0.1
+painful respiration,0.1
+clindamycin,0.0
+carbon dioxide (poc) (group:co2-poc),0.1
+Mononuc Cells # Fld Manual,0.1
+"creatinine, time ur (mg/dl) (group:tu-cre)",0.1
+Hgb O-Arab MFr Bld,0.0
+simeprevir,0.0
+Human papilloma virus 16+18+31+33+35+45+51+52+56 DNA,0.0
+norbuprenorphine-glucuronide (group:norbup-gluc),0.0
+Brazil Nut (Bertholletia excelsa) IgE,0.0
+"tco2, cap, nicu (group:tco2cn)",0.0
+Alpha 1 antitrypsin,0.1
+Gas deliv source Respiratory,0.0
+dRVVT,0.0
+cycloSPORINE,0.75
+C herbarum IgE Qn,0.0
+open wounds of extremities,0.1
+HAdV Ab Titr Ser,0.0
+G6PD RBC-cCnc,0.0
+Coarse Gran Casts #/area UrnS HPF,0.0
+other diagnostic procedures on lung and bronchus,0.1
+cardiac and circulatory congenital anomalies,0.1
+"protein, timed urine (mg/tv) (group:utpmgtv)",0.1
+Specimen vol Smn,0.0
+"docusate / sennosides, USP",0.0
+C pneum Ab Titr Ser,0.0
+guaifenesin / pseudoephedrine,0.0
+infectious and parasitic complications affecting pregnancy,0.0
+Coagulation factor X activity actual/Normal,0.1
+stress fracture,0.1
+alcoholic liver damage,0.0
+nontraumatic compartment syndrome,0.1
+Hepatitis D virus Ab,0.0
+hct (bg) (group:hct bg),0.1
+nausea and vomiting,0.1
+WBC UrnS Ql Micro,0.0
+Creat Cl Dial fld+SerPl-vRate,0.1
+Fat emulsion,0.0
+Penicillium notatum IgE,0.0
+primidone,0.0
+fiber,0.0
+Deprecated C trach rRNA XXX Ql Prb,0.0
+Sjogrens syndrome-B extractable nuclear Ab,0.5
+Cocksfoot (Dactylis glomerata) IgE,0.0
+Methotrexate,0.75
+Arginine,0.1
+Aluminum,0.0
+Crystals,0.2
+Fc epsilon RI Ab,0.1
+Erythrocyte agglutination,0.2
+Dacrocytes,0.0
+Adenosine deaminase,0.1
+coronary atherosclerosis,0.1
+ascvd,0.0
+disturbance of skin sensation,0.2
+other specified erythematous conditions,0.2
+alopecia,0.2
+diseases of sebaceous glands,0.0
+congenital anomalies of limbs,0.1
+back pain,0.25
+internal derangement of knee,0.25
+sprains and strains,0.1
+atopic/contact dermatitis due to other or unspecified,0.0
+ascorbic acid,0.1
+aluminum chloride,0.0
+speech and language disorder,0.05
+"other congenital anomalies of lower limb, including pelvic girdle",0.1
+atherosclerosis,0.2
+other alveolar and parietoalveolar pneumonopathy,0.2
+seborrheic dermatitis,0.0
+prurigo and lichen,0.1
+other specified diffuse diseases of connective tissue,0.7
+rituximab,0.75
+impetigo,0.0
+parapsoriasis,0.0
+thioridazine,0.0
+acetic acid,0.0
+aluminum hydroxide,0.0
+disorders of porphyrin metabolism,0.0
+vascular disorders of skin,0.1
+bullous dermatoses,0.1
+acquired deformities of finger,0.75
+arginine,0.0
+roflumilast,0.0
+aluminum acetate,0.1
+betamethasone / calcipotriene,0.5
+risedronate,0.5
+acquired deformities of forearm,0.6
+acecarbromal,0.0
+coal tar,0.1
+secukinumab,0.0
+Legionella pneumophila Ag,0.0
+Ribonucleoprotein Antibody,0.5
+Immunoglobulin A,0.2
+human leukocyte antigen b27 ,0.2
+BAG,0.0
+C-Reactive Protein,0.75
+Blood Sedimentation Rate,0.5
+INTERDRY AG,0.0
+antirheumatics causing adverse effects in therapeutic use,0.75
+SjÃ¶grens Syndrome-Related Antigen A (SS-A),0.5
+Amorphous Crystals Count,0.1
+DRAIN,0.0
+SYRINGE,0.1
+alirocumab,0.0
+Erythrocyte Sedimentation Rate,0.5
+PROMOD,0.0
+AMERIGEL,0.0
+Anti-Ro/SS-A Antibody,0.25
+aam29,0.0
+crystals,0.2
+device,0.0
+paroxysmal nocturnal hemoglobinuria,0.0
+rate,0.0
+reference laboratory,0.0
+relative risk,0.0
+rhesus factor,0.5
+specimen,0.0
+synovial fluid red blood cells,0.5
+synovial macrophages,0.75
+Reticulin IgA,0.1
+Chromatin Ab,0.75
+Osteopathy resulting from poliomyelitis,0.0
+apalutamide,0.0
+retinal antigen autoantibody,0.25
+Vanadium,0.0
+pruritus and related conditions,0.2
+symptoms of the muscles,0.3
+spasm of muscle,0.2
+urticaria,0.1
+betamethasone,0.75
+other acquired deformities of limbs,0.6
+hereditary and idiopathic peripheral neuropathy,0.2
+"keratoderma, acquired",0.1
+scar conditions and fibrosis of skin,0.1
+halobetasol,0.1
+interpretation (infliximab) (group:inflmb-int),0.75
+panniculitis,0.2
+hallux rigidus,0.1
+genu valgum or varum (acquired),0.25
+inFLIXimab,0.75
+Mycobacterium bovis tuberculin stimulated gamma interferon-control stimulated gamma interferon,0.0
+kaschin-beck disease,0.2
+Colorectal Screening Test,0.0
+cyclic citrullinated peptide antibody (immunoglobulin g),1.0
+Insulin-like growth factor-II,0.1
+Synovial lining cells/100 cells,0.75
+SEPT9 gene methylation,0.1
+arthroplasty other than hip or knee,0.75
+excision of skin lesion,0.1
+Mycobacterium tuberculosis stimulated gamma interferon ESAT-6 Ag spot count,0.0
+dermatophytosis of nail,0.1
+degenerative skin conditions and other dermatoses,0.1
+seborrheic keratosis,0.0
+cervicalgia,0.25
+sciatica,0.2
+actinic keratosis,0.0
+osteomyelitis,0.2
+other and unspecified disc disorder,0.1
+"ganglion and cyst of synovium, tendon, and bursa",0.3
+muscular wasting and disuse atrophy,0.35
+myocarditis,0.2
+corns and callosities,0.1
+cyst of bone,0.2
+infliximab (group:inflixmab),0.9
+changes in skin texture,0.3
+abnormal granulation tissue,0.2
+contracture of palmar fascia [dupuytren's disease],0.1
+osteochondropathies,0.2
+flat foot,0.2
+alfentanil,0.0
+villonodular synovitis,0.5
+Oxycodone and Oxymorphone Urine Test,0.1
+RESOURCE,0.0
+Vitamin D 25-Hydroxy,0.2
+"Uric Acid, 24-Hour Urine Collection",0.2
+meclofenamate,0.75
+monoclonal spike 3,0.1
+oklahoma myositis 12 interpretation,0.0
+reason,0.0
+Hemoglobin F distribution,0.0
+Procedure,0.0
+Leukocyte clumps,0.2
+calcium carbonate / cholecalciferol / vitamin K,0.2
+brexpiprazole,0.0
+deutetrabenazine,0.0
+acetaminophen / dextromethorphan / phenylephrine,0.1
+postinflammatory pulmonary fibrosis,0.2
+arteritis nos,0.5
+amcinonide,0.75
+interpretation-colovantage (trademark),0.0
+rickettsia antibody panel interpretation,0.0
+typhus fever group immunoglobulin g/immunoglobulin m interpretation,0.0
+Lymphocytes/100 leukocytes,0.2
+Monocytes+Macrophages/100 leukocytes,0.2
+Neutrophils/100 leukocytes,0.2
+Rickettsia spotted fever group IgG,0.0
+Rickettsia spotted fever group IgM,0.0
+Rickettsia typhus group IgG,0.0
+Rickettsia typhus group IgM,0.0
+Eosinophils/100 leukocytes,0.1
+Herpes simplex virus 1 DNA,0.0
+Herpes simplex virus 2 DNA,0.0
+Borrelia miyamotoi flaB gene,0.0
+upadacitinib,1.0
+other diagnostic radiology and related techniques,0.5
+cevimeline,0.75
+loss of height,0.2
+gerd,0.0
+talc,0.0
+relugolix,0.0
+Tablet,0.0
+resolution,0.0
+medications,0.5
+tadalafil,0.0
+Fluid,0.1
+Nuclear Ab,0.5
+regadenoson,0.0
+Erythrocytes,0.1
+Composition,0.0
+intramuscular immunoglobulin,0.5
+Ku Ab,0.0
+SUPPLY,0.0
+ADAPT,0.0
+CONTAINER,0.0
+mandiff,0.0
+anagrelide,0.0
+Nucleosome Ab,0.75
+IgA,0.2
+titer,0.5
+"ADHESIVE,MEDICAL",0.0
+report,0.0
+CRITIC-AID,0.0
+IgG/Albumin,0.2
+Rouleaux Formation Assessment,0.3
+Smith/Ribonucleoprotein Antibodies,0.5
+rho(d) immune globulin indicated,0.1
+menopausal and postmenopausal disorders,0.1
+glucosamine,0.5
+Activated clotting time (ACT),0.1
+Breaths,0.0
+ichthyosis congenita,0.0
+arthropod-borne diseases,0.1
+other and unspecified disorders of the nervous system,0.1
+other specified congenital anomalies of nervous system,0.0
+congenital anomaly of fingers/toes,0.1
+nerve root and plexus disorders,0.1
+difficulty in walking,0.5
+hemorrhage of fetus or newborn,0.0
+congenital pigmentary anomalies of skin,0.0
+other headache syndromes,0.1
+"pathological, developmental or recurrent dislocation",0.25
+pectus and other congenital anomalies of ribs/sternum,0.0
+"effects of heat, cold and air pressure",0.2
+"anomalies of endocrine glands, congenital",0.1
+other upper respiratory disease,0.1
+viral infection,0.1
+conditions involving the integument and temperature regulation of fetus and newborn,0.0
+other infectious and parasitic diseases,0.1
+Yellow Hornet (Dolichovespula arenaria) IgE,0.0
+Peanut (Arachis hypogaea) native (nAra h) 3 IgE,0.0
+Cholesterol,0.1
+Ceruloplasmin,0.1
+Salmon (Salmo salar) IgE,0.0
+Gardnerella vaginalis DNA,0.0
+Voltage-gated calcium channel P/Q type binding Ab,0.1
+ALPRAZolam,0.0
+Coxiella burnetii phase 2 IgG,0.0
+Beta 1 globulin,0.1
+Norepinephrine,0.0
+Citrulline/Creatinine,0.7
+Ovalbumin IgE,0.1
+Chlamydia trachomatis IgG,0.1
+Leukocytes,0.25
+Fine Granular Casts,0.1
+LORazepam,0.0
+Glucose,0.1
+Glutamate decarboxylase 65 Ab,0.1
+Mononuclear cells,0.2
+Hemoglobin O-Arab/Hemoglobin.total,0.0
+Gas delivery source,0.0
+Cladosporium herbarum IgE,0.0
+Adenovirus Ab,0.0
+Glucose-6-Phosphate dehydrogenase,0.0
+Coarse Granular Casts,0.1
+Specimen volume,0.0
+Chlamydophila pneumoniae Ab,0.1
+Creatinine dialysis fluid clearance,0.1
+ACT Bld,0.0
+RPR Ser-Titr,0.5
+Reagin Ab CSF Ql,0.1
+VDRL Ser Ql,0.1
+VDRL CSF Ql,0.0
+RPR Ser Donr Ql,0.0
+Dacryocytes Bld Ql Smear,0.0
+Reticulin IgA Ser Ql,0.2
+Arginine 24h Ur-sRate,0.1
+Arginine SerPl-sCnc,0.1
+Arginine CSF-sCnc,0.0
+Adenosine deaminase Fld-cCnc,0.0
+Procedure type,0.0
+RBC agglut Bld Ql,0.2
+Crystals UrnS Micro,0.1
+Crystals Fld Micro,0.3
+Crystals #/area UrnS HPF,0.1
+Fc epsilon RI Ab Ser Ql,0.1
+Aluminum SerPl-mCnc,0.0
+Aluminum 24h Ur-mRate,0.0
+Aluminum 24h Ur-sCnc,0.0
+Chromatin Ab SerPl-aCnc,0.75
+Resp rate,0.1
+CRP SerPl-mCnc,0.75
+CRP Titr SerPl,0.75
+ESR Bld Qn,0.5
+Platelet aggregation ristocetin induced,0.0
+Ribosomal P Ab,0.75
+Radioactive iodine.thyroid/Radioactive iodine.dose,0.0
+calcaneal spur; exostosis nos,0.1
+apremilast,0.75
+ustekinumab,0.75

@@ -1,0 +1,607 @@
+name,desc,gpt4
+CCS:218,psychological and psychiatric evaluation and therapy,0.75
+CCS:219,alcohol and drug rehabilitation/detoxification,0.5
+CCS:220,ophthalmologic and otologic diagnosis and treatment,0.0
+CCS:234,pathology,0.1
+CCS:237,ancillary services,0.2
+LOINC:10587-4,Sexual abstinence duration,0.2
+LOINC:13169-8,Interpretation,0.0
+LOINC:13440-3,Interpretation,0.0
+LOINC:13552-5,cloZAPine,0.75
+LOINC:13588-9,Venlafaxine,0.9
+LOINC:14062-4,Dexamethasone,0.1
+LOINC:14334-7,Lithium,0.75
+LOINC:16360-0,Amitriptyline,0.75
+LOINC:19244-3,Character,0.0
+LOINC:20559-1,Temazepam,0.5
+LOINC:25700-6,Interpretation,0.0
+LOINC:26831-8,Suberate,0.0
+LOINC:3432-2,carBAMazepine,0.5
+LOINC:34440-8,Interpretation,0.0
+LOINC:3491-8,clomiPRAMINE,1.0
+LOINC:35599-0,carBAMazepine,0.5
+LOINC:35610-5,FLUoxetine,1.0
+LOINC:35627-9,Nortriptyline,0.9
+LOINC:35635-2,traZODone,0.75
+LOINC:3690-5,Imipramine,0.9
+LOINC:42216-2,Ref Lab Name,0.0
+LOINC:728-6,Hypochromia,0.0
+PheCode:244,hypothyroidism,0.2
+PheCode:244.4,hypothyroidism nos,0.2
+PheCode:250,diabetes mellitus,0.2
+PheCode:250.21,type 2 diabetes with ketoacidosis,0.1
+PheCode:251.1,hypoglycemia,0.2
+PheCode:261,vitamin deficiency,0.2
+PheCode:272.11,hypercholesterolemia,0.0
+PheCode:276.5,hypovolemia,0.0
+PheCode:290.3,other persistent mental disorders due to conditions classified elsewhere,0.5
+PheCode:292,neurological disorders,0.5
+PheCode:292.3,memory loss,0.5
+PheCode:295,schizophrenia and other psychotic disorders,0.25
+PheCode:295.3,psychosis,0.5
+PheCode:296,mood disorders,0.9
+PheCode:296.1,bipolar,0.75
+PheCode:296.2,depression,1.0
+PheCode:296.22,major depressive disorder,1.0
+PheCode:297,suicidal ideation or attempt,0.9
+PheCode:297.1,suicidal ideation,0.85
+PheCode:297.2,suicide or self-inflicted injury,0.85
+PheCode:300,"anxiety, phobic and dissociative disorders",0.75
+PheCode:300.1,anxiety disorder,0.75
+PheCode:300.11,generalized anxiety disorder,0.5
+PheCode:300.12,"agorophobia, social phobia, and panic disorder",0.75
+PheCode:300.3,obsessive-compulsive disorders,0.5
+PheCode:300.4,dysthymic disorder,1.0
+PheCode:300.8,acute reaction to stress,0.5
+PheCode:301,personality disorders,0.5
+PheCode:301.2,antisocial/borderline personality disorder,0.5
+PheCode:302,sexual and gender identity disorders,0.25
+PheCode:304,adjustment reaction,0.7
+PheCode:305.2,eating disorder,0.5
+PheCode:306,other mental disorder,0.5
+PheCode:313,pervasive developmental disorders,0.5
+PheCode:313.1,attention deficit hyperactivity disorder,0.3
+PheCode:316,substance addiction and disorders,0.7
+PheCode:317,alcohol-related disorders,0.5
+PheCode:317.1,alcoholism,0.5
+PheCode:318,tobacco use disorder,0.2
+PheCode:327,sleep disorders,0.7
+PheCode:327.4,insomnia,0.7
+PheCode:327.41,organic or persistent insomnia,0.7
+PheCode:338.2,chronic pain,0.5
+PheCode:355.1,chronic pain syndrome,0.5
+PheCode:360,disorders of the globe,0.0
+PheCode:362,other retinal disorders,0.0
+PheCode:362.3,other nondiabetic retinopathy,0.0
+PheCode:364,corneal opacity and other disorders of cornea,0.0
+PheCode:365,glaucoma,0.0
+PheCode:365.2,primary angle-closure glaucoma,0.0
+PheCode:366,cataract,0.0
+PheCode:366.2,senile cataract,0.0
+PheCode:367,disorders of refraction and accommodation; blindness and low vision,0.0
+PheCode:367.9,blindness and low vision,0.2
+PheCode:368,visual disturbances,0.2
+PheCode:375,disorders of lacrimal system,0.0
+PheCode:375.1,dry eyes,0.2
+PheCode:377,disorders of optic nerve and visual pathways,0.0
+PheCode:377.3,optic neuritis/neuropathy,0.0
+PheCode:379,other disorders of eye,0.0
+PheCode:411.3,angina pectoris,0.0
+PheCode:429,ill-defined descriptions and complications of heart disease,0.0
+PheCode:458,hypotension,0.2
+PheCode:495,asthma,0.0
+PheCode:509.8,dependence on respirator [ventilator] or supplemental oxygen,0.1
+PheCode:599.4,urinary incontinence,0.2
+PheCode:626.11,absent or infrequent menstruation,0.2
+PheCode:626.14,irregular menstrual bleeding,0.2
+PheCode:626.2,dysmenorrhea,0.2
+PheCode:687.4,disturbance of skin sensation,0.1
+PheCode:704.1,alopecia,0.1
+PheCode:743.1,osteoporosis,0.1
+PheCode:760,back pain,0.2
+PheCode:916,contusion,0.0
+RXNORM:10737,trazodone,0.75
+RXNORM:15996,mirtazapine,0.9
+RXNORM:253146,amphetamine / dextroamphetamine,0.25
+RXNORM:2598,clonazepam,0.75
+RXNORM:28439,lamotrigine,0.75
+RXNORM:321988,escitalopram,1.0
+RXNORM:3264,dexamethasone,0.0
+RXNORM:32937,paroxetine,1.0
+RXNORM:3638,doxepin,0.75
+RXNORM:36437,sertraline,1.0
+RXNORM:38404,topiramate,0.25
+RXNORM:39786,venlafaxine,0.9
+RXNORM:42347,bupropion,0.75
+RXNORM:4493,fluoxetine,1.0
+RXNORM:5093,haloperidol,0.25
+RXNORM:51272,quetiapine,0.75
+RXNORM:5553,hydroxyzine,0.25
+RXNORM:704,amitriptyline,0.75
+RXNORM:7243,naltrexone,0.5
+RXNORM:72625,duloxetine,0.75
+RXNORM:89013,aripiprazole,0.75
+PheCode:253.2,pituitary hypofunction,0.25
+PheCode:260.6,anorexia,0.5
+PheCode:264,lack of normal physiological development,0.3
+PheCode:264.3,delayed milestones,0.2
+PheCode:264.9,"lack of normal physiological development, unspecified",0.2
+PheCode:288.11,neutropenia,0.0
+PheCode:291,other specified nonpsychotic and/or transient mental disorders,0.5
+PheCode:291.8,alteration of consciousness,0.3
+PheCode:292.4,altered mental status,0.5
+PheCode:303,psychogenic and somatoform disorders,0.75
+PheCode:303.4,somatoform disorder,0.5
+PheCode:312,conduct disorders,0.3
+PheCode:313.2,tics and stuttering,0.2
+PheCode:313.3,autism,0.25
+PheCode:315.1,learning disorder,0.25
+PheCode:315.3,mental retardation,0.2
+PheCode:348.7,coma,0.1
+PheCode:367.1,myopia,0.0
+PheCode:378,strabismus and other disorders of binocular eye movements,0.0
+PheCode:425,cardiomyopathy,0.1
+PheCode:428.1,congestive heart failure (chf) nos,0.0
+PheCode:458.9,hypotension nos,0.1
+PheCode:513.31,apnea,0.2
+PheCode:707.1,decubitus ulcer,0.0
+PheCode:870.1,open wound or laceration of eye or eyelid,0.0
+RXNORM:35636,risperidone,0.75
+RXNORM:40114,guanfacine,0.2
+PheCode:132,"infestation (lice, mites)",0.0
+PheCode:275.51,hypocalcemia,0.1
+PheCode:279.1,immunity deficiency,0.2
+PheCode:290.1,dementias,0.5
+PheCode:290.16,vascular dementia,0.25
+PheCode:292.6,hallucinations,0.5
+PheCode:295.1,schizophrenia,0.25
+PheCode:295.2,paranoid disorders,0.25
+PheCode:300.9,posttraumatic stress disorder,0.75
+PheCode:302.1,decreased libido,0.7
+PheCode:303.3,psychogenic disorder,0.75
+PheCode:306.1,mental disorders durring/after pregnancy,0.75
+PheCode:312.3,impulse control disorder,0.3
+PheCode:327.5,parasomnia,0.3
+PheCode:327.6,circadian rhythm sleep disorder,0.5
+PheCode:362.2,degeneration of macula and posterior pole of retina,0.0
+PheCode:362.29,macular degeneration (senile) of retina nos,0.0
+PheCode:365.1,open-angle glaucoma,0.0
+PheCode:368.2,diplopia and disorders of binocular vision,0.1
+PheCode:368.4,visual field defects,0.1
+PheCode:368.9,subjective visual disturbances,0.2
+PheCode:372,disorders of conjunctiva,0.0
+PheCode:374,other disorders of eyelids,0.0
+PheCode:374.3,ptosis of eyelid,0.0
+PheCode:379.2,disorders of vitreous body,0.0
+PheCode:427.42,cardiac arrest,0.1
+PheCode:427.8,sinoatrial node dysfunction (bradycardia),0.0
+RXNORM:1040028,lurasidone,0.75
+RXNORM:1827,buspirone,0.75
+RXNORM:2403,chlorpromazine,0.5
+RXNORM:2597,clomipramine,0.75
+RXNORM:352364,buprenorphine / naloxone,0.25
+RXNORM:42355,fluvoxamine,0.9
+RXNORM:61381,olanzapine,0.75
+RXNORM:6448,lithium,0.75
+RXNORM:7531,nortriptyline,0.75
+RXNORM:8629,prazosin,0.25
+PheCode:300.13,phobia,0.5
+PheCode:303.1,dissociative disorder,0.5
+PheCode:305.21,anorexia nervosa,0.7
+PheCode:362.4,retinal vascular changes and abnomalities,0.1
+PheCode:363,"chorioretinal inflammations, scars, and other disorders of choroid",0.0
+PheCode:363.3,chorioretinal scars,0.0
+PheCode:371,inflammation of the eye,0.0
+PheCode:371.3,inflammation of eyelids,0.0
+PheCode:379.4,anomalies of pupillary function,0.1
+PheCode:969,poisoning by psychotropic agents,0.5
+RXNORM:10734,tranylcypromine,0.9
+RXNORM:3247,desipramine,0.9
+RXNORM:3554,disulfiram,0.0
+RXNORM:38400,atomoxetine,0.5
+RXNORM:5691,imipramine,0.9
+RXNORM:679314,paliperidone,0.5
+PheCode:224,benign neoplasm of eye,0.0
+PheCode:260.22,nutritional marasmus,0.1
+PheCode:290.13,senile dementia,0.5
+PheCode:360.2,progressive myopia,0.0
+PheCode:361,retinal detachments and defects,0.0
+PheCode:362.23,cystoid macular degeneration of retina,0.0
+PheCode:362.26,macular puckering of retina,0.0
+PheCode:362.27,drusen (degenerative) of retina,0.0
+PheCode:362.6,peripheral retinal degenerations,0.0
+PheCode:362.7,hereditary retinal dystrophies,0.0
+PheCode:364.1,corneal opacity,0.0
+PheCode:364.4,corneal degenerations,0.0
+PheCode:364.5,corneal dystrophy,0.0
+PheCode:365.11,primary open angle glaucoma,0.0
+PheCode:367.2,astigmatism,0.0
+PheCode:367.8,hypermetropia,0.0
+PheCode:368.1,amblyopia,0.0
+PheCode:368.3,anisometropia,0.0
+PheCode:374.1,ectropion or entropion,0.0
+PheCode:374.6,dermatochalasis,0.0
+PheCode:377.1,optic atrophy,0.0
+PheCode:378.1,strabismus (not specified as paralytic),0.0
+PheCode:379.5,disorders of iris and ciliary body,0.0
+PheCode:875,non-healing surgical wound,0.1
+RXNORM:1086769,vilazodone,0.9
+PheCode:301.1,schizoid personality disorder,0.3
+PheCode:362.21,"macular degeneration, dry",0.0
+PheCode:781.2,abnormal posture,0.2
+PheCode:753,congenital anomalies of the eye,0.0
+PheCode:753.2,congenital anomalies of posterior segment of eye,0.0
+PheCode:366.1,nonsenile cataract,0.0
+PheCode:365.5,pseudoexfoliation glaucoma,0.0
+PheCode:366.3,traumatic cataract,0.0
+PheCode:753.1,congenital cataract and lens anomalies,0.0
+LOINC:LP14756-8,Sexual abstinence duration,0.2
+LOINC:LP14735-2,Tricyclic antidepressants,1.0
+LOINC:LP21032-5,Interpretation,0.0
+LOINC:LP20807-1,Norsertraline,0.5
+LOINC:LP17242-6,Sertraline,1.0
+LOINC:LP17950-4,Venlafaxine,0.9
+LOINC:LP18549-3,Dexamethasone,0.1
+LOINC:LP16034-8,Amphetamines,0.25
+LOINC:LP14565-3,Opiates,0.5
+LOINC:LP17864-7,Character,0.0
+LOINC:LP18454-6,Suberate,0.0
+LOINC:LP16048-8,Cocaine,0.0
+LOINC:LP16058-7,Cannabinoids,0.2
+LOINC:LP16103-1,Desipramine,0.75
+LOINC:LP16085-0,Norclomipramine,0.75
+LOINC:LP14717-0,Doxepin,0.9
+LOINC:LP14381-5,FLUoxetine,1.0
+LOINC:LP14382-3,Norfluoxetine,0.0
+LOINC:LP16297-1,traZODone,0.75
+LOINC:LP17388-7,Hypochromia,0.0
+LOINC:LP17948-8,Imipramine+Desipramine,0.9
+CCS:241,visual aids and other optical supplies,0.0
+LOINC:18282-4,Cannabinoids,0.2
+LOINC:3349-8,Amphetamines,0.25
+LOINC:3390-2,Benzodiazepines,0.5
+LOINC:3879-4,Opiates,0.5
+RXNORM:6652,MASK,0.0
+RXNORM:693590,SUPPLY,0.0
+RXNORM:709699,DRESSING,0.0
+LOINC:3397-7,Cocaine,0.0
+PheCode:338,pain,0.5
+PheCode:799,debility unspecified,0.2
+RXNORM:1381638,PAD,0.0
+RXNORM:710876,BAG,0.0
+Other lab:1000067626,Specimen Type,0.0
+PheCode:561.1,diarrhea,0.1
+RXNORM:614919,ADAPT,0.0
+PheCode:367.4,presbyopia,0.0
+RXNORM:10311,Tablet,0.0
+RXNORM:62940,CONTAINER,0.0
+RXNORM:709653,DRAIN,0.0
+RXNORM:711274,RESOURCE,0.0
+RXNORM:711445,SYRINGE,0.0
+RXNORM:142222,Lotion,0.0
+RXNORM:310483,GENTLE CREAM,0.0
+RXNORM:90136,Cold cream,0.0
+RXNORM:722,amoxapine,0.75
+RXNORM:258145,KIT,0.0
+Other lab:1000090350,Negative Occult Control,0.0
+RXNORM:8886,protriptyline,0.75
+RXNORM:10834,trimipramine,0.9
+RXNORM:6646,maprotiline,0.9
+CCS:245,Syncope,0.2
+LOCAL|LAB:CHART DIAGNOSIS,chart diagnosis,0.0
+LOCAL|LAB:CLINICAL IMPRESSION,clinical impression,0.5
+LOCAL|LAB:COMMENT,comment,0.0
+LOCAL|LAB:CONSULTANT,consultant,0.0
+LOCAL|LAB:DEVICE,device,0.0
+LOCAL|LAB:DIAGNOSIS CODE,diagnosis code,0.0
+LOCAL|LAB:DIMORPHISM,dimorphism,0.0
+LOCAL|LAB:DOSE,dose,0.0
+LOCAL|LAB:DRAW AND HOLD,draw and hold,0.0
+LOCAL|LAB:INTERPRETATION,interpretation,0.0
+LOCAL|LAB:INTRPRETATION,interpretation,0.0
+LOCAL|LAB:LDL CHOL RISK INT,low-density lipoprotein cholesterol risk interpretation,0.1
+LOCAL|LAB:MEDS,medications,0.5
+LOCAL|LAB:MESSAGE,message,0.0
+LOCAL|LAB:NEGATIVE CONTROL (POC),negative control (point of care),0.0
+LOCAL|LAB:PHENOTYPE,phenotype,0.0
+LOCAL|LAB:PRODUCT CODE,product code,0.0
+LOCAL|LAB:PRODUCT IDENTIFICATION,product identification,0.0
+LOCAL|LAB:RATE,rate,0.0
+LOCAL|LAB:REASON,reason,0.0
+LOCAL|LAB:RELEASED BY,released by,0.0
+LOCAL|LAB:REPORT,report,0.0
+LOCAL|LAB:RESOLUTION:,resolution,0.0
+LOCAL|LAB:RESULT,result,0.0
+LOCAL|LAB:SEE BELOW,see below,0.0
+LOCAL|LAB:SOURCE,source,0.0
+LOCAL|LAB:SPECIMEN,specimen,0.0
+LOCAL|LAB:SPECIMEN TYPE,specimen type,0.0
+LOCAL|LAB:STRS,stressors,0.75
+LOCAL|LAB:SUPERNATENT,supernatant,0.0
+LOCAL|LAB:TIME LOW,time low,0.0
+LOCAL|LAB:TITER,titer,0.0
+LOINC:10331-7,Rh,0.0
+LOINC:13174-8,Interpretation,0.0
+LOINC:16114-1,Amitriptyline,0.75
+LOINC:26776-5,QUEtiapine,0.75
+LOINC:29300-1,Procedure,0.0
+LOINC:29305-0,Medication prescribed,0.5
+LOINC:3534-5,Desipramine,0.75
+LOINC:3581-6,Doxepin,0.75
+LOINC:3691-3,Imipramine,0.75
+LOINC:3874-5,Nortriptyline,0.9
+LOINC:4152-5,carBAMazepine,0.5
+LOINC:41925-9,Class,0.0
+LOINC:42192-5,Nidus,0.0
+LOINC:49275-1,Interpretation,0.0
+LOINC:55752-0,Clinical info,0.0
+LOINC:61427-1,Nortriptyline,0.75
+LOINC:66746-9,Specimen type,0.0
+LOINC:68959-6,Specimen condition,0.0
+LOINC:6906-2,Sertraline,1.0
+LOINC:74384-9,Specimen container,0.0
+LOINC:75325-1,Symptom,0.0
+LOINC:75608-0,Citation,0.0
+LOINC:77202-0,Laboratory comment,0.0
+LOINC:9393-0,risperiDONE,0.75
+LOINC:9795-6,Composition,0.0
+RXNORM:1433212,levomilnacipran,1.0
+RXNORM:1876597,naldemedine,0.0
+RXNORM:42351,lithium carbonate,0.75
+RXNORM:52105,lithium citrate,0.75
+LOINC:LP14541-4,Rh,0.0
+LOINC:LP73191-6,Procedure,0.0
+LOINC:LP29011-1,carBAMazepine free,0.5
+LOINC:LP16084-3,clomiPRAMINE+Norclomipramine,0.9
+LOINC:LP72256-8,Class,0.0
+LOINC:LP36022-9,Nidus,0.0
+LOINC:LP129062-8,Specimen type,0.0
+LOINC:LP135635-3,Specimen condition,0.0
+LOINC:LP174434-3,Specimen container,0.0
+LOINC:LP72255-0,Citation,0.0
+LOINC:LP185706-1,Laboratory comment,0.0
+LOINC:LP18008-0,Composition,0.0
+RXNORM:60207,dorzolamide,0.0
+LOINC:6288-5,Yellow Hornet (Dolichovespula arenaria) IgE,0.0
+LOINC:65771-8,Peanut (Arachis hypogaea) native (nAra h) 3 IgE,0.0
+LOINC:LP36909-7,Ethyl glucuronide,0.0
+PheCode:750.21,congenital anomalies of intestine,0.0
+LOINC:2093-3,Cholesterol,0.0
+LOINC:LP15959-7,Clotting time,0.0
+RXNORM:1425099,trametinib,0.0
+LOINC:2064-4,Ceruloplasmin,0.0
+LOINC:LP286254-0,IgG clearance/Albumin clearance,0.0
+LOINC:6237-2,Salmon (Salmo salar) IgE,0.0
+LOINC:LP14597-6,Platelets,0.0
+PheCode:599.5,frequency of urination and polyuria,0.1
+LOINC:54143-3,Gardnerella vaginalis DNA,0.0
+LOINC:LP40013-2,Tissue Transglutaminase IgG,0.0
+CCS:109,procedures on the urethra,0.0
+CCS:12,other therapeutic endocrine procedures,0.1
+LOINC:LP18888-5,Alpha hydroxyalprazolam,0.0
+LOINC:LP21311-3,Indinavir,0.0
+RXNORM:1111,arsenic,0.0
+LOINC:33980-4,Voltage-gated calcium channel P/Q type binding Ab,0.1
+LOINC:3312-6,ALPRAZolam,0.75
+PheCode:433.8,late effects of cerebrovascular disease,0.25
+PheCode:290.12,dementia with cerebral degenerations,0.5
+CCS:215,other physical therapy and rehabilitation,0.2
+RXNORM:84857,anastrozole,0.1
+LOINC:7830-3,Coxiella burnetii phase 2 IgG,0.0
+LOINC:LP15650-2,Hydroxyproline,0.0
+LOINC:32730-4,Beta 1 globulin,0.0
+LOINC:2666-6,Norepinephrine,0.75
+LOINC:LP228620-3,HFE gene mutations tested for,0.1
+PheCode:795.8,abnormal tumor markers,0.1
+LOINC:30161-4,Citrulline/Creatinine,0.0
+LOINC:7556-4,Ovalbumin IgE,0.0
+RXNORM:461016,eszopiclone,0.5
+LOINC:22191-1,Chlamydia trachomatis IgG,0.0
+CCS:74,"gastrectomy, partial and total",0.0
+LOINC:LP14499-5,Follitropin,0.0
+PheCode:286.1,congenital coagulation defects,0.0
+LOINC:10579-1,Leukocytes,0.0
+LOINC:LP286666-5,N-methylhistamine/Creatinine,0.0
+PheCode:690,erythematosquamous dermatosis,0.0
+LOINC:LP15428-3,Base deficit,0.0
+PheCode:614.5,"inflammatory disease of cervix, vagina, and vulva",0.0
+LOINC:33224-7,Fine Granular Casts,0.0
+LOINC:19520-6,LORazepam,0.75
+PheCode:528.12,oral aphthae,0.1
+LOINC:LP37442-8,Brucella sp IgM,0.0
+LOINC:LP16478-7,Leukocyte phosphatase,0.0
+LOINC:20440-4,Glucose,0.1
+LOINC:LP62821-1,Glomerular filtration rate.predicted among blacks,0.0
+LOINC:56540-8,Glutamate decarboxylase 65 Ab,0.1
+PheCode:324,other cns infection and poliomyelitis,0.0
+RXNORM:3255,desoximetasone,0.0
+PheCode:478,throat pain,0.1
+PheCode:512.2,painful respiration,0.2
+RXNORM:2582,clindamycin,0.0
+LOINC:X1740-0,carbon dioxide (poc) (group:co2-poc),0.0
+LOINC:21397-5,Mononuclear cells,0.0
+LOINC:X1671-7,"creatinine, time ur (mg/dl) (group:tu-cre)",0.0
+LOINC:35126-2,Hemoglobin O-Arab/Hemoglobin.total,0.0
+RXNORM:1482790,simeprevir,0.0
+LOINC:LP38580-4,Human papilloma virus 16+18+31+33+35+45+51+52+56 DNA,0.0
+LOINC:X7176-1,norbuprenorphine-glucuronide (group:norbup-gluc),0.0
+LOINC:LP147747-2,Brazil Nut (Bertholletia excelsa) IgE,0.0
+LOINC:XC458-0,"tco2, cap, nicu (group:tco2cn)",0.0
+LOINC:LP14643-8,Alpha 1 antitrypsin,0.0
+LOINC:19928-1,Gas delivery source,0.0
+LOINC:LP17104-8,dRVVT,0.0
+LOINC:LP16098-3,cycloSPORINE,0.0
+LOINC:6075-6,Cladosporium herbarum IgE,0.0
+PheCode:871,open wounds of extremities,0.0
+LOINC:22080-6,Adenovirus Ab,0.0
+LOINC:2357-2,Glucose-6-Phosphate dehydrogenase,0.0
+LOINC:33226-2,Coarse Granular Casts,0.0
+CCS:38,other diagnostic procedures on lung and bronchus,0.0
+PheCode:747,cardiac and circulatory congenital anomalies,0.0
+LOINC:X1604-8,"protein, timed urine (mg/tv) (group:utpmgtv)",0.0
+LOINC:3160-9,Specimen volume,0.0
+RXNORM:1008340,"docusate / sennosides, USP",0.0
+LOINC:11254-0,Chlamydophila pneumoniae Ab,0.0
+RXNORM:214599,guaifenesin / pseudoephedrine,0.0
+PheCode:647,infectious and parasitic complications affecting pregnancy,0.0
+LOINC:LP174025-9,Coagulation factor X activity actual/Normal,0.0
+PheCode:743.4,stress fracture,0.1
+PheCode:317.11,alcoholic liver damage,0.25
+PheCode:729.7,nontraumatic compartment syndrome,0.0
+LOINC:LP38345-2,Hepatitis D virus Ab,0.0
+LOINC:X1174-2,hct (bg) (group:hct bg),0.0
+PheCode:789,nausea and vomiting,0.2
+LOINC:20455-2,Leukocytes,0.0
+LOINC:13451-0,Creatinine dialysis fluid clearance,0.0
+RXNORM:91211,Fat emulsion,0.0
+LOINC:LP148152-4,Penicillium notatum IgE,0.0
+RXNORM:8691,primidone,0.0
+RXNORM:70727,fiber,0.0
+LOINC:20993-2,Deprecated C trach rRNA XXX Ql Prb,0.0
+LOINC:LP39754-4,Sjogrens syndrome-B extractable nuclear Ab,0.2
+LOINC:LP148062-5,Cocksfoot (Dactylis glomerata) IgE,0.0
+CCS:227,"other diagnostic procedures (interview, evaluation, consultation)",0.5
+LOINC:13453-6,Deprecated Mean Glucose Bld gHb Est-aCnc,0.0
+LOINC:13579-8,Sertraline,1.0
+LOINC:14313-1,Tetrahydrocannabinol,0.2
+LOINC:14336-2,Ethanol,0.2
+LOINC:14624-1,Barbiturates,0.5
+LOINC:16204-0,clonazePAM,0.75
+LOINC:16254-5,Phencyclidine,0.2
+LOINC:16369-1,Amphetamines,0.5
+LOINC:17384-9,Opiates,0.5
+LOINC:19402-7,clonazePAM,0.75
+LOINC:19638-6,Oxazepam,0.75
+LOINC:2119-6,Choriogonadotropin,0.0
+LOINC:21365-2,Leptin,0.0
+LOINC:32761-9,Leukocytes,0.0
+LOINC:32762-7,Epithelial cells,0.0
+LOINC:32763-5,Bacteria,0.0
+LOINC:32764-3,Clue cells,0.0
+LOINC:32765-0,Yeast,0.0
+LOINC:3531-1,Desipramine,0.75
+LOINC:35467-0,M-chlorophenylpiperazine,0.75
+LOINC:35609-7,Doxepin,0.75
+LOINC:35614-7,Ibuprofen,0.0
+LOINC:35616-2,LORazepam,0.75
+LOINC:35624-6,Norfluoxetine,0.0
+LOINC:3778-8,Methamphetamine,0.5
+LOINC:57300-6,6-Monoacetylmorphine,0.0
+LOINC:57301-4,Benzoylecgonine,0.0
+LOINC:72388-2,Methadone,0.2
+LOINC:72737-0,Cocaine,0.0
+LOINC:72758-6,Amphetamine,0.25
+LOINC:9627-1,Imipramine+Desipramine,0.9
+PheCode:327.7,sleep related movement disorders,0.3
+PheCode:327.71,restless legs syndrome,0.25
+PheCode:340,migraine,0.25
+LOINC:X7003-7,ethanol (tox panel) (group:tox1),0.2
+LOINC:X7004-5,ats (tox panel) (group:tox2),0.1
+LOINC:X7005-2,barbiturates (tox panel) (group:tox3),0.2
+LOINC:X7006-0,benzo (tox panel) (group:tox4),0.2
+LOINC:X7008-6,tricyclics (tox panel) (group:tox5),0.75
+LOINC:X7011-0,other findings (tox) (group:otfi),0.1
+PheCode:315,develomental delays and disorders,0.25
+RXNORM:31765,nicotine polacrilex,0.1
+LOINC:LP17979-3,PARoxetine,1.0
+LOINC:LP14983-8,Amitriptyline,0.75
+LOINC:LP19488-3,Leptin,0.0
+LOINC:LP19461-0,Clue cells,0.0
+LOINC:LP33234-3,M-chlorophenylpiperazine,0.75
+LOINC:LP14984-6,Nortriptyline,0.75
+Other lab:pack9,Barbiturates Concentration,0.2
+PheCode:1004,other signs and symptoms involving emotional state,0.75
+PheCode:1010,other tests,0.0
+PheCode:1010.7,"persons with potential health hazards related to socioeconomic, psychosocial, and other circumstances",0.75
+Other lab:1000092853,Drug Screen Creatinine Concentration,0.0
+Other lab:1200115145,"Down Syndrome Interpretation, Risk",0.2
+PheCode:1010.6,persons encountering health services in circumstances related to reproduction,0.2
+RXNORM:235439,AMPHETAMINE RESIN COMPLEX,0.2
+RXNORM:235988,venlafaxine hydrochloride,1.0
+RXNORM:693173,MEDICATION ORGANIZER,0.0
+LOCAL|LAB:CYMBALTA,duloxetine,0.75
+LOINC:12389-3,OLANZapine,0.75
+LOINC:3579-0,Doxepin,0.75
+LOINC:3872-9,Nortriptyline,0.9
+RXNORM:1368150,cetyl lactate,0.0
+LOINC:LP18087-4,OLANZapine,0.75
+CCS:130,"other diagnostic procedures, female organs",0.0
+CCS:182,mammography,0.0
+LOINC:13577-2,PARoxetine,1.0
+LOINC:17443-3,Phenylpropanolamine,0.0
+LOINC:2106-3,Choriogonadotropin (pregnancy test),0.0
+LOINC:2170-9,Deprecated Cyanocobalamin.true Ser-mCnc,0.0
+LOINC:3414-0,Buprenorphine,0.25
+LOINC:3682-2,HYDROmorphone,0.0
+LOINC:6765-2,17-Hydroxypregnenolone,0.2
+PheCode:256,ovarian dysfunction,0.2
+PheCode:259,other endocrine disorders,0.2
+PheCode:337,disorders of the autonomic nervous system,0.2
+PheCode:339,other headache syndromes,0.2
+PheCode:427.9,palpitations,0.3
+PheCode:564.1,irritable bowel syndrome,0.25
+PheCode:611,abnormal findings on mammogram or breast exam,0.0
+PheCode:611.3,lump or mass in breast,0.0
+PheCode:613,other nonmalignant breast conditions,0.0
+PheCode:614,inflammatory diseases of female pelvic organs,0.1
+PheCode:614.52,vaginitis and vulvovaginitis,0.0
+PheCode:626,disorders of menstruation and other abnormal bleeding from female genital tract,0.2
+PheCode:626.1,irregular menstrual cycle/bleeding,0.2
+PheCode:627,menopausal and postmenopausal disorders,0.3
+PheCode:627.2,symptomatic menopause,0.5
+PheCode:706,diseases of sebaceous glands,0.1
+PheCode:706.1,acne,0.0
+PheCode:770,myalgia and myositis unspecified,0.1
+PheCode:772,symptoms of the muscles,0.2
+PheCode:792,abnormal papanicolaou smear of cervix and cervical hpv,0.0
+RXNORM:725,amphetamine,0.35
+PheCode:292.2,mild cognitive impairment,0.3
+PheCode:180.3,cervical intraepithelial neoplasia [cin] [cervical dysplasia],0.0
+PheCode:473.4,voice disturbance,0.2
+PheCode:610,benign mammary dysplasias,0.0
+PheCode:610.1,cystic mastopathy,0.0
+PheCode:628,ovarian cyst,0.0
+PheCode:792.1,papanicolaou smear of cervix or vagina with atypical squamous cells,0.0
+LOINC:X7010-2,interpretation (tox) (group:toxint),0.0
+PheCode:612.1,galactorrhea,0.1
+PheCode:704.2,hirsutism,0.2
+PheCode:271.9,other disorders of carbohydrate transport and metabolism,0.1
+PheCode:729.1,"rheumatism, unspecified and fibrositis",0.2
+LOINC:LP18505-5,Cocaethylene,0.0
+LOINC:LP104997-4,Choriogonadotropin (pregnancy test),0.0
+LOINC:LP36028-6,Cocaine+Benzoylecgonine,0.2
+LOINC:LP17184-0,17-Hydroxypregnenolone,0.2
+LOINC:19080-1,Choriogonadotropin,0.0
+Other lab:pack24,Urine Cocaine Test,0.1
+LOINC:36903-3,Chlamydia trachomatis and Neisseria gonorrhoeae DNA,0.0
+LOINC:43406-8,Chlamydia trachomatis+Neisseria gonorrhoeae DNA,0.0
+LOINC:80365-0,Chlamydia trachomatis+Neisseria gonorrhoeae rRNA,0.0
+Other lab:1400078349,Oxycodone Quantitative Analysis by Gas Chromatography-Mass Spectrometry,0.0
+RXNORM:62878,CONTACT LENS CLEANING SOLUTION,0.0
+Other lab:pack22,Tramadol Concentration,0.1
+Other lab:1200092797,Urine Oxycodone Qualitative Screening,0.0
+LOINC:LP157729-7,Chlamydia trachomatis and Neisseria gonorrhoeae DNA,0.0
+LOINC:LP40320-1,Chlamydia trachomatis+Neisseria gonorrhoeae rRNA,0.0
+CCS:998,CCS:998,0.0
+CCS:999,CCS:999,0.0
+LOCAL|LAB:AFRICAN AMERICAN,african american,0.0
+LOINC:20521-1,Carboxy tetrahydrocannabinol,0.0
+LOINC:3334-0,Amitriptyline,0.75
+LOINC:3377-9,Barbiturates,0.5
+LOINC:3393-6,Benzoylecgonine,0.0
+LOINC:34714-6,INR,0.0
+LOINC:3493-4,clomiPRAMINE+Norclomipramine,0.9
+LOINC:3636-8,fentaNYL,0.0
+LOINC:3692-1,Imipramine,0.9
+LOINC:3875-2,Nortriptyline,0.9
+LOINC:3936-2,Phencyclidine,0.2
+LOINC:40799-9,Amphetamines,0.25
+LOINC:50233-6,Leukocyte clumps,0.0
+LOINC:63044-2,Cotinine,0.0
+LOINC:72760-2,fentaNYL,0.0
+LOINC:72764-4,Carboxy tetrahydrocannabinol,0.0
+LOINC:87807-4,Naloxone,0.0
+RXNORM:1150096,Bifidobacterium longum,0.0
+RXNORM:1534763,albiglutide,0.0
+RXNORM:47974,Chamomile Oil,0.0
+RXNORM:817958,aspirin / calcium carbonate,0.0

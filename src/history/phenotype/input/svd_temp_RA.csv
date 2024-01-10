@@ -1,0 +1,101 @@
+,sign_id,feature_desc
+2771,PheCode:714.1,rheumatoid arthritis
+2770,PheCode:714,rheumatoid arthritis and other inflammatory polyarthropathies
+4392,RXNORM:27169,leflunomide
+5087,RXNORM:614391,abatacept
+3070,RXNORM:6851,methotrexate
+4355,RXNORM:214555,etanercept
+3038,RXNORM:5521,hydroxychloroquine
+5086,RXNORM:612865,tocilizumab
+3729,PheCode:696.42,psoriatic arthropathy
+62,CCS:155,arthrocentesis
+4836,PheCode:740.2,"osteoarthrosis, generalized"
+3742,PheCode:714.2,juvenile rheumatoid arthritis
+2792,PheCode:740,osteoarthrosis
+5541,LOINC:LP15023-2,C reactive protein
+4918,RXNORM:1357536,tofacitinib
+5161,RXNORM:9524,sulfasalazine
+3745,PheCode:716,other arthropathies
+293,LOINC:11039-5,CRP SerPl Ql
+6561,LOINC:LP16409-2,Erythrocyte sedimentation rate
+1735,LOINC:4537-7,ESR Bld Qn Westrgrn
+4257,PheCode:740.9,osteoarthrosis nos
+2793,PheCode:740.1,osteoarthritis; localized
+3746,PheCode:716.9,arthropathy nos
+5386,RXNORM:819300,golimumab
+1391,LOINC:32218-0,cCP Ab Ser IA-aCnc
+2783,PheCode:726.1,enthesopathy
+2799,PheCode:743.1,osteoporosis
+2913,RXNORM:191831,infliximab
+4246,PheCode:716.1,unspecified polyarthropathy or polyarthritis
+3274,PheCode:727.1,synovitis and tenosynovitis
+2769,PheCode:709.2,sicca syndrome
+2800,PheCode:743.11,osteoporosis nos
+2782,PheCode:726,peripheral enthesopathies and allied syndromes
+3089,RXNORM:7258,naproxen
+4818,PheCode:717,polymyalgia rheumatica
+2784,PheCode:727,"other disorders of synovium, tendon, and bursa"
+3108,RXNORM:8640,prednisone
+2804,PheCode:745,pain in joint
+2794,PheCode:740.11,"osteoarthrosis, localized, primary"
+4416,RXNORM:327361,adalimumab
+6342,LOINC:LP37859-3,Cyclic citrullinated peptide Ab
+6422,LOINC:LP37860-1,Cyclic Citrullinated Peptide IgG
+1519,LOINC:33935-8,cCP IgG SerPl-aCnc
+3018,RXNORM:4511,folic acid
+3021,RXNORM:46041,alendronate
+2798,PheCode:743,"osteoporosis, osteopenia and pathological fracture"
+3758,PheCode:735.2,acquired toe deformities
+3759,PheCode:735.21,hammer toe (acquired)
+2824,PheCode:770,myalgia and myositis unspecified
+5472,RXNORM:10636,tolmetin
+2787,PheCode:735,acquired foot deformities
+3869,RXNORM:31448,nabumetone
+4825,PheCode:729.1,"rheumatism, unspecified and fibrositis"
+2753,PheCode:696.4,psoriasis
+5655,LOINC:LP16738-4,Rheumatoid factor
+564,LOINC:15205-8,Rheumatoid fact Ser Neph-aCnc
+3760,PheCode:735.3,hallux valgus (bunion)
+3806,RXNORM:10689,tramadol
+3744,PheCode:715.2,ankylosing spondylitis
+2961,RXNORM:28889,loratadine
+2772,PheCode:715,other inflammatory spondylopathies
+1321,LOINC:30522-7,CRP SerPl HS-mCnc
+2752,PheCode:696,psoriasis and related disorders
+2797,PheCode:741.4,joint effusions
+2253,LOINC:X1166-8,crp (mg/l) (group:crpt)
+2749,PheCode:695.4,lupus (localized and systemic)
+3727,PheCode:695.42,systemic lupus erythematosus
+4605,PheCode:041.21,rheumatic fever / chorea
+2803,PheCode:743.9,osteopenia or other disorder of bone and cartilage
+2972,RXNORM:3355,diclofenac
+3762,PheCode:740.12,"osteoarthrosis, localized, secondary"
+2894,RXNORM:140587,celecoxib
+5405,PheCode:716.8,palindromic rheumatism
+2796,PheCode:741.2,stiffness of joint
+4534,RXNORM:8356,piroxicam
+1862,LOINC:5781-0,Crystals Snv Micro
+2921,RXNORM:214182,acetaminophen / hydrocodone
+5470,PheCode:362.5,toxic maculopathy of retina
+49,CCS:143,bunionectomy or repair of toe deformities
+2576,PheCode:443.1,raynaud's syndrome
+3784,PheCode:858,complication of internal orthopedic device
+2482,PheCode:351,other peripheral nerve disorders
+70,CCS:162,other or therapeutic procedures on joints
+302,LOINC:11090-8,ENA SM Ab Ser-aCnc
+5119,RXNORM:72435,anakinra
+4840,PheCode:743.13,other specified osteoporosis
+667,LOINC:17791-5,ENA SS-B Ab Ser-aCnc
+5368,RXNORM:32613,oxaprozin
+668,LOINC:17792-3,ENA SS-A Ab Ser-aCnc
+2786,PheCode:733,other disorders of bone and cartilage
+2937,RXNORM:225852,leucovorin calcium
+4817,PheCode:711.2,reiter's disease
+4241,PheCode:709.7,unspecified diffuse connective tissue disease
+2929,RXNORM:215830,CALCIUM CARBONATE/VITAMIN D
+2775,PheCode:721,spondylosis and allied disorders
+4839,PheCode:743.12,senile osteoporosis
+3090,RXNORM:72625,duloxetine
+63,CCS:156,"injections and aspirations of muscles, tendons, bursa, joints and soft tissue"
+2779,PheCode:722.6,degeneration of intervertebral disc
+2776,PheCode:721.1,spondylosis without myelopathy
