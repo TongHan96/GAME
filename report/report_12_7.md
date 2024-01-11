@@ -157,6 +157,19 @@
 | GAT             | 0.636 | 0.834             |
 
 
+## Detect Drug Side Effect
+| Method          | AUC   | After Supervised  |
+|-----------------|-------|-------------------|
+| aligned sppmi     | 0.568 | 0.810           |
+| coder           | 0.539 | 0.816             |
+| sppmi           | 0.570 | 0.744             |
+
+| GAT sim 256 (edge_all)  | 0.598 | 0.693             |
+| GAT rel only 512 (edge_all)  | 0.460 | 0.628        |
+| GAT all (edge_all+edge_all)  | 0.550 | 0.745        |
+
+| GAT rel only 512 (edge_rel)  | 0.515 |          |
+| GAT all (edge_all+edge_rel)  | 0.585 |         |
 
 
 ## Detect Relatedness and Similarity
@@ -184,6 +197,7 @@
 | sapbert         | 0.636 | 0.743             |
 | sppmi           | 0.679 | 0.792             |
 | GAT             | 0.914 | 0.910             |
+
 
 
 
