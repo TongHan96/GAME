@@ -168,8 +168,8 @@
 | GAT rel only 512 (edge_all)  | 0.460 | 0.628        |
 | GAT all (edge_all+edge_all)  | 0.550 | 0.745        |
 
-| GAT rel only 512 (edge_rel)  | 0.515 |          |
-| GAT all (edge_all+edge_rel)  | 0.585 |         |
+| GAT rel only 512 (edge_rel)  | 0.515 |  0.572      |
+| GAT all (edge_all+edge_rel)  | 0.585 |  0.743      |
 
 
 ## Detect Relatedness and Similarity
