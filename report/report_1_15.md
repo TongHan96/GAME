@@ -24,13 +24,10 @@
 | aligned sppmi (512)  | 0.565 | 0.809        |
 | aligned sppmi (768)  | 0.568 | 0.810        |
 | sapbert         | 0.578 | 0.782             |
-| coder           | 0.539 | 0.816             |
+| coder           | 0.539 | 0.821             |
 | sppmi           | 0.570 | 0.744             |
-| GAT sim 256 (edge_all)  | 0.598 | 0.693     |
-| GAT rel only 512 (edge_all)  | 0.460 | 0.628        |
-| GAT all (edge_all+edge_all)  | 0.550 | 0.745        |
-| GAT rel only 512 (edge_rel)  | 0.515 |  0.575      |
-| GAT all (edge_all+edge_rel)  | 0.585 |  0.743      |
+| GAT + GAT  | 0.585 |  0.743  |
+| GAT + align  | 0.587 |  0.821  |
 
 ## Detect Drug Side Effect (Using MGB part Emb) 
 | Method          | AUC (768)  | After Supervised (768) |
