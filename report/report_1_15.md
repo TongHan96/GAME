@@ -53,8 +53,7 @@
 **After using Gat in rel part, feature selection does not do beeter than use the column combine of sim part and align 512 directly.**
 
 
-## Detect Relatedness and Similarity
-
+<!----## Detect Relatedness and Similarity
 ### MGB
 | Method          | Related AUC   | Similarity AUC  |
 |-----------------|-------|-------------------|
@@ -62,7 +61,6 @@
 | sapbert         | 0.661 | 0.746             |
 | sppmi           | 0.784 | 0.871             |
 | GAT             | 0.906 | 0.928             |
-
 ### VA
 | Method          | Related AUC   | Similarity AUC  |
 |-----------------|-------|-------------------|
@@ -70,14 +68,13 @@
 | sapbert         | 0.641 | 0.739             |
 | sppmi           | 0.750 | 0.837             |
 | GAT             | 0.889 | 0.915             |
-
 ### UPMC
 | Method          | Related AUC   | Similarity AUC  |
 |-----------------|-------|-------------------|
 | coder           | 0.707 | 0.745             |
 | sapbert         | 0.636 | 0.743             |
 | sppmi           | 0.679 | 0.792             |
-| GAT             | 0.914 | 0.910             |
+| GAT             | 0.914 | 0.910             |-->
 
 
 
