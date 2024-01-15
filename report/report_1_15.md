@@ -1,1 +1,120 @@
+# Result Summary
+
+## Findings
+1. align sppmi itself is good enough for most of works except code mapping
+2. change of align sppmi is not good for drug side effect detection (like using a GNN or weighted add)
+3. problem: how to combine these two embeddings (if do not use all edges in simi training part, feature selection of concatenate emb is bad).
+
+
+## Code Mapping Job
+### Sapbert embedding
+**Accuracy Rates:**  
+| Measure | short | dict| full | gat(256) | now(256 all edges)|now(256 sim edges)|
+| --- | --- |--- | --- | --- | --- |--- |
+| TOP1 |52.7%| 55.6%|61.1% | 75.6% | 77.9%|78.1%|
+| TOP5 | 67.0%| 71.0%|79.6% | 85.2% |89.2%|88.7%|
+| TOP10 |71.3%| 74.9%| 83.3% | 87.6% |91.3%|91.2%|
+| TOP20 |75.1%| 78.4%| 86.3% | 89.9% |92.9%|92.8%|
+
+ 
+## Detect Drug Side Effect
+| Method          | AUC   | After Supervised  |
+|-----------------|-------|-------------------|
+| aligned sppmi (256)  | 0.568 | 0.771        |
+| aligned sppmi (768)  | 0.568 | 0.810        |
+| sapbert         | 0.578 | 0.782             |
+| coder           | 0.539 | 0.816             |
+| sppmi           | 0.570 | 0.744             |
+| GAT sim 256 (edge_all)  | 0.598 | 0.693     |
+| GAT rel only 512 (edge_all)  | 0.460 | 0.628        |
+| GAT all (edge_all+edge_all)  | 0.550 | 0.745        |
+| GAT rel only 512 (edge_rel)  | 0.515 |  0.575      |
+| GAT all (edge_all+edge_rel)  | 0.585 |  0.743      |
+
+## Detect Drug Side Effect (Using MGB part Emb) 
+| Method          | AUC (768)  | After Supervised (768) |
+|-----------------|-------|-------------------|
+| coder           | 0.541 | 0.810             |
+| sapbert         | 0.578 | 0.793             |
+| sppmi           | 0.563 | 0.751             |
+| GAT             | 0.623 | 0.811             |
+
+
+
+
+## Feature Selection
+### GPT4 Scoring & Cos Sim Rank Correlation:
+
+|  | sap | coder | svd_MGB | svd_VA | svd_UP | align256 | align512 | align768 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| RA | 0.001 | 0.191 | 0.433 | 0.415 | 0.146 | 0.444 | 0.417 | 0.455 |
+| CHF | 0.382 | 0.291 | 0.586 | 0.56 | 0.147 | 0.628 | 0.612 | 0.629 |
+| Depression | -0.222 | 0.099 | 0.641 | 0.405 | 0.226 | 0.755 | 0.769 | 0.762 |
+| Type 1 diabetes | 0.166 | 0.264 | 0.135 | 0.187 | 0.127 | 0.291 | 0.321 | 0.273 |
+
+#### RA
+| Method          | Correlation|
+|-----------------|-------|
+| coder           | 0.203 |
+| sapbert         | 0.022 |
+| sppmi           | 0.445 |
+| GAME        | 0.441 |
+
+#### CHF
+| Method          | Correlation|
+|-----------------|-------|
+| coder           | 0.189 |
+| sapbert         | 0.351 |
+| sppmi           | 0.571 |
+| game      | 0.623 |
+
+#### Depression
+
+| Method          | Correlation|
+|-----------------|-------|
+| coder           | 0.124 |
+| sapbert         | -0.311 |
+| sppmi           | 0.636 |
+| gat(coder)      | 0.764 |
+
+#### Type 1 Diabetes
+| Method          | Correlation|
+|-----------------|-------|
+| coder           | 0.329 |
+| sapbert         | 0.336 |
+| sppmi           | 0.306 |
+| coder      | 0.361 |
+
+
+
+
+
+## Detect Relatedness and Similarity
+
+### MGB
+| Method          | Related AUC   | Similarity AUC  |
+|-----------------|-------|-------------------|
+| coder           | 0.714 | 0.756             |
+| sapbert         | 0.661 | 0.746             |
+| sppmi           | 0.784 | 0.871             |
+| GAT             | 0.906 | 0.928             |
+
+### VA
+| Method          | Related AUC   | Similarity AUC  |
+|-----------------|-------|-------------------|
+| coder           | 0.668 | 0.809             |
+| sapbert         | 0.641 | 0.739             |
+| sppmi           | 0.750 | 0.837             |
+| GAT             | 0.889 | 0.915             |
+
+### UPMC
+| Method          | Related AUC   | Similarity AUC  |
+|-----------------|-------|-------------------|
+| coder           | 0.707 | 0.745             |
+| sapbert         | 0.636 | 0.743             |
+| sppmi           | 0.679 | 0.792             |
+| GAT             | 0.914 | 0.910             |
+
+
+
 
