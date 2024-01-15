@@ -23,11 +23,11 @@
 | aligned sppmi (256)  | 0.571 | 0.788        |
 | aligned sppmi (512)  | 0.565 | 0.809        |
 | aligned sppmi (768)  | 0.568 | 0.810        |
-| sapbert         | 0.578 | 0.782             |
+| sapbert         | 0.578 | 0.790             |
 | coder           | 0.539 | 0.821             |
 | sppmi           | 0.570 | 0.744             |
 | GAT + GAT  | 0.585 |  0.743  |
-| GAT + align  | 0.587 |  0.821  |
+| GAT + align  | 0.587 |  0.823  |
 
 ## Detect Drug Side Effect (Using MGB part Emb) 
 | Method          | AUC (768)  | After Supervised (768) |
