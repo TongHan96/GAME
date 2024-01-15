@@ -52,6 +52,7 @@
 | Depression | -0.222 | 0.099 | 0.641 | 0.405 | 0.226 | 0.755 | 0.769 | 0.762 |0.777|0.786|
 | Type 1 diabetes | 0.166 | 0.264 | 0.135 | 0.187 | 0.127 | 0.291 | 0.321 | 0.273 |0.314|0.293|
 
+After using Gat in rel part, feature selection does not do beeter than use the column combine of sim part and align 512 directly.
 
 
 ## Detect Relatedness and Similarity
