@@ -20,7 +20,8 @@
 ## Detect Drug Side Effect
 | Method          | AUC   | After Supervised  |
 |-----------------|-------|-------------------|
-| aligned sppmi (256)  | 0.568 | 0.771        |
+| aligned sppmi (256)  | 0.571 | 0.788        |
+| aligned sppmi (512)  | 0.565 | 0.809        |
 | aligned sppmi (768)  | 0.568 | 0.810        |
 | sapbert         | 0.578 | 0.782             |
 | coder           | 0.539 | 0.816             |
