@@ -27,15 +27,16 @@
 | coder           | 0.539 | 0.821             |
 | sppmi           | 0.570 | 0.744             |
 | GAT + GAT  | 0.585 |  0.743  |
-| GAT + align  | 0.587 |  0.830  |
+| GAT concat align512  | 0.587 |  0.830  |
 
+**After using Linear transform or GNN transform of align sppmi embedding, drug side effect after supervising is bad**
 
 
 
 ## Feature Selection
 ### GPT4 Scoring & Cos Sim Rank Correlation:
 
-|  | sap | coder | svd_MGB | svd_VA | svd_UP | align256 | align512 | align768 | gat+gat|gat+align512|
+|  | sap | coder | svd_MGB | svd_VA | svd_UP | align256 | align512 | align768 | GAT + GAT |GAT concat align512|
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |--- |--- |
 | RA | 0.001 | 0.191 | 0.433 | 0.415 | 0.146 | 0.444 | 0.417 | 0.455 |0.382|0.401|
 | CHF | 0.382 | 0.291 | 0.586 | 0.56 | 0.147 | 0.628 | 0.612 | 0.629 |0.607|0.632|
