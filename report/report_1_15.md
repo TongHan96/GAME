@@ -23,11 +23,11 @@
 | aligned sppmi (256)  | 0.571 | 0.788        |
 | aligned sppmi (512)  | 0.565 | 0.809        |
 | aligned sppmi (768)  | 0.568 | 0.810        |
-| sapbert         | 0.578 | 0.792             |
+| sapbert         | 0.578 | 0.803             |
 | coder           | 0.539 | 0.821             |
 | sppmi           | 0.570 | 0.744             |
 | GAT + GAT  | 0.585 |  0.743  |
-| GAT + align  | 0.587 |  0.824  |
+| GAT + align  | 0.587 |  0.830  |
 
 
 
