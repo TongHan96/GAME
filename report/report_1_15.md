@@ -22,14 +22,14 @@
 |-----------------|-------|-------------------|
 | aligned sppmi (256)  | 0.571 | 0.788        |
 | aligned sppmi (512)  | 0.565 | 0.809        |
-| aligned sppmi (768)  | 0.568 | 0.810        |
-| sapbert         | 0.578 | 0.805             |
-| coder           | 0.557 | 0.826             |
+| aligned sppmi (768)  | 0.568 | 0.819        |
+| sapbert         | 0.576 | 0.805             |
+| coder           | 0.539 | 0.826             |
 | sppmi           | 0.570 | 0.744             |
-| GAT + GAT  | 0.596 |  0.743  |
-| GAT concat align512  | 0.587 |  0.828  |
+| GAT + GAT  | 0.585 |  0.743  |
+| GAT concat align512  | 0.6 |  0.825  |
 | ---  | --- |  ---  |
-| GAT sim   | 0.607 |  ---  |
+| GAT sim   | 0.6 |  ---  |
 
 **After using Linear transform or GNN transform of align sppmi embedding, drug side effect after supervising is bad**
 
