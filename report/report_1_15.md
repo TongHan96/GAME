@@ -28,6 +28,8 @@
 | sppmi           | 0.570 | 0.744             |
 | GAT + GAT  | 0.596 |  0.743  |
 | GAT concat align512  | 0.587 |  0.828  |
+| ---  | --- |  ---  |
+| GAT sim   | 0.607 |  ---  |
 
 **After using Linear transform or GNN transform of align sppmi embedding, drug side effect after supervising is bad**
 
