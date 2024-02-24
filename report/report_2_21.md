@@ -8,14 +8,15 @@
 
 
 # Drug side Benchmark
- | All methods| AUC | supervised AUC|
- |---------- -|-------|-------|
-| sapbert         | 0.576 | 0.805             |
-| coder           | 0.539 | 0.826             |
-| MGB sppmi           | 0.563 | 0.762          |
-| VA sppmi           | 0.545 | 0.740           |
-| UPMC sppmi           | 0.558 | 0.710        |
-| BCH sppmi           | 0.532 | 0.729        |
+
+| All methods   | AUC   | Supervised AUC |
+|---------------|-------|----------------|
+| sapbert       | 0.576 | 0.805          |
+| coder         | 0.539 | 0.826          |
+| MGB sppmi     | 0.563 | 0.762          |
+| VA sppmi      | 0.545 | 0.740          |
+| UPMC sppmi    | 0.558 | 0.710          |
+| BCH sppmi     | 0.532 | 0.729          |
 
 # Feature selection Benchmark
 
