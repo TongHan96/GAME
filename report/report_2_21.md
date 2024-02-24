@@ -27,7 +27,7 @@
 | Depression          | -0.213| 0.129 | 0.611   | 0.43   | 0.277  | 0.36    | 0.739 |
 | Type 1 diabetes     | 0.134 | 0.278 | 0.117   | 0.184  | 0.153  | -0.075  | 0.342 |
 
-# Accuracy
+# Accuracy Benchmark
 
 | Measure | sap(short name) | sap(dict replaced name)| sap(full name) |
 | --- | --- |--- | --- |
