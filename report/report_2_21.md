@@ -9,7 +9,7 @@
 
 # Drug side Benchmark
  | All methods| AUC | supervised AUC|
- |---------------------|-------|-------|---------|
+ |---------- -|-------|-------|
 | sapbert         | 0.576 | 0.805             |
 | coder           | 0.539 | 0.826             |
 | MGB sppmi           | 0.563 | 0.762          |
