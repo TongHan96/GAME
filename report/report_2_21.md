@@ -8,7 +8,7 @@
 
 
 # Drug side Benchmark
- | | AUC | supervised AUC|
+ | All methods| AUC | supervised AUC|
 | sapbert         | 0.576 | 0.805             |
 | coder           | 0.539 | 0.826             |
 | MGB sppmi           | 0.563 | 0.762          |
@@ -18,7 +18,7 @@
 
 # Feature selection Benchmark
 
-| Condition           | SAP   | Coder | SVD_MGB | SVD_VA | SVD_UP | SVD_BCH | GAME  |
+| Desease           | SAP   | Coder | SVD_MGB | SVD_VA | SVD_UP | SVD_BCH | GAME  |
 |---------------------|-------|-------|---------|--------|--------|---------|-------|
 | RA                  | 0.058 | 0.12  | 0.367   | 0.334  | 0.159  | 0.136   | 0.434 |
 | CHF                 | 0.333 | 0.239 | 0.564   | 0.519  | 0.263  | 0.336   | 0.646 |
@@ -27,5 +27,10 @@
 
 # Accuracy
 
-
+| Measure | sap(short name) | sap(dict replaced name)| sap(full name) |
+| --- | --- |--- | --- |
+| TOP1 |52.7%| 55.6%|61.1% |
+| TOP5 | 67.0%| 71.0%|79.6% |
+| TOP10 |71.3%| 74.9%| 83.3% |
+| TOP20 |75.1%| 78.4%| 86.3% |
 
