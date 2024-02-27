@@ -2,20 +2,32 @@
 
 | Records           | Align           | Align edges   |Sim edges   | Rel edges   | Drug side| Feature selection| Accuracy|
 |-------------------|-----------------|---------------|------------|-------------|-----------|-----------------|----------|
-|2024-02-24 20:51:13| with sap + concat sap| all  no coder | all no coder    |rel no coder| 0.698(0.835)|0.404,0.637,0.734,0.317|76.7,88.9,90.7,92.5|
-|2024-02-24 20:50:12| without sap + concat sap | all  no coder |all no coder | rel no coder|0.697(0.830)|0.434,0.646,0.739,0.342|76.6,89.5,91.0,92.9|
+|2024-02-24 20:51:13| with sap + concat sap| all  no coder | all no coder    |rel no coder| 0.59(?)|0.404,0.637,0.734,0.317|76.7,88.9,90.7,92.5|
+|2024-02-24 20:50:12| without sap + concat sap | all  no coder |all no coder | rel no coder|0.582(?)|0.434,0.646,0.739,0.342|76.6,89.5,91.0,92.9|
 
 
 # Drug side Benchmark
 
 | All methods   | AUC   | Supervised AUC |
 |---------------|-------|----------------|
-| sapbert       | 0.576 | 0.805          |
-| coder         | 0.539 | 0.826          |
-| MGB sppmi     | 0.563 | 0.762          |
-| VA sppmi      | 0.545 | 0.740          |
-| UPMC sppmi    | 0.558 | 0.710          |
-| BCH sppmi     | 0.532 | 0.729          |
+| sapbert       | 0.676 | 0.830          |
+| coder         | 0.557 | 0.866         |
+| MGB sppmi     | 0.551 | 0.694          |
+| VA sppmi      | 0.528 | 0.676          |
+| UPMC sppmi    | 0.544 | 0.716          |
+| BCH sppmi     | 0.545 |           |
+
+
+# Drug indi Benchmark
+
+| All methods   | AUC   | Supervised AUC |
+|---------------|-------|----------------|
+| sapbert       | 0.716 | 0.779          |
+| coder         |0.766 | 0.837           |
+| MGB sppmi     | 0.753 | 0.753          |
+| VA sppmi      | 0.732 | 0.751          |
+| UPMC sppmi    | 0.769 | 0.775          |
+| BCH sppmi     | 0.602 | 0.603          |
 
 # Feature selection Benchmark
 
