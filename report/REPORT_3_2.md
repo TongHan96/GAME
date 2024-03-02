@@ -8,7 +8,7 @@
 tf_{i,j} = \text{Frequency of \(i^{th}\) code in \(j^{th}\) patient's record}
 ```
  ```math
-idf_{i,i} = log(# patient/ (1+ # patient with code i))
+idf_{i,i} = log(\# patient/ (1+ \# patient with code i))
 ```
  ```math
 tf-idf = tf idf
