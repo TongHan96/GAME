@@ -3,7 +3,6 @@
 ## Single inst
 
 ### UPMC
-
 <p float="left">
   <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/upmc_wgt_5_0.0.png" alt="upmc_wgt" title="Weighted" width="400"/><br/>
   <em>upmc weighted</em>
@@ -11,6 +10,7 @@
   <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/upmc_5_0.5.png" alt="upmc" title="Origin" width="400"/><br/>
   <em>upmc</em>
 </p>
+
 ### MGB
 <p float="left">
   <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/mgb_wgt_30_0.1_768.png" alt="MGB_wgt" title="Weighted" width="400"/><br/>
