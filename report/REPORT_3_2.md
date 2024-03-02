@@ -11,4 +11,13 @@
   <em>upmc</em>
 </p>
 
+### MGB
+<p float="left">
+  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/mgb_wgt_30_0.1_768.png" alt="MGB_wgt" title="Weighted" width="400"/>
+  <em>MGB weighted</em>
+  &nbsp; &nbsp; &nbsp; &nbsp;
+  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/mgb_30_0.5_768.png" alt="MGB" title="Origin" width="400"/>
+  <em>MGB</em>
+</p>
+
 ## Both inst
