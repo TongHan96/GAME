@@ -7,14 +7,18 @@
  ```math
 tf_{i,j} = \text{Frequency of \(i^{th}\) code in \(j^{th}\) patient's record}
 ```
-
-\[idf_{i,i} = log(# patient/ (1+ # patient with code i))\]
-
-\[tf-idf = tf idf\]
-
-\[pt_emb = tf-idf cod_emb\]
-
-\[pt_emb_wgt = tf-idf diag(weight) cod_emb\]
+ ```math
+idf_{i,i} = log(# patient/ (1+ # patient with code i))
+```
+ ```math
+tf-idf = tf idf
+```
+ ```math
+pt_emb = tf-idf cod_emb
+```
+ ```math
+pt_emb_wgt = tf-idf diag(weight) cod_emb
+```
 
 
 # t-sne results
