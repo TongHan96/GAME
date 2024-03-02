@@ -11,13 +11,13 @@ tf_{i,j} = \text{Frequency of \(i^{th}\) code in \(j^{th}\) patient's record}
 idf_{i,i} = log(\# patient/ (1+ \# \text{patient with code i}))
 ```
  ```math
-tf-idf = tf*idf
+tf\_idf = tf*idf
 ```
  ```math
-pt-emb = tf-idf*code-emb
+pt\_emb = tf\_idf*code\_emb
 ```
  ```math
-pt-emb-wgt = tf-idf*diag(weight)*code-emb
+pt\_emb\_wgt = tf\_idf*diag(weight)*code\_emb
 ```
 
 
