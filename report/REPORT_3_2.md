@@ -22,7 +22,7 @@
 
 ## Both inst
 <p align="center">
-  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/upmc_mgb_wgt_30_0.5.png" alt="U&M" title="U&M_Weighted" width="350"/>
-  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/upmc_mgb_wgt.png" alt="U&M" title="U&M" width="350"/>
-  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/upmc_mgb_wgt_inst.png" alt="U" title="U" width="350"/>
+  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/upmc_mgb_wgt_30_0.5.png" alt="U&M" title="U&M_Weighted" width="330"/>
+  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/upmc_mgb_wgt.png" alt="U&M" title="U&M" width="330"/>
+  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/upmc_mgb_wgt_inst.png" alt="U" title="U" width="330"/>
 </p>
