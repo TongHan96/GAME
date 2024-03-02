@@ -1,3 +1,22 @@
+# t-sne msthod
+
+1. We utilize Alzheimer's Disease (AD) data from UPMC and MGB. The case group consists of individuals diagnosed within 0-2 years, while the control group includes individuals from 10-5 years before diagnosis. From each group, we select 5000 data points for t-SNE analysis.
+2. UPMC dataL Shanshan has already cleaned the data (rm some patients), using `UPMC_AD_survival_analysis_df_1.RData`; while MGB data remain no cleaning
+3. The weighted embedding process involves using the cosine similarity of each code with the AD code (PheCode: 290.11) to weight the code embedding
+ 
+ ```math
+tf_{i,j} = \text{Frequency of \(i^{th}\) code in \(j^{th}\) patient's record}
+```
+
+\[idf_{i,i} = log(# patient/ (1+ # patient with code i))\]
+
+\[tf-idf = tf idf\]
+
+\[pt_emb = tf-idf cod_emb\]
+
+\[pt_emb_wgt = tf-idf diag(weight) cod_emb\]
+
+
 # t-sne results
 
 ## Single inst
