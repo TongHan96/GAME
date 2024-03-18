@@ -3,10 +3,11 @@
 """
 Title: main.py
 Author: Han Tong
-Date: 2024-01-10
+Date: 2024-02-10
 Python Version: Python 3.11.3
 Description: main file of our attention model
 """
+
 
 import torch
 from torch_geometric.utils import to_undirected
@@ -30,13 +31,17 @@ def update_config_from_args():
     
     config = get_config()
 
-    parser = argparse.ArgumentParser(description="GAT Training Script")
-    parser.add_argument("--want_TOP1", type=float, default=70.2,
-                        help="Top1 performance threshold for storing model and embedding. Default: 70.2.")
+    parser = argparse.ArgumentParser(description="GAMEw Training Script")
+    parser.add_argument("--want_TOP1", type=float, default=77,
+                        help="Top1 performance threshold for storing model and embedding. Default: 77.")
+    parser.add_argument("--want_TOP20", type=float, default=93,
+                        help="Top1 performance threshold for storing model and embedding. Default: 93.")
+    parser.add_argument("--EDGE_ALL", type=str, default='True',
+                        help="Whether to use all edges to train similarity. Default: True.")
     parser.add_argument("--drop_out", type=float, default=0.0,
                         help="Parameter drop_out prob. Default: 0.0.") 
-    parser.add_argument("--lr", type=float, default=1e-6,
-                        help="Parameter learning rate. Default: 1e-6.")    
+    parser.add_argument("--lr", type=float, default=1e-3,
+                        help="Parameter learning rate. Default: 1e-3.")    
     parser.add_argument("--AA", type=float, default=1.0,
                         help="Parameter AA. Default: 1.0")
     parser.add_argument("--BB", type=float, default=5.0,
@@ -57,6 +62,8 @@ def update_config_from_args():
                         help="Parameter scale_REL. Default: 1.")  
     parser.add_argument("--rmax", type=int, default=256,
                         help="Parameter r_max we use for similarity. Default: 256.")  
+    parser.add_argument("--hidden_features", type=int, default=768,
+                        help="Parameter r_max we use for similarity. Default: 768.")  
     parser.add_argument("--path", type=str, default=config['path'],
                         help="Specify the path parameter.")
     parser.add_argument("--input_dir", type=str, default=config['input_dir'],
@@ -69,10 +76,15 @@ def update_config_from_args():
                     help='whether to check attention or not. Default: False.')
     parser.add_argument("--DEVICE", type=str, default='cuda:0',
                     help='Use GPU or CPU. Default: cuda:0.')
+    parser.add_argument("--num_inst", type=int, default=4,
+                    help='The number of institutions. Default: 4.')
 
     args = parser.parse_args()
 
+    config['num_inst'] = args.num_inst
     config['want_TOP1'] = args.want_TOP1
+    config['want_TOP20'] = args.want_TOP20
+    config['EDGE_ALL'] = args.EDGE_ALL
     config['base_lr'] = args.lr
     config['drop_p'] = args.drop_out   
     config['AA'] = args.AA
@@ -85,6 +97,7 @@ def update_config_from_args():
     config['scale_REL'] = args.scale_REL
     config['scale_align'] = args.scale_align
     config['rmax'] = args.rmax
+    config['hidden_features'] = args.hidden_features
     config['input_dir'] = args.input_dir
     config['path'] = args.path
     config['path_origin'] = args.path_origin
@@ -103,14 +116,12 @@ def update_config_from_args():
 
 def main(config): 
     
-    from load_data import mgb_emb, va_emb, upmc_emb, sap_emb, unique_name, val_rel_pairs, ALL_sim_val_pairs, edges_sppmi, my_objects, pos_sppmi, neg_sppmi, edges, edges_sim, edges_rel, same_desc_edge
+    from load_data import sppmi_list, sap_emb, unique_name, val_rel_pairs, ALL_sim_val_pairs, edges_sppmi, my_objects, pos_sppmi, neg_sppmi, edges, edges_sim, edges_rel, same_desc_edge
     
     # load data to device
     device = torch.device(config['DEVICE'])
     if config['path_origin'] == "align_NA":
-        mgb_emb = mgb_emb.to(device)
-        va_emb =  va_emb.to(device)
-        upmc_emb = upmc_emb.to(device)
+        sppmi_list = [inst_emb.to(device) for inst_emb in sppmi_list]
         
     else:
         # we have get aligned sppmi emb, stored in  .../align_sppmi folder
@@ -131,27 +142,47 @@ def main(config):
     # load GAT model
     model_all = inst_encoder(config)
     model_all = model_all.to(device)
+    print(model_all)
     optimizer0 = optim.SGD(model_all.parameters(), lr=config['base_lr'])
-    scheduler0 = CustomExponentialLR(optimizer0, gamma=config['gamma'], min_lr=1e-100)
+    scheduler0 = CustomExponentialLR(optimizer0, gamma=config['gamma'], min_lr=5e-7)
     
     # load edges
+    ## edges: code mapping + hierarchy
+    ## edges_sim: non-hierarchy edges sim
+    ## same_desc_edge: the codes having same descriptions
+    ## edges_rel: edges_rel
+    ## edges_sppmi: common edges from 4 insts
+    ## pos_sppmi: uncommon edges selected by GPT4
+    
     edge_all_sim = torch.cat((torch.cat((edges, edges_sim), dim=1), same_desc_edge), dim = 1)
+    # edge_all_rel = torch.cat((torch.cat((torch.cat((torch.cat((edges_rel, edges_sppmi), dim=1), pos_sppmi), dim=1), same_desc_edge), dim = 1), pos_coder),dim=1)  # tmp!!
     edge_all_rel = torch.cat((torch.cat((torch.cat((edges_rel, edges_sppmi), dim=1), pos_sppmi), dim=1), same_desc_edge), dim = 1)
     
     if config['path_origin'] == "align_NA":
-        record = float('inf')
+        record = -float('inf')
         loss_agg = 0
         edge_index = torch.cat((edge_all_sim, edge_all_rel), dim = 1)
+    
     elif config['path_origin'] is None:
         record = -float('inf')
-        # edge_index = edge_all_sim
-        edge_index = torch.cat((edge_all_sim, edge_all_rel), dim = 1) ## TMP!
+        if config['EDGE_ALL'] == 'True':
+            edge_index = torch.cat((edge_all_sim, edge_all_rel), dim = 1) ## TMP!
+        else:
+            edge_index = edge_all_sim
+        
     else:
         record = -float('inf')
-        # edge_index = edge_all_rel
-        edge_index = torch.cat((edge_all_sim, edge_all_rel), dim = 1) ## TMP!
+        record2 = -float('inf')
+        if config['EDGE_ALL'] == 'True':
+            edge_index = torch.cat((edge_all_sim, edge_all_rel), dim = 1)
+        else:
+            edge_index = edge_all_rel
+        # edge_index = torch.cat((torch.cat((torch.cat((torch.cat((edges_rel, edges_sppmi), dim=1), pos_sppmi), dim=1), same_desc_edge), dim = 1), edge_all_sim),dim=1)
+        # edge_index = torch.cat((torch.cat((torch.cat((edges_rel, edges_sppmi), dim=1), pos_sppmi), dim=1), same_desc_edge), dim = 1)
+        # edge_index = torch.cat((edge_all_sim, edge_all_rel), dim = 1) ## TMP!
 
-    edge_index = remove_duplicate_edge(edge_index)        
+    edge_index = remove_duplicate_edge(edge_index)       
+    print(edge_index.shape)
     undirected_edge_index = to_undirected(edge_index).to(device)
     
     # begin training
@@ -160,14 +191,15 @@ def main(config):
         case_store = False
         optimizer0.zero_grad()
         model_all.train()
-        print(model_all.GAT_together.gat_conv.lin_src.weight.data)
         
         # align sppmi case
         if config['path_origin'] == "align_NA":
-            align_loss_term, x_sim = model_all(mgb_emb=mgb_emb, va_emb=va_emb, upmc_emb=upmc_emb, sap_emb=sap_emb, edge_index=undirected_edge_index, config=config)
+            align_loss_term, x_sim = model_all(sppmi_list=sppmi_list, sap_emb=sap_emb, edge_index=undirected_edge_index, config=config)
+            # P_sppmi, N_sppmi = sppmi_edge_loss(x_sim, pos_sppmi, neg_sppmi, config)
+            # P_coder, N_coder = sppmi_edge_loss(x_sim, pos_coder, neg_coder, config)
             loss0 = align_loss_term
             loss_agg += loss0
-            loss = [my_item(align_loss_term)]
+            loss = [my_item(loss0)]
         
         # simi embedding training case
         elif config['path_origin'] is None:
@@ -185,8 +217,12 @@ def main(config):
             x_rel = torch.cat((x_sim_trained, x_rel_part), dim=1) # concat fixed simi embedding
             P_REL, N_REL = custom_loss(my_objects, x_rel, list(range(config['num_union'])), device, unique_name, config)
             P_sppmi, N_sppmi = sppmi_edge_loss(x_rel, pos_sppmi, neg_sppmi, config)
+            # P_coder, N_coder = sppmi_edge_loss(x_rel, pos_coder, neg_coder, config)
+            # loss0 = P_REL + N_REL + P_sppmi + N_sppmi + P_coder + N_coder
+            # loss = [my_item(P_REL), my_item(N_REL), my_item(P_sppmi), my_item(N_sppmi), my_item(P_coder), my_item(N_coder)]  # tmp!!
+            
             loss0 = P_REL + N_REL + P_sppmi + N_sppmi
-            loss = [my_item(P_REL), my_item(N_REL), my_item(P_sppmi), my_item(N_sppmi)]
+            loss = [my_item(P_REL), my_item(N_REL), my_item(P_sppmi), my_item(N_sppmi), 0,0]  # tmp!!
             
         # update
         loss0.backward()
@@ -194,45 +230,60 @@ def main(config):
         scheduler0.step()
         torch.cuda.empty_cache()
         
-        # evaluate   
+        # evaluate 
         if epoch % 10 == 1:
             model_all.eval()
-            if config['path_origin'] == "align_NA":
-                
+            if config['path_origin'] == 'align_NA':
+                print(f'loss in 10 epochs = {np.round(my_item(loss_agg),3)}') 
+                x_sim_test = model_all(sppmi_list, sap_emb=sap_emb, edge_index=undirected_edge_index, config=config)
+                PRE_new, AUC_new, AUC_new2, AUC_new3 = test(x_sim_test, unique_name, config, similar_pairs=ALL_sim_val_pairs, related_pairs=val_rel_pairs, drug_side_pairs=drug_side_pairs, PRE=True, AUC=True, AUC_type=True)
+                write_file(epoch, 0, config, loss=loss, pre=PRE_new, SIM_AUC=AUC_new[0][0], REL_AUC=AUC_new2[0][0], DRUG_AUC=AUC_new3[0][0])
+                # feature selection and evalution
+                emb_all = list([sap_emb, coder_emb, sppmi_list[0], sppmi_list[1], sppmi_list[2], sppmi_list[3], x_sim_test.cpu().detach()])
+
+                new_corr = feature_selection_every_epoch(emb_all, start_time, epoch,RECORD=record)
+                print(f'Corr: {np.round(new_corr,3)}')
+
                 # whether to break training and store model
-                case_store = (loss_agg < record)
+                case_store = (new_corr > record)
                 if case_store:
                     if epoch > 1:
-                        record = loss_agg
-                    loss_agg = 0
-                elif epoch > 1:
+                        record = new_corr
+                elif epoch > 50:
                     break
-                    
-                x_sim_test = model_all(mgb_emb=mgb_emb, va_emb=va_emb, upmc_emb=upmc_emb, sap_emb=sap_emb, edge_index=undirected_edge_index, config=config)
-                PRE_new, AUC_new, AUC_new2 = test(x_sim_test, unique_name, config, similar_pairs=ALL_sim_val_pairs, related_pairs=val_rel_pairs, PRE=True, AUC=True, AUC_type=True)
-                write_file(epoch, 0, config, loss=loss, pre=PRE_new, SIM_AUC=AUC_new[0][0], REL_AUC=AUC_new2[0][0])
-
-                
+                loss_agg = 0
+            
             elif config['path_origin'] is None:
                 x_sim_test = model_all(sap_emb=sap_emb, out_1=out_1, edge_index=undirected_edge_index, config=config)
-                PRE_new, AUC_new = test(x_sim_test, unique_name, config, similar_pairs=ALL_sim_val_pairs, PRE=True, AUC=True, AUC_type=True)
-                write_file(epoch, 0, config, loss=loss, pre=PRE_new, SIM_AUC=AUC_new[0][0])
-                case_store = (PRE_new[0] >= record) & (PRE_new[0] >= config['want_TOP1']) 
-                if PRE_new[0] > record:
-                    record = PRE_new[0]
+                PRE_new, AUC_new, AUC_new3 = test(x_sim_test, unique_name, config, similar_pairs=ALL_sim_val_pairs, drug_side_pairs=drug_side_pairs, PRE=True, AUC=True, AUC_type=True)
+                write_file(epoch, 0, config, loss=loss, pre=PRE_new, SIM_AUC=AUC_new[0][0], DRUG_AUC=AUC_new3[0][0])
+
+                emb_all = list([sap_emb, coder_emb, sppmi_list[0], sppmi_list[1], sppmi_list[2], sppmi_list[3], x_sim_test.cpu().detach()])
+                new_corr = feature_selection_every_epoch(emb_all, start_time, epoch)
+                case_store = (PRE_new[3] > record) # tmp!!
+                if case_store:
+                    record = PRE_new[3]
+            
             else:
                 x_rel_part_test = model_all(sap_emb=sap_emb, out_1=out_1, edge_index=undirected_edge_index, config=config)
                 x_rel_test = torch.cat((x_sim_trained, x_rel_part_test), dim=1)
-                AUC_new = test(x_rel_test, unique_name, config, related_pairs=val_rel_pairs, PRE=False, AUC=True, AUC_type=True)   
-                write_file(epoch, 0, config, loss=loss, REL_AUC=AUC_new[0][0][0])
-                rel_all = sum_(AUC_new[0][0])
+                AUC_new, AUC_new3 = test(x_rel_test, unique_name, config, related_pairs=val_rel_pairs, drug_side_pairs=drug_side_pairs, PRE=False, AUC=True, AUC_type=True)   
+                rel_all = sum_(AUC_new[0])
+                write_file(epoch, 0, config, loss=loss, REL_AUC=AUC_new[0][0], DRUG_AUC=AUC_new3[0][0])
+                emb_all = list([sap_emb, coder_emb, sppmi_list[0], sppmi_list[1], sppmi_list[2], sppmi_list[3], x_rel_test.cpu().detach()])
+                new_corr = feature_selection_every_epoch(emb_all, start_time, epoch)
                 print(f'AUC = {np.round(rel_all,3)}')
-                case_store = (rel_all >= record)
+                print(f'Corr: {np.round(new_corr,3)}')
+                case_store = (rel_all > record) 
+                case_store2 = (new_corr > record2)
                 if case_store:
                     record = rel_all
-                case_store = True # TMP!!
+                if case_store2:
+                    record2 = new_corr
+                case_store = case_store | case_store2
+        
         else:
-            write_file(epoch, 0, config, loss=loss)     
+            write_file(epoch, 0, config, loss=loss)                  
         
         # Store the embedding or not
         # if store embedding, we need to evaluate features selection
@@ -240,19 +291,16 @@ def main(config):
             if config['path_origin'] == "align_NA":
                 torch.save(x_sim_test, f"{config['path']}/output/{start_time}/align_sppmi.pth")
                 torch.save(model_all.state_dict(), f"{config['path']}/output/{start_time}/model_align.pth")  
-                feature_selection_every_epoch(emb_sap, emb_coder, emb_svd_MGB, emb_svd_VA, emb_svd_UP, x_sim_test, start_time, epoch)
+            
             elif config['path_origin'] is None:
                 torch.save(x_sim_test, f"{config['path']}/output/{start_time}/sim_emb.pth")
                 torch.save(model_all.state_dict(), f"{config['path']}/output/{start_time}/model_sim.pth")   
-                feature_selection_every_epoch(emb_sap, emb_coder, emb_svd_MGB, emb_svd_VA, emb_svd_UP, x_sim_test, start_time, epoch)
                 emb = pd.DataFrame(x_sim_test.cpu().detach().numpy())
                 emb.to_csv(f"{config['path']}/output/{start_time}/sim_emb.csv", index=None)
                 
             else:
                 torch.save(x_rel_test, f"{config['path']}/output/{start_time}/rel_emb.pth")
                 torch.save(model_all.state_dict(), f"{config['path']}/output/{start_time}/model_rel.pth") 
-                feature_selection_every_epoch(emb_sap, emb_coder, emb_svd_MGB, emb_svd_VA, emb_svd_UP, x_rel_test, start_time, epoch)
-                # feature_selection_every_epoch(emb_sap, emb_coder, emb_svd_MGB, emb_svd_VA, emb_svd_UP, x_rel_part_test, start_time, epoch)
                 emb = pd.DataFrame(x_rel_test.cpu().detach().numpy())
                 emb.to_csv(f"{config['path']}/output/{start_time}/rel_emb.csv", index=None)
 

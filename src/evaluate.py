@@ -14,7 +14,7 @@ import warnings
 from config import get_config
 warnings.filterwarnings('ignore')
 from sklearn.metrics import roc_auc_score
-from load_data import *
+# from load_data import *
 from utils import *
 config = get_config()
 CHECK_ALL = config['CHECK_ALL']
@@ -42,7 +42,7 @@ def predict_fun(emb_other, emb_loinc, other_name, loinc_name, item_dict):
     return np.vstack((right_top1, right_top5, right_top10, right_top20)).T
 
 
-def output(new_emb, name_all=unique_name, NUM=False):
+def output(new_emb, name_all, NUM=False):
     
     OtherToLoincLabel = np.load(f"{config['path']}/input/OtherToLoinc_new.npy",
                                 allow_pickle=True).item()
@@ -55,8 +55,7 @@ def output(new_emb, name_all=unique_name, NUM=False):
         PRE = predict_fun(emb_other, emb_loinc, get_values(name_all[existed_row]), get_values(name_all[index1]), OtherToLoincLabel, NUM)
         return PRE
     
-    N1 = 2024
-    # print(N1)
+    N1 = 2030
     pre = predict_fun(emb_other, emb_loinc, get_values(name_all[existed_row]), get_values(name_all[index1]), OtherToLoincLabel)
     return np.array([np.sum(pre[:, i])/N1 for i in range(4)])*100
 
@@ -168,7 +167,7 @@ def get_total_AUC(emb, name_all, pairs):
     return AUC
 
 
-def test(x, name_all, config, related_pairs=None, similar_pairs=None, PRE=True, AUC=True, AUC_type=True):
+def test(x, name_all, config, related_pairs=None, similar_pairs=None, drug_side_pairs=None, PRE=True, AUC=True, AUC_type=True):
     # x_low_dim is used to do similar jobs; x_rel is used to do related jobs
     rmax=config['rmax']
     results = []
@@ -189,10 +188,15 @@ def test(x, name_all, config, related_pairs=None, similar_pairs=None, PRE=True, 
     # related and similar AUC
     if AUC:
         if similar_pairs is not None:
+            similar_pairs = similar_pairs.iloc[np.where(similar_pairs.iloc[:,0].isin(name_all))[0],:]
             SIMI = compute_auc(x_low_dim, similar_pairs)
             results.append([SIMI])
         if related_pairs is not None:
+            related_pairs = related_pairs.iloc[np.where(related_pairs.iloc[:,0].isin(name_all))[0],:]
             RELA = compute_auc(x, related_pairs)
             results.append([RELA])
+        if drug_side_pairs is not None:
+            DRUG_SIDE = compute_auc(x, drug_side_pairs)
+            results.append([DRUG_SIDE])
 
     return tuple(results)

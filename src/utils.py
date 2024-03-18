@@ -3,7 +3,7 @@
 """"
 Title: Utils.py
 Author: Han Tong
-Date: 2024-01-10
+Date: 2024-02-11
 Python Version: Python 3.11.3
 Description: All useful functions we use
 """
@@ -75,7 +75,14 @@ def id_map(codes, name_all, shift=0, concat=True):
         else:
             return result
 
-    
+        
+def match(a, b, rm_None=True):
+    # Create an array to store the indices
+    indices = np.array([np.where(b == x)[0][0] if x in b else np.nan for x in a])
+    # Filter out None values, which represent elements not found in b
+    indices = indices[~np.isnan(indices)]
+    return indices
+
 
 def unique_slice(s, num_codes=20):
     """
@@ -254,7 +261,7 @@ def write_file_sub2(MGB_AUC1, name, EPOCH, BATCH):
 
 
 
-def write_file(Epoch, Batch, config, loss=None, pre=None, SIM_AUC=None, REL_AUC=None):
+def write_file(Epoch, Batch, config, loss=None, pre=None, SIM_AUC=None, REL_AUC=None, DRUG_AUC=None):
     """
     write all files (loss pre accuracy and AUC)
     """
@@ -270,13 +277,14 @@ def write_file(Epoch, Batch, config, loss=None, pre=None, SIM_AUC=None, REL_AUC=
         elif config['path_origin'] is None:    
             losswriter.writerow(["EPOCH", "BATCH", "P_LOSS_hie", "N_LOSS_hie", "P_LOSS_OTOL", "N_LOSS_OTOL", "P_LOSS_LTOL", "N_LOSS_LTOL", "P_LOSS_SIM_NO_HIE", "N_LOSS_SIM_NO_HIE"])            
         else:
-            losswriter.writerow(["EPOCH", "BATCH", "P_REL", "N_REL", "P_sppmi", "N_sppmi"])           
+            losswriter.writerow(["EPOCH", "BATCH", "P_REL", "N_REL", "P_sppmi", "N_sppmi", "P_coder", "N_coder"])           
         lossfile.close()
 
-        if config['path_origin'] is not None:
+        if (config['path_origin'] is not None):
             # rela auc
             write_file_sub(REL_AUC, "REL_AUC")
-        
+            write_file_sub(DRUG_AUC, "DRUG_SIDE")
+            
         if (config['path_origin'] is None) | (config['path_origin'] =='align_NA'):
             # simi auc
             write_file_sub(SIM_AUC, "SIM_AUC")
@@ -311,6 +319,8 @@ def write_file(Epoch, Batch, config, loss=None, pre=None, SIM_AUC=None, REL_AUC=
         write_file_sub2(REL_AUC, "REL_AUC", Epoch, Batch)
     if SIM_AUC is not None:
         write_file_sub2(SIM_AUC, "SIM_AUC", Epoch, Batch)
+    if DRUG_AUC is not None:
+        write_file_sub2(DRUG_AUC, "DRUG_SIDE", Epoch, Batch)
         
 
 def mask_inst(pairs, dict_MGB, shift):
@@ -374,34 +384,6 @@ def retain_topk_alpha(alpha, edge_index, mask_num):
     # Set the values not in the top k to mask_num, like -100
     alpha[~mask] = mask_num
     return alpha
-
-
-def get_parent(pairs, CHANGE_INDEX=[0, 1], DROP=True):
-
-    pairs_new = pairs.copy()
-    hie_all = pd.read_csv("https://han-attention.s3.amazonaws.com/input_new/Hierarchy/hie_rxn_phe_loi_0902.csv")
-    to_remove = []  # list to store indices to be removed
-
-    for col_idx in CHANGE_INDEX:
-
-        # Fetch indices for which the pattern matches in the current column
-        indices = grep_index("^LOINC:(?!LP)", np.array([str(item) if not pd.isna(item) else "nan" for item in pairs_new.iloc[:, col_idx].values]))
-
-        for i in indices:
-            mapped_values = hie_all.iloc[id_map([pairs_new.iloc[i, col_idx]], hie_all.iloc[:,0].values), 1].values
-
-            if len(mapped_values) > 0:
-                pairs_new.iloc[i, col_idx] = mapped_values[0]
-            else:
-                to_remove.append(i)
-                
-    pairs_new = pairs_new.reset_index(drop=True)
-    if DROP:
-        pairs_new.drop(to_remove, inplace=True)
-        pairs_new = pairs_new.reset_index(drop=True)
-    
-        
-    return pairs_new
     
 
 def remove_duplicate_edge(edge_index):
@@ -410,15 +392,6 @@ def remove_duplicate_edge(edge_index):
     unique_edge_index, inverse_indices = torch.unique(edge_index, return_inverse=True, dim=0)
     unique_edge_index = unique_edge_index.t()
     return unique_edge_index
-
-    
-def get_latent_related(train_pairs, val_pairs, test_pairs, DROP=True):
-    
-    train_pairs = get_parent(train_pairs, [0,1], DROP=DROP)
-    val_pairs = get_parent(val_pairs, [0,1], DROP=DROP)
-    test_pairs = get_parent(test_pairs, [0,1], DROP=DROP)
-    
-    return train_pairs, val_pairs, test_pairs
 
 
 def get_index(train_rel_pairs, name_all):
@@ -546,6 +519,7 @@ def compute_spearman(a, b):
     coef, p = spearmanr(a, b)
     return coef, p
 
+
 def feature_selection(emb_all, code, name_all):
     cos_sims = []
     code_indice = np.where(name_all == code)[0]
@@ -555,6 +529,7 @@ def feature_selection(emb_all, code, name_all):
     emb_code_tensor = torch.tensor(emb_code_row.astype(np.float32))
     cos_sim = torch.matmul(emb_all_tensor, emb_code_tensor.t()) / torch.norm(emb_code_tensor)**2
     return cos_sim
+
 
 def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=['sap', 'coder', 'svd', 'old', 'new'], negative=None, common_edges=None, edges=None, neg=None, mapping_list=None):
     desc_code = name_desc.iloc[np.where(name_desc.iloc[:,0].values == code)[0],1].values
@@ -651,12 +626,11 @@ def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=[
     pos_new.to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", index=None)
     update_score(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", f"{config['path']}/supp_code/feature_selection/input/GPT4_{code.replace(':','_')}.csv")
     # evaluate
-    output_str = print_all(pos_new, name_list)
-    with open(f"{config['path']}/supp_code/feature_selection/rank_corr/GPT4_rank_ans_{code}_{add}.txt", 'w') as f:
-        f.write(output_str)
+    output_str, output_tmp = print_all(pos_new, name_list)
+    with open(f"{config['path']}/supp_code/feature_selection/rank_corr/GPT4_rank_ans_{code}_{add}.txt", 'a') as f:
+        f.write('\n' + output_str)
     print(output_str)
-    plot_all(pos_new, name_list, path = f"{config['path']}/supp_code/feature_selection/pic_cos_sim/cos_sim_ans_{code}_{add}.png")
-    return pos_new
+    return pos_new, output_tmp
 
 def write_score(pos_score, pos):
     if pos_score is None:
@@ -691,7 +665,7 @@ def plot_all(pos, name_list, indices_=True, path=None):
     colors = itertools.cycle(color_cycle)
     # Calculate the number of rows and columns for subplots
     n_types = len(name_list)
-    n_cols = 3  # You can adjust this to change the layout
+    n_cols = 4  # You can adjust this to change the layout
     n_rows = n_types // n_cols + (n_types % n_cols > 0)
 
     # Create a figure and a set of subplots
@@ -735,7 +709,7 @@ def plot_all(pos, name_list, indices_=True, path=None):
 
     plt.tight_layout()  
     plt.savefig(f"{path}")
-    # plt.show()
+    plt.show()
     plt.close()
 
     
@@ -746,7 +720,7 @@ def print_all(pos, name_list):
         output_tmp = np.round(output_tmp[0],3)
         output.write(f'{name_list[i]}: {output_tmp}\t')
 
-    return output.getvalue()
+    return output.getvalue(), output_tmp
 
 
 def change_string_to_float(pos_all):
@@ -771,7 +745,8 @@ def update_score(path, path_origin=None):
     
 def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None):
     model_engine = "gpt-4"
-    openai.api_key = "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"
+    # openai.api_key = "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"
+    openai.api_key = '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'  # tmp!
     # model_engine = "gpt-3.5-turbo"
     pd.DataFrame(data.columns).transpose().to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=None) 
     data.reset_index()
@@ -813,10 +788,10 @@ def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None):
         df.to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=False, mode="a")
         
         
-def feature_selection_every_epoch(emb_sap, emb_coder, svd_MGB, svd_VA, svd_UP, emb_new, loc, epoch):
+def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['sap','coder','svd_MGB','svd_VA','svd_UP','svd_BCH','GAME'], RECORD=None):
     # load data
-    name_desc = pd.read_csv('https://han-attention.s3.amazonaws.com/input/name_desc/name_desc_all_GPT4_LP.csv')
-
+    emb_all = [pd.DataFrame(emb.cpu().numpy()) for emb in emb_all]
+    name_desc = pd.read_csv(f'{config["input_dir"]}/name_desc/unique_name_desc_LP.csv')
     name_all = name_desc.iloc[:,0]
     unique_code = pd.DataFrame(name_all).drop_duplicates().values
     unique_code = np.concatenate(unique_code)
@@ -838,14 +813,21 @@ def feature_selection_every_epoch(emb_sap, emb_coder, svd_MGB, svd_VA, svd_UP, e
         new_row = pd.DataFrame({'name': [type_desc], 'indices': [indices]})
         mapping_list = pd.concat([mapping_list, new_row], ignore_index=True)
         
-    emb_new = pd.DataFrame(emb_new.cpu().detach().numpy())
-    
-    # feature selection and evalution
-    emb_all = list([emb_sap, emb_coder, svd_MGB, svd_VA, svd_UP, emb_new])
     code_list = ['PheCode:714.1','PheCode:428.1','PheCode:296.2','PheCode:250.1']
-
+    corr_list = []
+    result_list = []
     for code in code_list:
-        add_param = f'{loc}_{epoch}'  # Dynamically change the add parameter
-        results = all_fea_select(emb_all, code, name_desc, add=add_param, 
-                                 name_list = ['sap','coder','svd_MGB','svd_VA','svd_UP','new'],
+        add_param = f'{loc}'  # Dynamically change the add parameter
+        result, corr = all_fea_select(emb_all, code, name_desc, add=add_param, 
+                                 name_list = name_list,
                                 feat_max=100, mapping_list=mapping_list)
+        corr_list.append(corr)
+        result_list.append(result)
+    
+    now_corr = np.mean(corr_list)
+    if RECORD is not None:
+        if now_corr > RECORD:
+            for code, result in zip(code_list, result_list):
+                plot_all(result, name_list, path = f"{config['path']}/supp_code/feature_selection/pic_cos_sim/cos_sim_ans_{code}_{loc}.png")
+        
+    return now_corr

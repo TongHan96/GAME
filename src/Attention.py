@@ -27,12 +27,15 @@ CHECK_ALL = config['CHECK_ALL']
 Models
 '''
 class GATLayer(nn.Module):
-    def __init__(self, in_features, out_features, heads, concat, dropout, init0=False):
+    def __init__(self, in_features, out_features, heads, concat, dropout, init0=False, linear=True):
         super(GATLayer, self).__init__()
         self.gat_conv = GATConv(in_features, out_features, heads, concat=concat, add_self_loops=True, bias=True)
         self.batch_norm = nn.BatchNorm1d(out_features * heads if concat else out_features)
         self.activation = nn.ReLU()
         self.dropout_rate = dropout
+        self.linear = linear
+        if linear:
+            self.Linear = nn.Linear(out_features * heads if concat else out_features, out_features)
         
         if init0 is True:
             # Initialize the lower half of gat_conv.lin_src.weight to zeros
@@ -45,6 +48,8 @@ class GATLayer(nn.Module):
         out = self.gat_conv(x, edge_index)
         out = self.batch_norm(out)
         out = self.activation(out)
+        if self.linear:
+            out = self.Linear(out)
         return out
     
 
@@ -52,39 +57,57 @@ class inst_encoder(nn.Module):
     def __init__(self, config):
         super(inst_encoder, self).__init__()
         if config['path_origin'] == 'align_NA':
-            self.MGB_inst = GATLayer(config['num_features'], config['hidden_features'], config['heads'], False, config['drop_p'])
-            self.VA_inst = GATLayer(config['num_features'], config['hidden_features'], config['heads'], False, config['drop_p'])
-            self.UPMC_inst = GATLayer(config['num_features'], config['hidden_features'], config['heads'], False, config['drop_p'])
+            print(range(config['num_inst']))
+            # self.inst = torch.nn.ModuleList([GATLayer(config['num_features'], config['hidden_features'], config['heads'], True, config['drop_p']) for i in range(config['num_inst'])])  # tmp!!
+            self.inst = torch.nn.ModuleList([GATLayer(config['num_features'], config['hidden_features'], config['heads'], True, config['drop_p']) for i in range(config['num_inst']+1)])
+            
         else:
-            self.GAT_together = GATLayer(2 * config['hidden_features'], config['hidden_features'], config['heads'], False, config['drop_p'], init0=True)
-
+            self.GAT_together = GATLayer(2 * config['hidden_features'], config['hidden_features'], config['heads'], True, config['drop_p'], init0=True, linear=False) ## tmp!!
+            
         if config['path_origin'] is None:
-            self.Linear = nn.Linear(config['hidden_features'], config['rmax'])
+            self.Linear = nn.Linear(2*config['hidden_features'], config['rmax'])
         elif config['path_origin'] != 'align_NA':
-            self.Linear = nn.Linear(config['hidden_features'], config['out_dim'] - config['rmax'])
+            self.Linear = nn.Linear(2*config['hidden_features'], config['out_dim'] - config['rmax'])
     
-    def align_loss(self, x1, x2, x3, config):
-        m_v = np.intersect1d(config['mgb_row'], config['va_row'])
-        v_u = np.intersect1d(config['upmc_row'], config['va_row'])
-        m_u = np.intersect1d(config['mgb_row'], config['upmc_row'])
-        loss = torch.norm(x1[m_v] - x2[m_v], 'fro') + torch.norm(x2[v_u] - x3[v_u], 'fro') + torch.norm(x3[m_u] - x1[m_u], 'fro')
+    def align_loss(self, new_sppmi_list, config):
+        num_inst = config['num_inst']
+        loss = 0
+        for i in range(num_inst):  # num_inst must be bigger than 1
+            for j in range(num_inst):
+                loss += torch.norm(new_sppmi_list[i][config['inst_row'][i],:] - new_sppmi_list[j][config['inst_row'][i],:], 'fro')
         return loss
 
-    def forward(self, mgb_emb=None, va_emb=None, upmc_emb=None, sap_emb=None, edge_index=None, out_1=None, config=None):
+    # def align_loss(self, new_sppmi_list, config):
+    #     num_inst = config['num_inst']
+    #     for i in range(num_inst-1):
+    #         for j in range(i+1,num_inst):
+    #             intersection = np.intersect1d(config['inst_row'][i], config['inst_row'][j])
+    #             loss = torch.norm(new_sppmi_list[i][intersection] - new_sppmi_list[j][intersection], 'fro')
+    #     return loss
+    
+    # def align_loss(self, new_sppmi_list, config):
+    #     num_inst = config['num_inst']
+    #     for i in range(num_inst-1):
+    #         for j in range(i+1,num_inst):
+    #             loss = torch.norm(new_sppmi_list[i] - new_sppmi_list[j], 'fro')
+    #     return loss
+
+    def forward(self, sppmi_list = None, sap_emb=None, edge_index=None, out_1=None, config=None):
         if config['path_origin'] == "align_NA":
-            
+            all_emb_list = []
             # Now we need to align sppmi emb together, and store this embedding
-            MGB_emb = self.MGB_inst(mgb_emb, edge_index)
-            VA_emb = self.VA_inst(va_emb, edge_index)
-            UPMC_emb = self.UPMC_inst(upmc_emb, edge_index)
-            all_emb = MGB_emb + VA_emb + UPMC_emb
-            out_1 = all_emb / torch.norm(all_emb, dim=1, keepdim=True)
+            for i in range(config['num_inst']):  
+                all_emb_list.append(self.inst[i](sppmi_list[i], edge_index))
+            all_emb_list.append(self.inst[i](sap_emb, edge_index))  # tmp!!
+            all_emb = torch.sum(torch.stack(all_emb_list), dim=0)
+            # all_emb = self.Linear(all_emb)  ## TMP!!
+            out_1 = all_emb / torch.norm(all_emb, dim=1, keepdim=True)  ## TMP!!
             
-            # get aligned loss
-            align_loss_term = self.align_loss(MGB_emb, VA_emb, UPMC_emb, config)
-            if config['CHECK_ALL']:
-                print(f'align_loss_term={align_loss_term}')
             if self.training:
+                # get aligned loss
+                align_loss_term = self.align_loss(all_emb_list, config)
+                if config['CHECK_ALL']:
+                    print(f'align_loss_term={align_loss_term}')
                 return config['scale_align'] * align_loss_term, out_1
             return out_1
             
@@ -95,8 +118,9 @@ class inst_encoder(nn.Module):
             out_2 = torch.concat((out_1, sap_emb), dim=1)
             
         # get unified representation
-        uni_tmp = self.GAT_together(out_2, edge_index)
-        uni = self.Linear(uni_tmp)
+        uni_tmp = self.GAT_together(out_2, edge_index) ## TMP!!
+        uni = self.Linear(uni_tmp) ## TMP!!
+        # uni = self.Linear(out_2)
         uni = uni / torch.norm(uni, dim=1, keepdim=True)
         # print(f'Training = {self.training}')
         return uni
@@ -244,8 +268,8 @@ def sppmi_edge_loss(x, edge_pos, edge_neg, config):
 
     # Sum log terms across all nodes to compute the final loss
     loss = log_term_pos.sum() + log_term_neg.sum()
-    if config['CHECK_ALL']:
-        print(f'sppmi_pos_loss: {log_term_pos.sum()}')
-        print(f'sppmi_neg_loss: {log_term_neg.sum()}')
+    # if config['CHECK_ALL']: # tmp!!!
+    print(f'sppmi_pos_loss: {log_term_pos.sum()}')
+    print(f'sppmi_neg_loss: {log_term_neg.sum()}')
 
     return config['scale_sppmi'] * log_term_pos.sum(), config['scale_sppmi'] * log_term_neg.sum()
