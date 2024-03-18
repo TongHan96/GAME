@@ -32,7 +32,7 @@ os.chdir('/home/doz128/GAME_model1/src')  # Change directory to your working pat
 
 ## GAME Training Script Configuration
 
-This section outlines the various configuration options available for the GAMEw Training Script. These options allow for customizing the training process, model performance thresholds, and other operational parameters.
+This section outlines the various configuration options available for the GAME Training Script. These options allow for customizing the training process, model performance thresholds, and other operational parameters.
 
 **Command-Line Arguments:**
 
@@ -58,7 +58,7 @@ This section outlines the various configuration options available for the GAMEw 
 - `--epochs`: Total number of epochs for training. *Default: 3*.
 - `--CHECK_ALL`: Option to check all attention mechanisms during training. Accepts 'True' or 'False'. *Default: False*.
 - `--DEVICE`: Specify the device for training, such as 'cuda:0' for GPU. *Default: 'cuda:0'*.
-- `--num_inst`: Specify the number of institutions for training. *Default: 4*.
+- `--num_inst`: Specify the number of institutions for training. In our project, we use MGB, VA, UPMC and BCH institutional data. *Default: 4*.
 
 **Additional Configuration:**
 
