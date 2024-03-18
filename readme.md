@@ -1,8 +1,10 @@
 # GAME: Self-supervised Graph Alignment for Multi-institutional Collaboration with Electronic Health Records Data
-
 ## Overview of the GAME Training Process
 This README offers a concise guide for implementing the GAME training process, which is designed to align multi-institutional codes within Electronic Health Records (EHR) data through a sophisticated knowledge graph system consisting of encoder and decoder components. Here's a simplified overview to facilitate understanding and implementation:
 
+<p align="center">
+  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/alg.drawio.png" alt="alg" title="alg" width="1000"/>
+</p>
 ### Encoder Component
 
 The encoder is crucial for aligning institutions and preparing embeddings for the decoder. It comprises three main steps:
