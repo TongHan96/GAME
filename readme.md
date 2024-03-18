@@ -8,17 +8,17 @@ This README offers a concise guide for implementing the GAME training process, w
 The encoder is crucial for aligning institutions and preparing embeddings for the decoder. It comprises three main steps:
 
 1. **Aligning Institutions with PPMI Embedding**:
-   - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings, denoted as \(X_i, i \in INSTs\), to align different institutions. After applying the institutional graph attention network, we obtain \(Y_i, i \in INSTs\), and then we can establish a common representation \(Y\) that captures co-occurrence probabilities. This step is essential for identifying similarities and relationships across institutions.
+   - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings, denoted as $X_i, i \in INSTs$, to align different institutions. After applying the institutional graph attention network, we obtain $Y_i, i \in INSTs$, and then we can establish a common representation $Y$ that captures co-occurrence probabilities. This step is essential for identifying similarities and relationships across institutions.
 
 2. **Generating Main Embedding**:
-   - Main embeddings are generated using edges and a loss function, where edges denote connections based on similarity and relatedness between entities. The initial input embedding is the concatenation of SAPBERT embedding \(Z\) and the institutional aligned embedding \(Y\) obtained in the first step. With a default configuration of \(rmax=256\), indicating a 256-dimensional embedding, \(\tilde{Y}_{main}\), a multi-similarity loss function optimizes the embeddings. This dimensionality is adequate for positioning similar entities closely in the embedding space.
+   - Main embeddings are generated using edges and a loss function, where edges denote connections based on similarity and relatedness between entities. The initial input embedding is the concatenation of SAPBERT embedding $Z$ and the institutional aligned embedding $Y$ obtained in the first step. With a default configuration of $rmax=256$, indicating a 256-dimensional embedding, $\tilde{Y}_{main}$, a multi-similarity loss function optimizes the embeddings. This dimensionality is adequate for positioning similar entities closely in the embedding space.
 
 3. **Creating Relatedness Tails Embedding**:
-   - This step involves generating relatedness tails embeddings \(\tilde{Y}_{rel}\) using relatedness edges, then concatenating them with the main embedding to form the final embedding (\(out_dim=768\)), \(\tilde{Y}\). The main embedding efficiently handles similarity tasks, whereas the final embedding addresses more complex relatedness tasks.
+   - This step involves generating relatedness tails embeddings $\tilde{Y}_{rel}$ using relatedness edges, then concatenating them with the main embedding to form the final embedding ($out_dim=768$), $\tilde{Y}$. The main embedding efficiently handles similarity tasks, whereas the final embedding addresses more complex relatedness tasks.
 
 ### Decoder Component
 
-Following the encoder, the decoder processes the shared encoder layer embedding to produce institution-specific embeddings, \(\tilde{Y}_i, i \in INSTs\), tailoring the output to particular institutional tasks. The decoder's functionality is adapted to the specific objectives of the system, ensuring that institutional embeddings are generated as required.
+Following the encoder, the decoder processes the shared encoder layer embedding to produce institution-specific embeddings, $\tilde{Y}_i, i \in INSTs$, tailoring the output to particular institutional tasks. The decoder's functionality is adapted to the specific objectives of the system, ensuring that institutional embeddings are generated as required.
 
 ### Implementing the Process
 
