@@ -1,7 +1,13 @@
 # README
 
 ## Overview
-This README provides instructions for running the training process in three parts to align institutions using PPMI embedding, obtain similarity embedding using similarity edges and loss function, and acquire relatedness embedding using relatedness edges and loss functions.
+This README provides instructions for running the training process in both encoder part and decoder part.
+
+In the encoder part, there are three parts. To align institutions using PPMI embedding, obtain similarity embedding using similarity edges and loss function, and acquire relatedness embedding using relatedness edges and loss functions.
+
+<p align="center">
+  <img src="https://github.com/TongHan96/GAME/blob/main/records/pic/alg.drawio.png" alt="alg" title="alg" width="1000"/>
+</p>
 
 ## Part 1: Aligning Institutions with PPMI Embedding
 
