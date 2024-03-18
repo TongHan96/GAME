@@ -6,7 +6,7 @@ This README provides instructions for running the training process in both encod
 In the encoder part, there are three parts. To align institutions using PPMI embedding, obtain similarity embedding using similarity edges and loss function, and acquire relatedness embedding using relatedness edges and loss functions.
 
 <p align="center">
-  <img src="https://github.com/TongHan96/GAME/blob/main/records/pic/alg.drawio.png" alt="alg" title="alg" width="1000"/>
+  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/alg.drawio.png" alt="alg" title="alg" width="1000"/>
 </p>
 
 ## Part 1: Aligning Institutions with PPMI Embedding
