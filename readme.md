@@ -1,13 +1,33 @@
-# README
+# GAME: Self-supervised Graph Alignment
+for Multi-institutional Code with Electronic Health Records data
 
-## Overview
-This README provides instructions for running the training process in both encoder part and decoder part.
-
-In the encoder part, there are three parts. To align institutions using PPMI embedding, obtain similarity embedding using similarity edges and loss function, and acquire relatedness embedding using relatedness edges and loss functions.
-
+## GAME Training Process Overview
 <p align="center">
   <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/alg.drawio.png" alt="alg" title="alg" width="1000"/>
 </p>
+This README provides a concise guide to implementing the GAME training process, designed to align multi-institutional codes within Electronic Health Records (EHR) data through a comprehensive knowledge graph system comprising encoder and decoder components. Here's a simplified overview to facilitate understanding and implementation:
+
+### Encoder Component
+
+The encoder is vital for aligning institutions and preparing embeddings for the decoder. It consists of three main steps:
+
+1. **Aligning Institutions with PPMI Embedding**:
+   - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings to align different institutions, establishing a common representation that captures co-occurrence probabilities. This step is crucial for identifying similarities and relationships across institutions.
+
+2. **Generating Main Embedding**:
+   - Main embeddings are crafted using edges and a loss function, where edges denote connections based on similarity and relatedness between entities. With a default configuration of `rmax=256`, indicating a 256-dimensional embedding, a multi-similarity loss function optimizes the embeddings. This dimensionality is sufficient for clustering similar entities closely in the embedding space.
+
+3. **Creating Relatedness Tails Embedding**:
+   - This step involves generating relatedness tails embeddings using relatedness edges, subsequently concatenating them with the main embedding to form the final embedding (`out_dim=768`). The main embedding efficiently handles similarity tasks, whereas the final embedding addresses more complex relatedness tasks.
+
+### Decoder Component
+
+Following the encoder, the decoder processes the shared encoder layer embedding to produce institution-specific embeddings, tailoring the output to particular institutional tasks. The decoder's functionality is adapted to the specific objectives of the system, ensuring that institutional embeddings are generated as required.
+
+### Implementing the Process
+
+To implement the GAME training process, ensure each step in the encoder and decoder components is correctly executed according to the guidelines provided. This structured approach aligns institutions and optimizes embeddings, facilitating efficient multi-institutional analysis within EHR data.
+
 
 ## Part 1: Aligning Institutions with PPMI Embedding
 
@@ -57,6 +77,7 @@ This section outlines the various configuration options available for the GAME T
 - `--scale_REL`: Scaling factor for relevance alignment. *Default: 5*.
 - `--scale_align`: Scaling factor for alignment. *Default: 1*.
 - `--rmax`: Maximum radius for similarity calculations. *Default: 256*.
+- `--out_dim`: Number of final embedding in the model. *Default: 768*.
 - `--hidden_features`: Number of hidden features in the model. *Default: 768*.
 - `--path`: Specify the path for the project or model. Utilizes `config['path']` by default.
 - `--input_dir`: Specify the directory for input data. Utilizes `config['input_dir']` by default.
