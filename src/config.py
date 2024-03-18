@@ -31,7 +31,7 @@ config = {
     'scale_sppmi': 1e-2,
     'scale_align': 1,
     'SEED': 1, 
-    'rmax': 768, 
+    'rmax': 256, 
     'heads': 2,
     'num_inst':4,
     'out_dim': 768, 
