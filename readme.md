@@ -12,7 +12,7 @@ This README provides a concise guide to implementing the GAME training process, 
 The encoder is vital for aligning institutions and preparing embeddings for the decoder. It consists of three main steps:
 
 1. **Aligning Institutions with PPMI Embedding**:
-   - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings to align different institutions, establishing a common representation that captures co-occurrence probabilities. This step is crucial for identifying similarities and relationships across institutions.
+   - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings, i.e. $X_i, i \in Inst$ to align different institutions, establishing a common representation that captures co-occurrence probabilities. This step is crucial for identifying similarities and relationships across institutions.
 
 2. **Generating Main Embedding**:
    - Main embeddings are crafted using edges and a loss function, where edges denote connections based on similarity and relatedness between entities. With a default configuration of `rmax=256`, indicating a 256-dimensional embedding, a multi-similarity loss function optimizes the embeddings. This dimensionality is sufficient for clustering similar entities closely in the embedding space.
