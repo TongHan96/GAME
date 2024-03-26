@@ -40,9 +40,17 @@
 
 # Accuracy Benchmark
 
-| Measure | sap(short name) | sap(dict replaced name)| sap(full name) |
-| --- | --- |--- | --- |
-| TOP1 |52.7%| 55.6%|61.1% |
-| TOP5 | 67.0%| 71.0%|79.6% |
-| TOP10 |71.3%| 74.9%| 83.3% |
-| TOP20 |75.1%| 78.4%| 86.3% |
+| Measure | SAPBERT | CODER | MGB sppmi | VA sppmi |UPMC sppmi |BCH sppmi | GAME(256)|
+| --- | --- |--- | --- | --- | --- |--- | --- |
+| TOP1 |60.7%| 57.5%|2.71% |0.84%| 2.71%|2.71% |76.9%|
+| TOP5 | 79.5%| 77.8%|3.15% |2.71%| 3.15%|3.15% |89.4%|
+| TOP10 |83.2%| 86.4%| 3.50% |4.43%| 3.50%|3.50% |91.1%|
+| TOP20 |86.3%| 90.8%| 4.78% |6.80%| 4.78%|4.78% |93.2%|
+
+
+# AUC
+| Measure | SAPBERT | CODER | MGB sppmi | VA sppmi |UPMC sppmi |BCH sppmi | GAME|
+| --- | --- |--- | --- | --- | --- |--- | --- |
+| Similarity |0.783| 0.760|0.658|0.589| 0.662|0.597|0.948|
+| Relatedness |0.689| 0.690|0.661 |0.610| 0.655|0.584|0.969|
+
