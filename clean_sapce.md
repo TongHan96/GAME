@@ -46,4 +46,5 @@ df -h
 ```bash
 cd .local/share/Trash/files
 ls -l | grep "2024-02-24 20:50:12"
+mv 2024-02-24\ 20:50:12 /home/doz128/GAME_0328
 ```
