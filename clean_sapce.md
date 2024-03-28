@@ -41,6 +41,9 @@ cd ~
 df -h
 ```
 
----
+## finding the delated file
 
-Remember to be cautious when deleting files or directories, and always ensure you have backups of any important data before performing any cleanup actions.
+```bash
+cd .local/share/Trash/files
+ls -l | grep "2024-02-24 20:50:12"
+```
