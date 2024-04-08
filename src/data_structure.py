@@ -3,7 +3,7 @@
 """
 Title: data_structure.py
 Author: Han Tong
-Date: 2024-01-10
+Date: 2024-04-07
 Python Version: Python 3.11.3
 Description: define the class of each node, the dataset structures, and the initialize function of them
 """
@@ -88,7 +88,6 @@ def origin_loss_set(unique_name, pos_OTOL, neg_OTOL, pos_LTOL, neg_LTOL, hie_loi
     '''
     my_objects = []
     config = get_config()
-    # print(f'In data structure{config}')
 
     for i in tqdm(range(len(unique_name))):
         obj = item_node(name=unique_name[i])

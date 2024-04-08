@@ -3,7 +3,7 @@
 """
 Title: evaluate.py
 Author: Han Tong
-Date: 2024-01-10
+Date: 2024-04-07
 Python Version: Python 3.11.3
 Description: evaluate AUC and accuracy functions can be seen here
 """
@@ -14,7 +14,6 @@ import warnings
 from config import get_config
 warnings.filterwarnings('ignore')
 from sklearn.metrics import roc_auc_score
-# from load_data import *
 from utils import *
 config = get_config()
 CHECK_ALL = config['CHECK_ALL']
@@ -44,7 +43,7 @@ def predict_fun(emb_other, emb_loinc, other_name, loinc_name, item_dict):
 
 def output(new_emb, name_all, NUM=False):
     
-    OtherToLoincLabel = np.load(f"{config['path']}/input/OtherToLoinc_new.npy",
+    OtherToLoincLabel = np.load(f"{config['input_dir']}/edges/OtherToLoinc_new.npy",
                                 allow_pickle=True).item()
     existed_row = np.where(np.in1d(name_all, list(OtherToLoincLabel.keys())))[0]
     index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:", x)] 

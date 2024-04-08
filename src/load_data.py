@@ -3,7 +3,7 @@
 """
 Title: load_data.py
 Author: Han Tong
-Date: 2024-01-28
+Date: 2024-04-07
 Python Version: Python 3.11.3
 Description: Load all data we need in this file
 
@@ -35,14 +35,14 @@ from utils import *
 from data_structure import *
 
 # load the inst row index
-data = np.load(f'{config["path"]}/input/inst_row.npz')
+data = np.load(f'{config["input_dir"]}/name_desc/inst_row.npz')
 keys = data.files  # This will give you a list of all keys in the .npz file
 config['inst_row'] = [data[key] for key in keys]
 
 # the original embedding we need
-sppmi_list = torch.load(f'{config["path"]}/input/inst_emb.pth')
-sap_emb = torch.load(f'{config["path"]}/input/sap_emb.pth')
-coder_emb = torch.load(f'{config["path"]}/input/coder_emb.pth')
+sppmi_list = torch.load(f'{config["input_dir"]}/emb/inst_emb.pth')
+sap_emb = torch.load(f'{config["input_dir"]}/emb/sap_emb.pth')
+coder_emb = torch.load(f'{config["input_dir"]}/emb/coder_emb.pth')
 
 # the name of latent nodes
 name_all = pd.read_csv(f'{config["input_dir"]}/name_desc/name_desc_all_GPT4.csv')
@@ -78,7 +78,7 @@ val_sim_pairs = pd.read_csv(f'{config["input_dir"]}/similar_related_pairs/simila
 # rel_edges = np.row_stack([match(train_rel_pairs.iloc[:,0].values, unique_name), match(train_rel_pairs.iloc[:,1].values, unique_name)])
 # np.save(f"{config['path']}/input/edges_rel.npy", rel_edges)
 
-with open(f"{config['path']}/input/rel_pairs_drug_0224.pkl", 'rb') as f:
+with open(f"{config['input_dir']}/similar_related_pairs/rel_pairs_drug.pkl", 'rb') as f:
     train_rel_pairs, val_rel_pairs, test_rel_pairs, drug_side_pairs = pickle.load(f)
 
 # # initialize the train, validation and test set of similar no hie pairs
@@ -88,20 +88,17 @@ with open(f"{config['path']}/input/rel_pairs_drug_0224.pkl", 'rb') as f:
 # sim_edges = np.row_stack([match(train_sim_no_hie_pairs.iloc[:,0].values, unique_name), match(train_sim_no_hie_pairs.iloc[:,1].values, unique_name)])
 # np.save(f"{config['path']}/input/edges_sim_no_hie.npy", sim_edges)
 
-train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs = np.load(f"{config['path']}/input/sim_no_hie_pairs_0127.pkl", allow_pickle=True)
+train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs = np.load(f"{config['input_dir']}/similar_related_pairs/sim_no_hie_pairs.pkl", allow_pickle=True)
 
-edges = torch.tensor(np.load(f"{config['path']}/input/edges.npy", allow_pickle=True))
-same_desc_edge = torch.tensor(np.load(f"{config['path']}/input/edges_same_desc.npy", allow_pickle=True))
+edges = torch.tensor(np.load(f"{config['input_dir']}/edges/edges.npy", allow_pickle=True))
+same_desc_edge = torch.tensor(np.load(f"{config['input_dir']}/edges/edges_same_desc.npy", allow_pickle=True))
 
-edges_rel = torch.tensor(np.load(f"{config['path']}/input/edges_rel.npy", allow_pickle=True))
-edges_sim = torch.tensor(np.load(f"{config['path']}/input/edges_sim_no_hie.npy", allow_pickle=True))
+edges_rel = torch.tensor(np.load(f"{config['input_dir']}/edges/edges_rel.npy", allow_pickle=True))
+edges_sim = torch.tensor(np.load(f"{config['input_dir']}/edges/edges_sim_no_hie.npy", allow_pickle=True))
 
-edges_sppmi = torch.tensor(np.load(f"{config['path']}/input/edges_sppmi_0203.npy", allow_pickle=True))
-pos_sppmi = torch.tensor(np.load(f"{config['path']}/input/pos_sppmi_0203.npy", allow_pickle=True))
-neg_sppmi = torch.tensor(np.load(f"{config['path']}/input/neg_sppmi_0203.npy", allow_pickle=True))
-
-# pos_coder = torch.tensor(np.load(f"{config['path']}/input/pos_coder.npy", allow_pickle=True))
-# neg_coder = torch.tensor(np.load(f"{config['path']}/input/neg_coder.npy", allow_pickle=True))
+edges_sppmi = torch.tensor(np.load(f"{config['input_dir']}/edges/edges_sppmi.npy", allow_pickle=True))
+pos_sppmi = torch.tensor(np.load(f"{config['input_dir']}/edges/pos_sppmi.npy", allow_pickle=True))
+neg_sppmi = torch.tensor(np.load(f"{config['input_dir']}/edges/neg_sppmi.npy", allow_pickle=True))
 
 all_pos_sppmi = torch.cat([edges_sppmi, pos_sppmi], dim=1)
 ALL_sim_val_pairs =  pd.concat([val_sim_no_hie_pairs, val_sim_pairs], ignore_index=True)
@@ -116,4 +113,4 @@ sim_no_hie_index = get_index(train_sim_no_hie_pairs, unique_name)
 
 # np.save(f"{config['path']}/input/my_objects_0130.npy", my_objects_new)
 
-my_objects = np.load(f"{config['path']}/input/my_objects_0130.npy", allow_pickle=True)
+my_objects = np.load(f"{config['input_dir']}/edges/my_objects.npy", allow_pickle=True)

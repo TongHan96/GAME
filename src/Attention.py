@@ -1,7 +1,7 @@
 """"
 Title: Attention.py
 Author: Han Tong
-Date: 2024-01-10
+Date: 2024-04-07
 Python Version: Python 3.11.3
 Description: All attention model we use
 """
@@ -56,52 +56,45 @@ class GATLayer(nn.Module):
 class inst_encoder(nn.Module):
     def __init__(self, config):
         super(inst_encoder, self).__init__()
-        if config['path_origin'] == 'align_NA':
-            print(range(config['num_inst']))
-            # self.inst = torch.nn.ModuleList([GATLayer(config['num_features'], config['hidden_features'], config['heads'], True, config['drop_p']) for i in range(config['num_inst'])])  # tmp!!
-            self.inst = torch.nn.ModuleList([GATLayer(config['num_features'], config['hidden_features'], config['heads'], True, config['drop_p']) for i in range(config['num_inst']+1)])
-            
+        if config['Decoder'] is True:
+            self.GAT = GATLayer(config['hidden_features'], config['hidden_features'], config['heads'], True, config['drop_p'], init0=False, linear=False)
+            self.Linear = nn.Linear(2*config['hidden_features'], config['out_dim'])
         else:
-            self.GAT_together = GATLayer(2 * config['hidden_features'], config['hidden_features'], config['heads'], True, config['drop_p'], init0=True, linear=False) ## tmp!!
-            
-        if config['path_origin'] is None:
-            self.Linear = nn.Linear(2*config['hidden_features'], config['rmax'])
-        elif config['path_origin'] != 'align_NA':
-            self.Linear = nn.Linear(2*config['hidden_features'], config['out_dim'] - config['rmax'])
-    
+            if config['path_origin'] == 'align_NA':
+                self.inst = torch.nn.ModuleList([GATLayer(config['num_features'], config['hidden_features'], config['heads'], True, config['drop_p']) for i in range(config['num_inst'])]) 
+            else:
+                self.GAT_together = GATLayer(2 * config['hidden_features'], config['hidden_features'], config['heads'], True, config['drop_p'], init0=True, linear=False) 
+            if config['path_origin'] is None:
+                self.Linear = nn.Linear(2*config['hidden_features'], config['rmax'])
+            elif config['path_origin'] != 'align_NA':
+                self.Linear = nn.Linear(2*config['hidden_features'], config['out_dim'] - config['rmax'])
+        
     def align_loss(self, new_sppmi_list, config):
         num_inst = config['num_inst']
         loss = 0
         for i in range(num_inst):  # num_inst must be bigger than 1
             for j in range(num_inst):
                 loss += torch.norm(new_sppmi_list[i][config['inst_row'][i],:] - new_sppmi_list[j][config['inst_row'][i],:], 'fro')
-        return loss
+        print(f"align_loss: {loss * config['scale_align']}")
+        return loss * config['scale_align']
 
-    # def align_loss(self, new_sppmi_list, config):
-    #     num_inst = config['num_inst']
-    #     for i in range(num_inst-1):
-    #         for j in range(i+1,num_inst):
-    #             intersection = np.intersect1d(config['inst_row'][i], config['inst_row'][j])
-    #             loss = torch.norm(new_sppmi_list[i][intersection] - new_sppmi_list[j][intersection], 'fro')
-    #     return loss
     
-    # def align_loss(self, new_sppmi_list, config):
-    #     num_inst = config['num_inst']
-    #     for i in range(num_inst-1):
-    #         for j in range(i+1,num_inst):
-    #             loss = torch.norm(new_sppmi_list[i] - new_sppmi_list[j], 'fro')
-    #     return loss
-
-    def forward(self, sppmi_list = None, sap_emb=None, edge_index=None, out_1=None, config=None):
+    def forward(self, sppmi_list = None, sap_emb=None, edge_index=None, encoder_emb=None, out_1=None, config=None):
+        if config['Decoder'] is True:
+            tmp = self.GAT(encoder_emb, edge_index)
+            tmp = self.Linear(tmp)
+            decoder_emb = tmp / torch.norm(tmp, dim=1, keepdim=True) 
+            return decoder_emb
+         
         if config['path_origin'] == "align_NA":
             all_emb_list = []
             # Now we need to align sppmi emb together, and store this embedding
-            for i in range(config['num_inst']):  
-                all_emb_list.append(self.inst[i](sppmi_list[i], edge_index))
-            all_emb_list.append(self.inst[i](sap_emb, edge_index))  # tmp!!
+            for i in range(config['num_inst']): 
+                inst_emb = self.inst[i](sppmi_list[i], edge_index)
+                all_emb_list.append(inst_emb)
+
             all_emb = torch.sum(torch.stack(all_emb_list), dim=0)
-            # all_emb = self.Linear(all_emb)  ## TMP!!
-            out_1 = all_emb / torch.norm(all_emb, dim=1, keepdim=True)  ## TMP!!
+            out_1 = all_emb / torch.norm(all_emb, dim=1, keepdim=True)
             
             if self.training:
                 # get aligned loss
@@ -118,11 +111,9 @@ class inst_encoder(nn.Module):
             out_2 = torch.concat((out_1, sap_emb), dim=1)
             
         # get unified representation
-        uni_tmp = self.GAT_together(out_2, edge_index) ## TMP!!
-        uni = self.Linear(uni_tmp) ## TMP!!
-        # uni = self.Linear(out_2)
+        uni_tmp = self.GAT_together(out_2, edge_index)
+        uni = self.Linear(uni_tmp)
         uni = uni / torch.norm(uni, dim=1, keepdim=True)
-        # print(f'Training = {self.training}')
         return uni
     
     
@@ -233,8 +224,18 @@ def custom_loss(my_objects, x, now_index, device, name_all, config):
             print('Relative Loss:')  
         P_LOSS_REL, N_LOSS_REL = calculate_loss('related_pairs', my_objects, x, now_index, name_all, config['scale_REL'])
         return P_LOSS_REL, N_LOSS_REL
-  
 
+    
+def decoder_loss(decoder_emb, sppmi_list, config):
+    now_inst = config['Decoder_inst']
+    sppmi = sppmi_list[now_inst]
+    inst_index = config['inst_row'][now_inst]
+    sppmi = sppmi[inst_index]
+    loss = torch.norm(decoder_emb - sppmi, 'fro')
+    return loss
+
+
+    
 def sppmi_edge_loss(x, edge_pos, edge_neg, config):
     # Determine the device based on the input tensor 'x'
     device = x.device
@@ -269,7 +270,7 @@ def sppmi_edge_loss(x, edge_pos, edge_neg, config):
     # Sum log terms across all nodes to compute the final loss
     loss = log_term_pos.sum() + log_term_neg.sum()
     # if config['CHECK_ALL']: # tmp!!!
-    print(f'sppmi_pos_loss: {log_term_pos.sum()}')
-    print(f'sppmi_neg_loss: {log_term_neg.sum()}')
+    print(f"sppmi_pos_loss: {config['scale_sppmi'] * log_term_pos.sum()}")
+    print(f"sppmi_neg_loss: {config['scale_sppmi'] * log_term_neg.sum()}")
 
     return config['scale_sppmi'] * log_term_pos.sum(), config['scale_sppmi'] * log_term_neg.sum()

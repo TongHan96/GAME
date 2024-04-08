@@ -3,7 +3,7 @@
 """"
 Title: Utils.py
 Author: Han Tong
-Date: 2024-02-11
+Date: 2024-04-07
 Python Version: Python 3.11.3
 Description: All useful functions we use
 """
@@ -17,6 +17,7 @@ from scipy.stats import spearmanr
 import os
 import numpy as np
 import pandas as pd
+import itertools
 import torch
 import csv
 import warnings
@@ -349,41 +350,6 @@ def split_train_set(unique_name, REL_pairs, scale=[0.5, 0.3], seed=42):
     test_pairs = remaining[~remaining.index.isin(val_pairs.index)]
     
     return train_pairs, val_pairs, test_pairs
-
-
-def retain_topk_alpha(alpha, edge_index, mask_num):
-    """
-    Retains the top-k alpha values for each source code in an adjacency list and masks the remaining values.
-
-    Parameters:
-    - alpha: Original alpha values for each edge.
-    - edge_index: Original edge list.
-    - mask_num: Value to mask non-top-k alpha values.
-    - k (default: config["Truncate"]): Number of top alpha values to retain for each source code.
-
-    Returns:
-    - Updated alpha values with top-k retained and others masked.
-    """
-
-    # Find unique source nodes
-    source_nodes = torch.unique(edge_index[0])
-    
-    # Mask to store which alphas to keep
-    mask = torch.zeros_like(alpha, dtype=torch.bool)
-    k = config["Truncate"]
-    
-    for source in source_nodes:
-        # Find edges from the current source
-        edge_indices = (edge_index[0] == source).nonzero(as_tuple=True)[0]
-        # Adjust k if necessary
-        actual_k = min(k, edge_indices.size(0))
-        if actual_k > 0:  # This is to ensure that we don"t try to get top 0 values
-            topk_indices = torch.topk(alpha[edge_indices].squeeze(1), k=actual_k, largest=True).indices
-            mask[edge_indices[topk_indices]] = True
-    
-    # Set the values not in the top k to mask_num, like -100
-    alpha[~mask] = mask_num
-    return alpha
     
 
 def remove_duplicate_edge(edge_index):
@@ -520,6 +486,55 @@ def compute_spearman(a, b):
     return coef, p
 
 
+def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','CODER','MGB SPPMI','VA SPPMI','UPMC SPPMI','BCH SPPMI','GAME'], code_list = ["PheCode:714.1", "PheCode:428.1", "PheCode:296.2", "PheCode:250.1", "PheCode:250.2", "PheCode:411.4"], RECORD=None, api_key=None, config=None):
+    # load data
+    emb_all = [pd.DataFrame(emb.cpu().numpy()) for emb in emb_all]
+    name_desc = pd.read_csv(f'{config["input_dir"]}/name_desc/unique_name_desc_LP.csv')
+    # if Decoder now, only retain the institutional codes
+    if (config is not None) and (config['Decoder']):
+        now_inst_index = config['inst_row'][config['Decoder_inst']]
+        name_desc = name_desc.iloc[now_inst_index,:]
+    name_all = name_desc.iloc[:,0]
+    unique_code = pd.DataFrame(name_all).drop_duplicates().values
+    unique_code = np.concatenate(unique_code)
+    unique_desc = name_desc.drop_duplicates(subset=name_desc.columns[0]).iloc[:,1]
+    unique_desc = unique_desc.values
+
+    name_desc = pd.DataFrame(np.column_stack([unique_code, unique_desc]))
+    name_desc.columns = ['sign_id', 'desc']
+
+    # do not contain the replicated desc in same type; for LOINC:LP and their childs, only use once
+    name_desc['type_desc'] = pd.Series(ret_type(name_desc['sign_id'])) + ':' + name_desc['desc']
+    unique_combinations = name_desc[['type_desc']].drop_duplicates()
+    mapping_list = pd.DataFrame(columns=['name', 'indices'])
+
+    # Populate the mapping list
+    for _, row in unique_combinations.iterrows():
+        type_desc = row['type_desc']
+        indices = name_desc[name_desc['type_desc'] == type_desc].index.tolist()
+        new_row = pd.DataFrame({'name': [type_desc], 'indices': [indices]})
+        mapping_list = pd.concat([mapping_list, new_row], ignore_index=True)
+    
+
+    corr_list = []
+    result_list = []
+    for code in code_list:
+        add_param = f'{loc}'  # Dynamically change the add parameter
+        result, corr = all_fea_select(emb_all, code, name_desc, add=add_param, 
+                                 name_list = name_list,
+                                feat_max=100, mapping_list=mapping_list, api_key=api_key)
+        corr_list.append(corr)
+        result_list.append(result)
+    
+    now_corr = np.mean(corr_list)
+    if RECORD is not None:
+        if now_corr > RECORD:
+            for code, result in zip(code_list, result_list):
+                plot_all(result, name_list, path = f"{config['path']}/supp_code/feature_selection/pic_cos_sim/cos_sim_ans_{code}_{loc}.png")
+        
+    return now_corr
+
+
 def feature_selection(emb_all, code, name_all):
     cos_sims = []
     code_indice = np.where(name_all == code)[0]
@@ -531,7 +546,7 @@ def feature_selection(emb_all, code, name_all):
     return cos_sim
 
 
-def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=['sap', 'coder', 'svd', 'old', 'new'], negative=None, common_edges=None, edges=None, neg=None, mapping_list=None):
+def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=['sap', 'coder', 'svd', 'old', 'new'], negative=None, common_edges=None, edges=None, neg=None, mapping_list=None, api_key=None):
     desc_code = name_desc.iloc[np.where(name_desc.iloc[:,0].values == code)[0],1].values
     name_all = name_desc.iloc[:,0].values
     code_indice = np.where(name_all == code)[0]
@@ -620,7 +635,7 @@ def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=[
     data_df['selected_by'] = data_df['selected_by'].str.rstrip('&')
     pos = data_df.drop_duplicates(subset=data_df.columns[0]).iloc[:,1:]
     pos['gpt4'] =  write_score(score_, pos)
-    ask_gpt4(pos, name=code, desc=desc_code, add=add)
+    ask_gpt4(pos, name=code, desc=desc_code, add=add, api_key=api_key)
     pos = pd.read_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", index_col = 0)
     pos_new = change_string_to_float(pos)
     pos_new.to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", index=None)
@@ -631,6 +646,7 @@ def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=[
         f.write('\n' + output_str)
     print(output_str)
     return pos_new, output_tmp
+
 
 def write_score(pos_score, pos):
     if pos_score is None:
@@ -669,7 +685,7 @@ def plot_all(pos, name_list, indices_=True, path=None):
     n_rows = n_types // n_cols + (n_types % n_cols > 0)
 
     # Create a figure and a set of subplots
-    fig, axs = plt.subplots(n_rows, n_cols, figsize=(15, 10))
+    fig, axs = plt.subplots(n_rows, n_cols, figsize=(15, 10), squeeze=False)
 
     for i, selected_type in enumerate(name_list):
         marker = next(markers)
@@ -695,12 +711,18 @@ def plot_all(pos, name_list, indices_=True, path=None):
         quarter_y = np.quantile(pos['gpt4'].values[indices], 0.25)
         quarter3_y = np.quantile(pos['gpt4'].values[indices], 0.75)
         median_y = np.median(pos['gpt4'].values[indices])
+        mean_y = np.mean(pos['gpt4'].values[indices])
 
         # Plot the horizontal line at the median value
         ax.axhline(median_y, color='r', linestyle='--', alpha=0.7, label=f'Median of GPT-4 Values for {selected_type}')
         ax.axhline(quarter_y, color='m', linestyle=':', alpha=0.7, label=f'quantile of GPT-4 Values for {selected_type}')
         ax.axhline(quarter3_y, color='b', linestyle='-', alpha=0.7, label=f'3 quantile of GPT-4 Values for {selected_type}')
         
+        # label the text
+        ax.text(0.75, 0.7, f'Median: {np.round(median_y,3)}', transform=ax.get_yaxis_transform(), 
+                horizontalalignment='left', color='red')
+        ax.text(0.75, 0.6, f'Mean: {np.round(mean_y,3)}', transform=ax.get_yaxis_transform(), 
+                horizontalalignment='left', color='green')
         # Labels, legend, and title
         ax.set_xlabel(f'{selected_type.capitalize()} Cos')  # X-axis label for each subplot
         ax.set_ylabel('GPT-4 Values')  # Y-axis label for each subplot
@@ -712,7 +734,8 @@ def plot_all(pos, name_list, indices_=True, path=None):
     plt.show()
     plt.close()
 
-    
+
+
 def print_all(pos, name_list):
     output = io.StringIO()
     for i in range(len(name_list)):
@@ -743,10 +766,10 @@ def update_score(path, path_origin=None):
     score_new.to_csv(path_origin, index=None)
 
     
-def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None):
-    model_engine = "gpt-4"
-    # openai.api_key = "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"
-    openai.api_key = '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'  # tmp!
+def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None, api_key=None):
+    # model_engine = "gpt-4"
+    model_engine = 'gpt-4-turbo-preview'
+    openai.api_key = api_key
     # model_engine = "gpt-3.5-turbo"
     pd.DataFrame(data.columns).transpose().to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=None) 
     data.reset_index()
@@ -787,47 +810,46 @@ def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None):
         df = df.transpose()
         df.to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=False, mode="a")
         
-        
-def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['sap','coder','svd_MGB','svd_VA','svd_UP','svd_BCH','GAME'], RECORD=None):
-    # load data
-    emb_all = [pd.DataFrame(emb.cpu().numpy()) for emb in emb_all]
-    name_desc = pd.read_csv(f'{config["input_dir"]}/name_desc/unique_name_desc_LP.csv')
-    name_all = name_desc.iloc[:,0]
-    unique_code = pd.DataFrame(name_all).drop_duplicates().values
-    unique_code = np.concatenate(unique_code)
-    unique_desc = name_desc.drop_duplicates(subset=name_desc.columns[0]).iloc[:,1]
-    unique_desc = unique_desc.values
 
-    name_desc = pd.DataFrame(np.column_stack([unique_code, unique_desc]))
-    name_desc.columns = ['sign_id', 'desc']
+def retain_1_inst_edge(edge_index, config):
+    """
+    Retains edges based on institution index and reindexes them.
 
-    # do not contain the replicated desc in same type; for LOINC:LP and their childs, only use once
-    name_desc['type_desc'] = pd.Series(ret_type(name_desc['sign_id'])) + ':' + name_desc['desc']
-    unique_combinations = name_desc[['type_desc']].drop_duplicates()
-    mapping_list = pd.DataFrame(columns=['name', 'indices'])
+    Args:
+        edge_index (torch.Tensor): Edge indices (shape: [2, num_edges]).
+        config (dict): Configuration dictionary containing 'Decoder_inst' and 'inst_row'.
 
-    # Populate the mapping list
-    for _, row in unique_combinations.iterrows():
-        type_desc = row['type_desc']
-        indices = name_desc[name_desc['type_desc'] == type_desc].index.tolist()
-        new_row = pd.DataFrame({'name': [type_desc], 'indices': [indices]})
-        mapping_list = pd.concat([mapping_list, new_row], ignore_index=True)
-        
-    code_list = ['PheCode:714.1','PheCode:428.1','PheCode:296.2','PheCode:250.1']
-    corr_list = []
-    result_list = []
-    for code in code_list:
-        add_param = f'{loc}'  # Dynamically change the add parameter
-        result, corr = all_fea_select(emb_all, code, name_desc, add=add_param, 
-                                 name_list = name_list,
-                                feat_max=100, mapping_list=mapping_list)
-        corr_list.append(corr)
-        result_list.append(result)
+    Returns:
+        torch.Tensor: New edge indices after retaining and reindexing.
+    """
+    edge_index_np = edge_index.detach().cpu().numpy()
+    retain_inst = config['Decoder_inst']
+    index_inst = config['inst_row'][retain_inst]
+
+    mask = np.isin(edge_index_np[0], index_inst) & np.isin(edge_index_np[1], index_inst)
+    retained_edges = edge_index_np[:, mask]
+    old_to_new = {old: new for old, new in zip(index_inst, range(len(index_inst)))}
     
-    now_corr = np.mean(corr_list)
-    if RECORD is not None:
-        if now_corr > RECORD:
-            for code, result in zip(code_list, result_list):
-                plot_all(result, name_list, path = f"{config['path']}/supp_code/feature_selection/pic_cos_sim/cos_sim_ans_{code}_{loc}.png")
-        
-    return now_corr
+    # Reindex 
+    new_edge_index = np.array([[old_to_new[retained_edges[0, i]], old_to_new[retained_edges[1, i]]] for i in range(retained_edges.shape[1])])
+    new_edge_index = torch.tensor(new_edge_index, dtype=torch.long)
+    return new_edge_index.T
+
+
+def retain_1_inst_emb(encoder_emb, config):
+    """
+    Retains emb based on institution index and reindexes them.
+
+    Args:
+        encoder_emb (torch.Tensor): Embeddings for all nodes.
+        config (dict): Configuration dictionary containing 'Decoder_inst' and 'inst_row'.
+
+    Returns:
+        torch.Tensor: New embeddings corresponding to the retained nodes.
+    """
+    encoder_emb_np = encoder_emb.detach().cpu().numpy()
+    retain_inst = config['Decoder_inst']
+    index_inst = config['inst_row'][retain_inst]
+    new_encoder_emb = encoder_emb_np[index_inst]
+    new_encoder_emb = torch.tensor(new_encoder_emb, dtype=torch.float)
+    return new_encoder_emb
