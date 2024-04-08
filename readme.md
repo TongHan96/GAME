@@ -32,8 +32,8 @@ To implement the GAME training process, ensure that each step in the encoder and
 **Python Code:**
 ```python
 import os
-os.chdir('/home/doz128/GAME_model1/src')  # Change directory to your working path
-%run main.py --want_TOP1 62.0 --path '/home/doz128/GAME_model1/' --epochs 500 --drop_out 0.5 --scale_sppmi 0.1 --lr 1e-4 --hidden_features 768 --DEVICE 'cuda' --EGDE_ALL True --path_origin 'align_NA'
+os.chdir('/home/doz128/GAME_0407/src')  # Change directory to your working path
+%run main.py --want_TOP1 62.0 --path '/home/doz128/GAME_0407/' --epochs 500 --drop_out 0.5 --scale_sppmi 0.1 --lr 1e-4 --hidden_features 768 --DEVICE 'cpu' --EDGE_ALL --path_origin 'align_NA' --api_key 'XXX' # Change api_key to your openai api_key
 ```
 
 ### Part 2: Obtaining Similarity Embedding
@@ -41,8 +41,8 @@ os.chdir('/home/doz128/GAME_model1/src')  # Change directory to your working pat
 **Python Code:**
 ```python
 import os
-os.chdir('/home/doz128/GAME_model1/src')  # Change directory to your working path
-%run main.py --want_TOP1 62.0 --path '/home/doz128/GAME_model1/' --epochs 500 --drop_out 0.5 --lr 5e-6 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL True
+os.chdir('/home/doz128/GAME_0407/src')  # Change directory to your working path
+%run main.py --path '/home/doz128/GAME_0407/' --epochs 500 --drop_out 0.5 --scale_sppmi 0.1 --lr 5e-6 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --api_key 'XXX'  # Change api_key to your openai api_key
 ```
 
 ### Part 3: Acquiring Relatedness Embedding
@@ -50,8 +50,8 @@ os.chdir('/home/doz128/GAME_model1/src')  # Change directory to your working pat
 **Python Code:**
 ```python
 import os
-os.chdir('/home/doz128/GAME_model1/src')  # Change directory to your working path
-%run main.py --want_TOP1 62.0 --path '/home/doz128/GAME_model1/' --epochs 500 --drop_out 0.5 --scale_sppmi 0.1 --lr 5e-6 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL False --path_origin '2024-02-24 07:09:59'
+os.chdir('/home/doz128/GAME_0407/src')  # Change directory to your working path
+%run main.py --path '/home/doz128/GAME_0407/' --epochs 500 --drop_out 0.5 --scale_sppmi 0.1 --lr 5e-6 --hidden_features 768 --DEVICE 'cuda' --path_origin 'sim_step' --api_key 'XXX'  # Change api_key to your openai api_key
 ```
 
 ## GAME Training Script Configuration
@@ -93,7 +93,5 @@ This section outlines the various configuration options available for the GAME T
 
 *Check and Store*
 - `--CHECK_ALL`: Option to check all attention mechanisms during training. Accepts 'True' or 'False'. *Default: False*.
-- `--want_TOP1`: Accuracy Top1 performance threshold for storing the model and embedding. *Default: 77*.
-- `--want_TOP20`: Accuracy Top20 performance threshold for storing the model and embedding. *Default: 93*.
 
 Use these configurations to customize the GAME training script to suit your specific needs and environments setup.
