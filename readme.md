@@ -58,10 +58,11 @@ os.chdir('~/GAME/src')  # Change directory to your working path
 
 This section outlines the various configuration options available for the GAME Training Script. These options allow for customizing the training process, model performance thresholds, and other operational parameters.
 
+
 **Command-Line Arguments:**
 
 *Basic Settings*
-- `--num_inst`: Specifies the number of institutions for training. Our project uses MGB, VA, UPMC, and BCH institutional data. *Default: 4*.
+- `--num_inst`: Specifies the number of institutions for training. In your project, you have 7 institutions. *Default: 7*.
 - `--path`: Sets the project or model path. Defaults to `config['path']`.
 - `--input_dir`: Defines the directory for input data. Defaults to `config['input_dir']`.
 - `--path_origin`: Sets the original path for alignment or model training. *Default: config['path_origin']*.
@@ -72,9 +73,9 @@ This section outlines the various configuration options available for the GAME T
 - `--lambd`: The lambda parameter for the loss function. *Default: 0.5*.
 
 *Used in Loss Scales*
-- `--scale_one_one`: Scaling factor for one-one alignment. *Default: 1*.
+- `--scale_one_one`: Scaling factor for one-to-one alignment. *Default: 10*.
 - `--scale_hie`: Scaling factor for hierarchical alignment. *Default: 1*.
-- `--scale_sppmi`: Scaling factor for SPPMI (Shifted Positive Pointwise Mutual Information). *Default: 100*.
+- `--scale_sppmi`: Scaling factor for SPPMI (Shifted Positive Pointwise Mutual Information). *Default: 0.1*.
 - `--scale_OTOL`: Scaling factor for one-to-one alignment. *Default: 50*.
 - `--scale_REL`: Scaling factor for relevance alignment. *Default: 5*.
 - `--scale_align`: Scaling factor for alignment. *Default: 1*.
@@ -85,13 +86,12 @@ This section outlines the various configuration options available for the GAME T
 - `--hidden_features`: Number of hidden features in the model. *Default: 768*.
 
 *Training Process*
-- `--EDGE_ALL`: Indicates whether to use all edges for training similarity. Accepts 'True' or 'False'. *Default: True*.
-- `--drop_out`: Dropout probability during training. *Default: 0.0*.
-- `--lr`: Learning rate for the optimizer. *Default: 0.001 (1e-3)*.
+- `--EDGE_ALL`: Indicates whether to use all edges for training similarity. Accepts 'True' or 'False'. *Default: False*.
+- `--drop_p`: Dropout probability during training. *Default: 0.0*.
+- `--base_lr`: Learning rate for the optimizer. *Default: 1e-4*.
 - `--epochs`: Total number of epochs for training. *Default: 3*.
 - `--DEVICE`: Specifies the device for training, such as 'cuda:0' for GPU. *Default: 'cuda:0'*.
 
 *Check and Store*
 - `--CHECK_ALL`: Option to check all attention mechanisms during training. Accepts 'True' or 'False'. *Default: False*.
-
 Use these configurations to customize the GAME training script to suit your specific needs and environments setup.
