@@ -1,7 +1,7 @@
 """"
 Title: Attention.py
 Author: Han Tong
-Date: 2024-04-07
+Date: 2024-07-26
 Python Version: Python 3.11.3
 Description: All attention model we use
 """
@@ -56,9 +56,12 @@ class GATLayer(nn.Module):
 class inst_encoder(nn.Module):
     def __init__(self, config):
         super(inst_encoder, self).__init__()
+        self.device = config['DEVICE']
         if config['Decoder'] is True:
             self.GAT = GATLayer(config['hidden_features'], config['hidden_features'], config['heads'], True, config['drop_p'], init0=False, linear=False)
-            self.Linear = nn.Linear(2*config['hidden_features'], config['out_dim'])
+            # self.Linear = nn.Linear(2*config['hidden_features'], config['out_dim'])
+            self.Linear = nn.Linear(config['hidden_features'], config['out_dim'])
+            self.X = nn.Parameter(torch.eye(config['hidden_features']))
         else:
             if config['path_origin'] == 'align_NA':
                 self.inst = torch.nn.ModuleList([GATLayer(config['num_features'], config['hidden_features'], config['heads'], True, config['drop_p']) for i in range(config['num_inst'])]) 
@@ -72,27 +75,39 @@ class inst_encoder(nn.Module):
     def align_loss(self, new_sppmi_list, config):
         num_inst = config['num_inst']
         loss = 0
+        # weights = torch.tensor(config['inst_weight'], device='cuda')
         for i in range(num_inst):  # num_inst must be bigger than 1
             for j in range(num_inst):
                 loss += torch.norm(new_sppmi_list[i][config['inst_row'][i],:] - new_sppmi_list[j][config['inst_row'][i],:], 'fro')
+                # loss += 1/(weights[i]) * (torch.norm(new_sppmi_list[i][config['inst_row'][i],:] - new_sppmi_list[j][config['inst_row'][i],:], 'fro'))
         print(f"align_loss: {loss * config['scale_align']}")
         return loss * config['scale_align']
+
 
     
     def forward(self, sppmi_list = None, sap_emb=None, edge_index=None, encoder_emb=None, out_1=None, config=None):
         if config['Decoder'] is True:
-            tmp = self.GAT(encoder_emb, edge_index)
-            tmp = self.Linear(tmp)
+            # tmp = self.GAT(encoder_emb, edge_index)
+            # tmp = self.Linear(tmp)
+            tmp = self.Linear(encoder_emb)
             decoder_emb = tmp / torch.norm(tmp, dim=1, keepdim=True) 
+            # decoder_emb = torch.matmul(encoder_emb, self.X)
             return decoder_emb
          
         if config['path_origin'] == "align_NA":
             all_emb_list = []
             # Now we need to align sppmi emb together, and store this embedding
             for i in range(config['num_inst']): 
-                inst_emb = self.inst[i](sppmi_list[i], edge_index)
-                all_emb_list.append(inst_emb)
+                inst_emb = self.inst[i](sppmi_list[i], edge_index)                
+                # # tmp
+                # mask = torch.zeros_like(inst_emb, device=self.device)
+                # mask[config['inst_row'][i]] = 1
+                # inst_emb = inst_emb * mask
 
+                all_emb_list.append(inst_emb)
+            
+            # weights = torch.tensor(config['inst_weight'], device='cuda')
+            # all_emb = sum(w * emb for w, emb in zip(weights, all_emb_list))
             all_emb = torch.sum(torch.stack(all_emb_list), dim=0)
             out_1 = all_emb / torch.norm(all_emb, dim=1, keepdim=True)
             
@@ -120,21 +135,19 @@ class inst_encoder(nn.Module):
 '''
 Loss Functions
 '''
-def custom_loss(my_objects, x, now_index, device, name_all, config):  
+def custom_loss(my_objects, x, now_index, device, name_all, config, TYP1=False):  
     '''
-    Return 7 parts loss
-    1. one-one loss
-    2. hierarchy loss
-    3. Other lab to Loinc Loss
-    4. Local lab to Loinc Loss
-    5. Related Pairs Loss
-    6. SIM_NO_HIE Loss 
-    7. SPPMI pos&neg Loss
+    Return 5 parts loss
+    1. hierarchy loss
+    2. Local lab to Loinc Loss
+    3. Related Pairs Loss
+    4. SIM_NO_HIE Loss 
+    5. SPPMI pos&neg Loss
     '''
 
     def loss_term(temp_objects, x, now_index, AA=config['AA'], BB=config['BB'], lambd=config['lambd']):
         '''
-        In 1, 2, 3, 4, 5, 6 parts of loss, the formats are all like
+        In 1, 2, 3, 4 parts of loss, the formats are all like
         \begin{equation}
         \begin{aligned}
            \mathcal{L}_{i}  & = \frac{1}{\alpha} \log \Bigg ( 1 + \frac{1}{|\widetilde{\mathcal{P}}_{1i} |} 
@@ -151,33 +164,18 @@ def custom_loss(my_objects, x, now_index, device, name_all, config):
 
     def calculate_loss(loss_type, my_objects, x, now_index, name_all, scale, DIFF=True,  AA=config['AA'], BB=config['BB'], lambd=config['lambd']):
         '''
-        Aggragate the first 5 parts Loss
-        '''
-        if loss_type == 'one_one':
-            if CHECK_ALL:
-                print('One-one loss:')
-                
-            set1 = [my_objects[i].one_one for i in now_index]
-            set2 = [my_objects[i].same_par if len(my_objects[i].same_par) > 0 else my_objects[i].same_gra 
-                    if len(my_objects[i].same_gra) > 0 else find_same_type(i, name_all) for i in now_index]
-            
-        elif loss_type == 'hierarchy':
+        Aggragate the first 4 parts Loss
+        '''            
+        if loss_type == 'hierarchy':
             if CHECK_ALL:
                 print('Hierarchy loss:')
                 
             set1 = [my_objects[i].same_par for i in now_index]
             set2 = [my_objects[i].same_gra for i in now_index]
             
-        elif loss_type == 'other_to_loinc':
-            if CHECK_ALL:
-                print('Other To Loinc loss:')
-                
-            set1 = [my_objects[i].P_other for i in now_index]
-            set2 = [my_objects[i].N_other for i in now_index]
-            
         elif loss_type == 'local_to_loinc':
             if CHECK_ALL:
-                print('Local To Loinc loss:')
+                print('Local lab To Loinc loss:')
                 
             set1 = [my_objects[i].P_local for i in now_index]
             set2 = [my_objects[i].N_local for i in now_index]
@@ -197,7 +195,7 @@ def custom_loss(my_objects, x, now_index, device, name_all, config):
             set2 = [find_same_type(i, name_all) for i in now_index]  
             
         else:
-            raise ValueError("Invalid loss_type. Supported values are 'one_one','hierarchy','other_to_loinc','local_to_loinc', 'related_pairs','similar_no_hie_pairs'.")
+            raise ValueError("Invalid loss_type. Supported values are 'one_one','hierarchy','local_to_loinc', 'related_pairs','similar_no_hie_pairs'.")
 
         temp_objects = origin_term_temp(name_temp=get_values(name_all[now_index]), set1=set1, set2=set2, DIFF=DIFF)
 
@@ -211,13 +209,12 @@ def custom_loss(my_objects, x, now_index, device, name_all, config):
             print("Negative_Loss_{} = {:.4f}".format(loss_type, N_LOSS))
         return P_LOSS, N_LOSS
     
-    if config['path_origin'] is None:    
+    if TYP1:    
         P_LOSS_hie, N_LOSS_hie = calculate_loss('hierarchy', my_objects, x, now_index, name_all, config['scale_hie'])
-        P_LOSS_OTOL, N_LOSS_OTOL = calculate_loss('other_to_loinc', my_objects, x, now_index, name_all, config['scale_OTOL'], DIFF=False)
-        P_LOSS_LTOL, N_LOSS_LTOL = calculate_loss('local_to_loinc', my_objects, x, now_index, name_all, config['scale_OTOL'], DIFF=False)
+        P_LOSS_OTOL, N_LOSS_OTOL = calculate_loss('local_to_loinc', my_objects, x, now_index, name_all, config['scale_OTOL'], DIFF=False)
         P_LOSS_SIM_NO_HIE, N_LOSS_SIM_NO_HIE = calculate_loss('similar_no_hie_pairs', my_objects, x, now_index, name_all, config['scale_SIM_NO_HIE'])   
 
-        return P_LOSS_hie, N_LOSS_hie, P_LOSS_OTOL, N_LOSS_OTOL, P_LOSS_LTOL, N_LOSS_LTOL, P_LOSS_SIM_NO_HIE, N_LOSS_SIM_NO_HIE
+        return P_LOSS_hie, N_LOSS_hie, P_LOSS_OTOL, N_LOSS_OTOL, P_LOSS_SIM_NO_HIE, N_LOSS_SIM_NO_HIE
     
     else:
         if CHECK_ALL:
@@ -239,6 +236,7 @@ def decoder_loss(decoder_emb, sppmi_list, config):
 def sppmi_edge_loss(x, edge_pos, edge_neg, config):
     # Determine the device based on the input tensor 'x'
     device = x.device
+    max_num = x.shape[0]
 
     # Compute positive edge scores
     emb_start_pos = x[edge_pos[0, :]]
@@ -257,20 +255,28 @@ def sppmi_edge_loss(x, edge_pos, edge_neg, config):
     # Loop through positive and negative edges
     for src, tgt, score in zip(edge_pos[0], edge_pos[1], score_pos):
         node_agg_pos[src] += torch.exp(- config['AA'] * (score - config['lambd']))
-        node_agg_pos[tgt] += torch.exp(- config['AA'] * (score - config['lambd']))
 
     for src, tgt, score in zip(edge_neg[0], edge_neg[1], score_neg):
         node_agg_neg[src] += torch.exp(config['BB'] * (score - config['lambd']))
-        node_agg_neg[tgt] += torch.exp(config['BB'] * (score - config['lambd']))
-
-    # Calculate the log term per node for positive and negative scores
-    log_term_pos = (1 / config['AA']) * torch.log(1 + node_agg_pos)
-    log_term_neg = (1 / config['BB']) * torch.log(1 + node_agg_neg)
+   
+    pos_counts = torch.bincount(edge_pos[:,0], minlength=max_num)
+    # print(len(pos_counts))
+    neg_counts = torch.bincount(edge_neg[:,0], minlength=max_num)
+    # print(len(neg_counts))
+    pos_mask = pos_counts != 0
+    neg_mask = neg_counts != 0
+    
+    # # Calculate the log term per node for positive and negative scores
+    # log_term_pos = (1 / config['AA']) * torch.log(1 + node_agg_pos[pos_mask]/pos_counts[pos_mask])
+    # log_term_neg = (1 / config['BB']) * torch.log(1 + node_agg_neg[neg_mask]/neg_counts[neg_mask])
+    log_term_pos = (1 / config['AA']) * torch.log(1 + node_agg_pos[pos_mask])
+    log_term_neg = (1 / config['BB']) * torch.log(1 + node_agg_neg[neg_mask])
 
     # Sum log terms across all nodes to compute the final loss
     loss = log_term_pos.sum() + log_term_neg.sum()
-    # if config['CHECK_ALL']: # tmp!!!
-    print(f"sppmi_pos_loss: {config['scale_sppmi'] * log_term_pos.sum()}")
-    print(f"sppmi_neg_loss: {config['scale_sppmi'] * log_term_neg.sum()}")
-
+    
+    if config['CHECK_ALL']: 
+        print(f"sppmi_pos_loss: {config['scale_sppmi'] * log_term_pos.sum()}")
+        print(f"sppmi_neg_loss: {config['scale_sppmi'] * log_term_neg.sum()}")
+    
     return config['scale_sppmi'] * log_term_pos.sum(), config['scale_sppmi'] * log_term_neg.sum()

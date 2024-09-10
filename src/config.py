@@ -1,7 +1,7 @@
 """"
 Title: config.py
 Author: Han Tong
-Date: 2024-04-07
+Date: 2024-07-26
 Python Version: Python 3.11.3
 Description: All parameter we need
 """
@@ -32,21 +32,22 @@ config = {
     'hidden_features': 768, 
     'Decoder': False,
     'Decoder_inst': None,
-    'path': '/home/doz128/GAME_0407', 
-    'input_dir': '/n/data1/hsph/biostat/celehs/lab/doz128/GAME/input',
+    'path': '/home/doz128/GAME_0726', 
+    'input_dir': '/n/data1/hsph/biostat/celehs/lab/Han/GAME_final/input',
     'path_origin' : None,
     'epochs': 3, 
     'CHECK_ALL': False,
     'DEVICE': 'cuda:0',
-    'num_inst': 4,
+    'num_inst': 7,
+    'inst_weight': [0.914, 0.892, 0.837, 0.793, 0.756, 0.700, 0.850],  # similar AUC of each inst=>weight down the inst with bad quality
     'api_key': None,
     
     'out_dim': 768, 
     'num_features': 768,
-    'num_union': 16762,
+    'num_union': 50738,
     'batch_size': 256, 
     'gamma': 0.99, 
-    'scale_SIM_NO_HIE': 1,
+    'scale_SIM_NO_HIE': 10,
     'SEED': 1, 
     'heads': 2, 
 }  

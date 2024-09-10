@@ -3,7 +3,7 @@
 """
 Title: evaluate.py
 Author: Han Tong
-Date: 2024-04-07
+Date: 2024-07-26
 Python Version: Python 3.11.3
 Description: evaluate AUC and accuracy functions can be seen here
 """
@@ -15,6 +15,7 @@ from config import get_config
 warnings.filterwarnings('ignore')
 from sklearn.metrics import roc_auc_score
 from utils import *
+import logging
 config = get_config()
 CHECK_ALL = config['CHECK_ALL']
 
@@ -25,8 +26,7 @@ def predict_fun(emb_other, emb_loinc, other_name, loinc_name, item_dict):
     Pre = np.argsort(-similarity, axis=1)
     m = emb_loinc.shape[0]
     n = emb_other.shape[0]
-    
-    item = list(item_dict.items())
+
     right_top1_ = right_top1 = np.zeros(n)
     right_top5_ = right_top5 = np.zeros(n)
     right_top10_ = right_top10 = np.zeros(n)
@@ -37,11 +37,11 @@ def predict_fun(emb_other, emb_loinc, other_name, loinc_name, item_dict):
     df = pd.DataFrame(Pre)
     result = df.apply(lambda x: pd.Series(x.unique()), axis=1).to_numpy()
     Pre = result[:, 0:20]
-    right_top1, right_top5, right_top10, right_top20, ans = process_predictions(Pre, 1, other_name, item, item_dict)
+    right_top1, right_top5, right_top10, right_top20, ans = process_predictions(Pre, 1, other_name, item_dict)
     return np.vstack((right_top1, right_top5, right_top10, right_top20)).T
 
 
-def output(new_emb, name_all, NUM=False):
+def output(new_emb, name_all):
     
     OtherToLoincLabel = np.load(f"{config['input_dir']}/edges/OtherToLoinc_new.npy",
                                 allow_pickle=True).item()
@@ -49,12 +49,8 @@ def output(new_emb, name_all, NUM=False):
     index1 = [i for i, x in enumerate(name_all) if re.search("LOINC:", x)] 
     emb_loinc = new_emb[index1, :]
     emb_other = new_emb[existed_row, :]
-
-    if NUM is True:
-        PRE = predict_fun(emb_other, emb_loinc, get_values(name_all[existed_row]), get_values(name_all[index1]), OtherToLoincLabel, NUM)
-        return PRE
     
-    N1 = 2030
+    N1 = len(OtherToLoincLabel)
     pre = predict_fun(emb_other, emb_loinc, get_values(name_all[existed_row]), get_values(name_all[index1]), OtherToLoincLabel)
     return np.array([np.sum(pre[:, i])/N1 for i in range(4)])*100
 
@@ -143,7 +139,7 @@ def get_AUC_sub(emb_MGB, now_sub, nmax = 1000):
         return({'auc':roc0, 'num':n})
 
 
-def get_AUC_emb(emb_MGB, pairs_MGB, nmax = 10000):
+def get_AUC_emb(emb_MGB, pairs_MGB, nmax = 1000):
     group = pairs_MGB[['type', 'group', 'source']].drop_duplicates()
     Group = group[['type', 'group']].drop_duplicates().sort_values(by=['group', 'type'], ascending=[True, False])
     AUClist = list()
@@ -168,9 +164,12 @@ def get_total_AUC(emb, name_all, pairs):
 
 def test(x, name_all, config, related_pairs=None, similar_pairs=None, drug_side_pairs=None, PRE=True, AUC=True, AUC_type=True):
     # x_low_dim is used to do similar jobs; x_rel is used to do related jobs
-    rmax=config['rmax']
     results = []
-    x_low_dim = x[:,:rmax]
+    if config['path_origin'] is 'align_NA':
+        x_low_dim = x
+    else:
+        rmax=config['rmax']
+        x_low_dim = x[:,:rmax]
         
     def compute_auc(data, pairs):
         if AUC_type:
@@ -181,7 +180,7 @@ def test(x, name_all, config, related_pairs=None, similar_pairs=None, drug_side_
     if PRE:
         my_z = x_low_dim.detach().cpu().numpy()
         pre = output(my_z, name_all)
-        print(f'Accuracy    TOP1 {pre[0]:.2f}%    TOP5 {pre[1]:.2f}%    TOP10 {pre[2]:.2f}%    TOP20 {pre[3]:.2f}%')
+        logging.info(f'Accuracy    TOP1 {pre[0]:.2f}%    TOP5 {pre[1]:.2f}%    TOP10 {pre[2]:.2f}%    TOP20 {pre[3]:.2f}%')
         results.append(pre)
         
     # related and similar AUC

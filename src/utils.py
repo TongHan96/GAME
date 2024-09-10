@@ -3,7 +3,7 @@
 """"
 Title: Utils.py
 Author: Han Tong
-Date: 2024-04-07
+Date: 2024-07-26
 Python Version: Python 3.11.3
 Description: All useful functions we use
 """
@@ -25,8 +25,9 @@ from scipy.linalg import svd
 import torch.nn.functional as F
 warnings.filterwarnings("ignore")
 import time
+import logging
 
-import openai
+from openai import OpenAI 
 import matplotlib.pyplot as plt
 from torch_geometric.utils import to_undirected
 from torch_geometric.utils import add_self_loops
@@ -37,6 +38,34 @@ import sys
 
 
 config = get_config()
+    
+def logging_config(config, start_time,
+                   level=logging.INFO,
+                   console_level=logging.INFO,
+                   no_console=True):
+    folder = f"{config['path']}/output/{start_time}/"
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+    for handler in logging.root.handlers:
+        logging.root.removeHandler(handler)
+    logging.root.handlers = []
+    logpath = os.path.join(folder, start_time + ".log")
+    print("All logs will be saved to %s" %logpath)
+
+    logging.root.setLevel(level)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    logfile = logging.FileHandler(logpath)
+    logfile.setLevel(level)
+    logfile.setFormatter(formatter)
+    logging.root.addHandler(logfile)
+
+    if not no_console:
+        logconsole = logging.StreamHandler()
+        logconsole.setLevel(console_level)
+        logconsole.setFormatter(formatter)
+        logging.root.addHandler(logconsole)
+    return folder
+
 
 def get_values(data):
     if isinstance(data, pd.DataFrame) or isinstance(data, pd.Series):
@@ -62,19 +91,15 @@ def grepl(pattern, name_all):
     return bool(re.match(pattern, name_all))
 
 
-def id_map(codes, name_all, shift=0, concat=True):
+def id_map(codes, name_all):
     """
     return the location of codes in name_all
     add shift alternatively
     """
     result = [np.where(name_all == name)[0] for name in codes]
-    if not result:
+    if len(result)==0:
         return np.array([])
-    else:
-        if concat:
-            return np.concatenate(result) + shift
-        else:
-            return result
+    return np.concatenate(result)
 
         
 def match(a, b, rm_None=True):
@@ -123,12 +148,13 @@ def find_same_par_gra(hie_loinc_rxn_phe, name_all, name_id, PARENT=1):
     if PARENT = 1, find siblings; is PARENT = 2, find  cousins and siblings
     """
 
+    
     name = name_all[name_id]
     parent_values = hie_loinc_rxn_phe.iloc[:, PARENT].values
-
-    name_map = id_map([name], hie_loinc_rxn_phe.iloc[:, 0])
     
-    if not name_map.any():
+    name_map = id_map([name], hie_loinc_rxn_phe.iloc[:, 0].values)
+    
+    if len(name_map)==0:
         return []
 
     now_id = name_map[0]
@@ -221,7 +247,6 @@ def now_time():
     formatted_time = time.strftime("%Y-%m-%d %H:%M:%S", current_time)
     return formatted_time
 
-start_time = now_time()
 
 
 def save_hyperparameters(config, start_time):
@@ -235,7 +260,7 @@ def save_hyperparameters(config, start_time):
         writer.writerow(config.values())
 
         
-def write_file_sub(MGB_AUC1, name):
+def write_file_sub(MGB_AUC1, name, start_time):
     """
     write a AUC row in a file
     """
@@ -251,7 +276,7 @@ def write_file_sub(MGB_AUC1, name):
         aucwriter.writerow(header)
         aucfile.close()
 
-def write_file_sub2(MGB_AUC1, name, EPOCH, BATCH):
+def write_file_sub2(MGB_AUC1, name, EPOCH, BATCH, start_time):
     """
     change the shape of a row so that it can bewritten into a file
     """
@@ -262,7 +287,7 @@ def write_file_sub2(MGB_AUC1, name, EPOCH, BATCH):
 
 
 
-def write_file(Epoch, Batch, config, loss=None, pre=None, SIM_AUC=None, REL_AUC=None, DRUG_AUC=None):
+def write_file(Epoch, Batch, config, start_time, loss=None, pre=None, SIM_AUC=None, REL_AUC=None, DRUG_AUC=None):
     """
     write all files (loss pre accuracy and AUC)
     """
@@ -272,24 +297,29 @@ def write_file(Epoch, Batch, config, loss=None, pre=None, SIM_AUC=None, REL_AUC=
         # loss 
         lossfile =  open(f"{config['path']}/output/{start_time}/ALL_LOSS.csv", "a")
         losswriter = csv.writer(lossfile)
-        if config['path_origin'] == 'align_NA':
+        if config['Decoder'] is True:
+            losswriter.writerow(["EPOCH", "BATCH", "P_LOSS_hie", "N_LOSS_hie", "P_LOSS_OTOL", "N_LOSS_OTOL", "P_LOSS_SIM_NO_HIE", "N_LOSS_SIM_NO_HIE", "P_REL", "N_REL", "P_sppmi", "N_sppmi"])         
+        
+        elif config['path_origin'] == 'align_NA':
             losswriter.writerow(["EPOCH", "BATCH", "align_loss"])     
         
         elif config['path_origin'] is None:    
-            losswriter.writerow(["EPOCH", "BATCH", "P_LOSS_hie", "N_LOSS_hie", "P_LOSS_OTOL", "N_LOSS_OTOL", "P_LOSS_LTOL", "N_LOSS_LTOL", "P_LOSS_SIM_NO_HIE", "N_LOSS_SIM_NO_HIE"])            
+            losswriter.writerow(["EPOCH", "BATCH", "P_LOSS_hie", "N_LOSS_hie", "P_LOSS_OTOL", "N_LOSS_OTOL", "P_LOSS_SIM_NO_HIE", "N_LOSS_SIM_NO_HIE"])           
+        
         else:
-            losswriter.writerow(["EPOCH", "BATCH", "P_REL", "N_REL", "P_sppmi", "N_sppmi", "P_coder", "N_coder"])           
+            losswriter.writerow(["EPOCH", "BATCH", "P_REL", "N_REL", "P_sppmi", "N_sppmi"])           
         lossfile.close()
 
-        if (config['path_origin'] is not None):
-            # rela auc
-            write_file_sub(REL_AUC, "REL_AUC")
-            write_file_sub(DRUG_AUC, "DRUG_SIDE")
+        if REL_AUC is not None:
+            write_file_sub(REL_AUC, "REL_AUC", start_time)
+        
+        if SIM_AUC is not None:
+            write_file_sub(SIM_AUC, "SIM_AUC", start_time)
             
-        if (config['path_origin'] is None) | (config['path_origin'] =='align_NA'):
-            # simi auc
-            write_file_sub(SIM_AUC, "SIM_AUC")
-            # pre
+        if DRUG_AUC is not None:            
+            write_file_sub(DRUG_AUC, "DRUG_SIDE", start_time)
+            
+        if pre is not None:
             prefile = open(f"{config['path']}/output/{start_time}/ALL_PRE.csv", "a")
             prewriter = csv.writer(prefile)
             prewriter.writerow(["EPOCH", "BATCH", "TOP1", "TOP5", "TOP10", "TOP20"])
@@ -317,11 +347,11 @@ def write_file(Epoch, Batch, config, loss=None, pre=None, SIM_AUC=None, REL_AUC=
         prewriter.writerow(pre_row)
 
     if REL_AUC is not None:
-        write_file_sub2(REL_AUC, "REL_AUC", Epoch, Batch)
+        write_file_sub2(REL_AUC, "REL_AUC", Epoch, Batch, start_time)
     if SIM_AUC is not None:
-        write_file_sub2(SIM_AUC, "SIM_AUC", Epoch, Batch)
+        write_file_sub2(SIM_AUC, "SIM_AUC", Epoch, Batch, start_time)
     if DRUG_AUC is not None:
-        write_file_sub2(DRUG_AUC, "DRUG_SIDE", Epoch, Batch)
+        write_file_sub2(DRUG_AUC, "DRUG_SIDE", Epoch, Batch, start_time)
         
 
 def mask_inst(pairs, dict_MGB, shift):
@@ -378,7 +408,7 @@ def get_index(train_rel_pairs, name_all):
 
     return rel_index
 
-def process_predictions(Pre, LEVEL, other_name, item, item_dict):
+def process_predictions(Pre, LEVEL, other_name, item_dict):
     n = len(Pre)
     right_top1 = np.zeros(n)
     right_top5 = np.zeros(n)
@@ -392,8 +422,7 @@ def process_predictions(Pre, LEVEL, other_name, item, item_dict):
         predict_top20 = Pre[i, :]
         
         ans += 1
-        level_key = "LEVEL" + str(LEVEL)
-        level_data = item[list(item_dict.keys()).index(other_name[i])][1][level_key]
+        level_data = item_dict[other_name[i]]
 
         right_top1[i] = int(predict_top1 in level_data)
         right_top5[i] = int(any(np.isin(predict_top5, level_data)))
@@ -415,20 +444,20 @@ def solve_Procrustes(X1, X2):
     return u @ vt
 
 
-def append_to_csv(name, row):
-    if isinstance(row, tuple):
-        for i, r in enumerate(row):
-            file_name = f"{config['path']}/output/{start_time}/{name}_{i+1}.csv"
-            r = r.squeeze().tolist() # convert tensor to list
-            with open(file_name, "a", newline="") as f:
-                writer = csv.writer(f)
-                writer.writerow(r)
-    else:
-        file_name = f"{config['path']}/output/{start_time}/{name}.csv"
-        row = row.squeeze().tolist() # convert tensor to list
-        with open(file_name, "a", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow(row)
+# def append_to_csv(name, row, start_time):
+#     if isinstance(row, tuple):
+#         for i, r in enumerate(row):
+#             file_name = f"{config['path']}/output/{start_time}/{name}_{i+1}.csv"
+#             r = r.squeeze().tolist() # convert tensor to list
+#             with open(file_name, "a", newline="") as f:
+#                 writer = csv.writer(f)
+#                 writer.writerow(r)
+#     else:
+#         file_name = f"{config['path']}/output/{start_time}/{name}.csv"
+#         row = row.squeeze().tolist() # convert tensor to list
+#         with open(file_name, "a", newline="") as f:
+#             writer = csv.writer(f)
+#             writer.writerow(row)
         
         
 def my_item(x):
@@ -486,7 +515,7 @@ def compute_spearman(a, b):
     return coef, p
 
 
-def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','CODER','MGB SPPMI','VA SPPMI','UPMC SPPMI','BCH SPPMI','GAME'], code_list = ["PheCode:714.1", "PheCode:428.1", "PheCode:296.2", "PheCode:250.1", "PheCode:250.2", "PheCode:411.4"], RECORD=None, api_key=None, config=None):
+def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','CODER','BGE','OPENAI', 'MGB SPPMI','VA SPPMI','UPMC SPPMI','BCH SPPMI','Duke SPPMI', 'MIMIC SPPMI', 'Bor SPPMI', 'GAME'], code_list = ["PheCode:428", "PheCode:296.2", "PheCode:714", "PheCode:290.11", "PheCode:250.1", "PheCode:250.2", "PheCode:555.1", "PheCode:555.2", "PheCode:428.1", 'PheCode:714.1'], RECORD=None, api_key=None, config=None):
     # load data
     emb_all = [pd.DataFrame(emb.cpu().numpy()) for emb in emb_all]
     name_desc = pd.read_csv(f'{config["input_dir"]}/name_desc/unique_name_desc_LP.csv')
@@ -514,7 +543,6 @@ def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','C
         indices = name_desc[name_desc['type_desc'] == type_desc].index.tolist()
         new_row = pd.DataFrame({'name': [type_desc], 'indices': [indices]})
         mapping_list = pd.concat([mapping_list, new_row], ignore_index=True)
-    
 
     corr_list = []
     result_list = []
@@ -530,7 +558,7 @@ def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','C
     if RECORD is not None:
         if now_corr > RECORD:
             for code, result in zip(code_list, result_list):
-                plot_all(result, name_list, path = f"{config['path']}/supp_code/feature_selection/pic_cos_sim/cos_sim_ans_{code}_{loc}.png")
+                plot_all(result, name_list, path = f"{config['path']}/output/{loc}/cos_sim_ans_{code}_{loc}.png")
         
     return now_corr
 
@@ -546,7 +574,7 @@ def feature_selection(emb_all, code, name_all):
     return cos_sim
 
 
-def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=['sap', 'coder', 'svd', 'old', 'new'], negative=None, common_edges=None, edges=None, neg=None, mapping_list=None, api_key=None):
+def all_fea_select(emb_all, code, name_desc, name_list, feat_max=100, add=None, negative=None, edges=None, neg=None, mapping_list=None, api_key=None):
     desc_code = name_desc.iloc[np.where(name_desc.iloc[:,0].values == code)[0],1].values
     name_all = name_desc.iloc[:,0].values
     code_indice = np.where(name_all == code)[0]
@@ -558,11 +586,7 @@ def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=[
     if neg is not None:
         index_neg = np.union1d(name_all[neg[1][np.where((pd.Series(neg[0]).isin(code_indice)).values)[0]]],name_all[neg[0][np.where((pd.Series(neg[1]).isin(code_indice)).values)[0]]])
         index_neg_series = pd.Series(index_neg)
-    
-    if common_edges is not None:
-        index_common = np.union1d(name_all[common_edges[1][np.where((pd.Series(common_edges[0]).isin(code_indice)).values)[0]]],name_all[common_edges[0][np.where((pd.Series(common_edges[1]).isin(code_indice)).values)[0]]])
-        index_common_series = pd.Series(index_common)
-        
+
     index_all = []
     cos_all = []
 
@@ -574,7 +598,6 @@ def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=[
         if mapping_list is not None:
             cos_list = []
             ind_all_list = []
-    
             for mapping in mapping_list['indices'].values:
                 tmp = [cos[i] for i in mapping]
                 max_value = max(tmp)
@@ -620,8 +643,7 @@ def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=[
         data_df['GPT3.5_TRUE'] = pd.Series(name_all[data_df['index']]).isin(index_edges_series)
     if neg is not None:
         data_df['GPT3.5_FALSE'] = pd.Series(name_all[data_df['index']]).isin(index_neg_series)
-    if common_edges is not None:
-        data_df['COMMON'] = pd.Series(name_all[data_df['index']]).isin(index_common_series)
+
     
     for i, name in enumerate(name_list):
         indices = np.array(index_all[i])
@@ -641,8 +663,8 @@ def all_fea_select(emb_all, code, name_desc, feat_max=100, add=None, name_list=[
     pos_new.to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", index=None)
     update_score(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", f"{config['path']}/supp_code/feature_selection/input/GPT4_{code.replace(':','_')}.csv")
     # evaluate
-    output_str, output_tmp = print_all(pos_new, name_list)
-    with open(f"{config['path']}/supp_code/feature_selection/rank_corr/GPT4_rank_ans_{code}_{add}.txt", 'a') as f:
+    output_str, output_tmp = print_all(pos_new, name_list, name_all)
+    with open(f"{config['path']}/output/{add}/GPT4_rank_ans_{code}.txt", 'a') as f:
         f.write('\n' + output_str)
     print(output_str)
     return pos_new, output_tmp
@@ -719,10 +741,11 @@ def plot_all(pos, name_list, indices_=True, path=None):
         ax.axhline(quarter3_y, color='b', linestyle='-', alpha=0.7, label=f'3 quantile of GPT-4 Values for {selected_type}')
         
         # label the text
-        ax.text(0.75, 0.7, f'Median: {np.round(median_y,3)}', transform=ax.get_yaxis_transform(), 
-                horizontalalignment='left', color='red')
-        ax.text(0.75, 0.6, f'Mean: {np.round(mean_y,3)}', transform=ax.get_yaxis_transform(), 
-                horizontalalignment='left', color='green')
+        print(f'{name_list[i]} -- Median -- {np.round(median_y,3)} -- Mean -- {np.round(mean_y,3)}')
+        # ax.text(0.75, 0.7, f'Median: {np.round(median_y,3)}', transform=ax.get_yaxis_transform(), 
+        #         horizontalalignment='left', color='red')
+        # ax.text(0.75, 0.6, f'Mean: {np.round(mean_y,3)}', transform=ax.get_yaxis_transform(), 
+                # horizontalalignment='left', color='green')
         # Labels, legend, and title
         ax.set_xlabel(f'{selected_type.capitalize()} Cos')  # X-axis label for each subplot
         ax.set_ylabel('GPT-4 Values')  # Y-axis label for each subplot
@@ -730,18 +753,20 @@ def plot_all(pos, name_list, indices_=True, path=None):
         ax.set_title(f'{selected_type.capitalize()} Cosine Similarity vs GPT-4 Values')  # Title for each subplot
 
     plt.tight_layout()  
-    plt.savefig(f"{path}")
+    if path is not None:
+        plt.savefig(f"{path}")
     plt.show()
     plt.close()
 
 
 
-def print_all(pos, name_list):
+def print_all(pos, name_list, unique_name):
     output = io.StringIO()
     for i in range(len(name_list)):
-        output_tmp = compute_spearman(np.array(pos[pos['gpt4'].notna()][f'{name_list[i]}_cos']), np.array(pos[pos['gpt4'].notna()]['gpt4']))
+        index = np.where(pos[pos['gpt4'].notna()]['name'].isin(unique_name[config['inst_row'][0]]))[0]
+        output_tmp = compute_spearman(np.array(pos[pos['gpt4'].notna()][f'{name_list[i]}_cos'])[index], np.array(pos[pos['gpt4'].notna()]['gpt4'])[index])
         output_tmp = np.round(output_tmp[0],3)
-        output.write(f'{name_list[i]}: {output_tmp}\t')
+        output.write(f'{name_list[i]}: {output_tmp} ({len(index)})\t')
 
     return output.getvalue(), output_tmp
 
@@ -768,14 +793,16 @@ def update_score(path, path_origin=None):
     
 def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None, api_key=None):
     # model_engine = "gpt-4"
-    model_engine = 'gpt-4-turbo-preview'
-    openai.api_key = api_key
+    # model_engine = 'gpt-4-turbo-preview'
     # model_engine = "gpt-3.5-turbo"
+    model_engine = 'gpt-4o-mini'
+    client = OpenAI(api_key=api_key)
     pd.DataFrame(data.columns).transpose().to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=None) 
     data.reset_index()
     data = np.asarray(data)
     temp = 0 # run the code if broke
     ans = []
+    
     def gen_prompt(i):
         prompt = (f"Is the following medical code related to {desc}?\n\n"
                   f"{data[i,1]}\n\n"
@@ -790,8 +817,7 @@ def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None, 
             pd.DataFrame(data=data[i,:].reshape(-1,1)).transpose().to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=False, mode="a")
             ans.append(data[i,-1])
             continue
-        time.sleep(5)
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=model_engine,
             temperature=0.0,
             messages=[
@@ -801,7 +827,7 @@ def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None, 
                  "content": gen_prompt(i)}]
         )
         print(gen_prompt(i))
-        message = response['choices'][0]['message']['content']
+        message = response.choices[0].message.content
         print(message)
         ans.append(message)
         re = np.vstack([data[i,:-1].reshape(-1,1), ans[i - temp]])
@@ -853,3 +879,41 @@ def retain_1_inst_emb(encoder_emb, config):
     new_encoder_emb = encoder_emb_np[index_inst]
     new_encoder_emb = torch.tensor(new_encoder_emb, dtype=torch.float)
     return new_encoder_emb
+
+
+def retain_1_inst_set(my_objects, config):
+    """
+    Retains my_objects based on institution index and reindexes them.
+
+    Args:
+        my_objects (List): List of objects containing sets of codes and arrays
+        config (dict): Configuration dictionary containing 'Decoder_inst' and 'inst_row'.
+
+    Returns:
+        List: Updated List of my_objects with retained and reindexed codes.
+    """
+    retain_inst = config['Decoder_inst']
+    index_inst = config['inst_row'][retain_inst]
+    
+    my_objects = [my_objects[i] for i in index_inst]
+    old_to_new = {old: new for old, new in zip(index_inst, range(len(index_inst)))}
+    fields_to_check = ['same_par', 'same_gra', 'P_local', 'N_local', 'rel', 'sim_no_hie']
+    
+    for obj in my_objects:
+        for field in fields_to_check:
+            if field in vars(obj) and len(vars(obj)[field])>0: 
+                if isinstance(vars(obj)[field], (np.ndarray, list)):
+                    vars(obj)[field] = np.array([old_to_new[val] for val in vars(obj)[field] if val in old_to_new])
+                elif isinstance(obj[field], set):
+                    vars(obj)[field] = {old_to_new[val] for val in vars(obj)[field] if val in old_to_new}
+    
+    return my_objects
+    
+
+def sample_and_combine_edges(edge_all_sim, edge_all_rel, config):
+    num_edges_to_sample = round(edge_all_rel.size(1) * config['drop_p'])
+    permuted_indices = torch.randperm(edge_all_rel.size(1))
+    sampled_indices = permuted_indices[:num_edges_to_sample]
+    sampled_edges = edge_all_rel[:, sampled_indices]
+    edge_index = torch.cat((edge_all_sim, sampled_edges), dim=1)
+    return edge_index

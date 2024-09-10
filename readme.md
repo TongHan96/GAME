@@ -17,7 +17,7 @@ The encoder is crucial for aligning institutions and preparing embeddings for th
    - Main embeddings are generated using edges and a loss function, where edges denote connections based on similarity and relatedness between entities. The initial input embedding is the concatenation of SAPBERT embedding $Z$ and the institutional aligned embedding $Y$ obtained in the first step. With a default configuration of $rmax=256$, indicating a 256-dimensional embedding, $\tilde{Y}_{main}$, a multi-similarity loss function optimizes the embeddings. This dimensionality is adequate for positioning similar entities closely in the embedding space.
 
 3. **Creating Relatedness Tails Embedding**:
-   - This step involves generating relatedness tails embeddings $\tilde{Y}_{rel}$ using relatedness edges, then concatenating them with the main embedding to form the final embedding ($out_dim=768$), $\tilde{Y}$. The main embedding efficiently handles similarity tasks, whereas the final embedding addresses more complex relatedness tasks.
+   - This step involves generating relatedness tails embeddings $\tilde{Y}_{rel}$ using all edges, then concatenating them with the main embedding to form the final embedding ($out_dim=768$), $\tilde{Y}$. The main embedding efficiently handles similarity tasks, whereas the final embedding addresses more complex relatedness tasks.
 
 ### Decoder Component
 
@@ -32,8 +32,8 @@ To implement the GAME training process, ensure that each step in the encoder and
 **Python Code:**
 ```python
 import os
-os.chdir('/home/doz128/GAME_0407/src')  # Change directory to your working path
-%run main.py --want_TOP1 62.0 --path '/home/doz128/GAME_0407/' --epochs 500 --drop_out 0.5 --scale_sppmi 0.1 --lr 1e-4 --hidden_features 768 --DEVICE 'cpu' --EDGE_ALL --path_origin 'align_NA' --api_key 'XXX' # Change api_key to your openai api_key
+os.chdir('~/GAME/src')  # Change directory to your working path
+%run main.py --path '~/GAME/' --epochs 500 --drop_out 0.1 --scale_sppmi 0.1 --lr 1e-4 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --path_origin 'align_NA' --api_key '********'  # Change api_key to your openai api_key
 ```
 
 ### Part 2: Obtaining Similarity Embedding
@@ -41,8 +41,8 @@ os.chdir('/home/doz128/GAME_0407/src')  # Change directory to your working path
 **Python Code:**
 ```python
 import os
-os.chdir('/home/doz128/GAME_0407/src')  # Change directory to your working path
-%run main.py --path '/home/doz128/GAME_0407/' --epochs 500 --drop_out 0.5 --scale_sppmi 0.1 --lr 5e-6 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --api_key 'XXX'  # Change api_key to your openai api_key
+os.chdir('~/GAME/src')  # Change directory to your working path
+%run main.py --path '~/GAME/' --rmax 256 --epochs 500 --scale_OTOL 70 --drop_out 0.5 --scale_sppmi 0.1 --lr 1e-6 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --api_key '********' --align_path 'align_step'  # Change api_key to your openai api_key
 ```
 
 ### Part 3: Acquiring Relatedness Embedding
@@ -50,8 +50,8 @@ os.chdir('/home/doz128/GAME_0407/src')  # Change directory to your working path
 **Python Code:**
 ```python
 import os
-os.chdir('/home/doz128/GAME_0407/src')  # Change directory to your working path
-%run main.py --path '/home/doz128/GAME_0407/' --epochs 500 --drop_out 0.5 --scale_sppmi 0.1 --lr 5e-6 --hidden_features 768 --DEVICE 'cuda' --path_origin 'sim_step' --api_key 'XXX'  # Change api_key to your openai api_key
+os.chdir('~/GAME/src')  # Change directory to your working path
+%run main.py --path '~/GAME/' --epochs 500 --drop_out 0.5 --EDGE_ALL --scale_sppmi 0.1 --lr 1e-6 --hidden_features 768 --DEVICE 'cuda' --path_origin 'sim_step' --align_path 'align_step' --api_key '********'   # Change api_key to your openai api_key
 ```
 
 ## GAME Training Script Configuration

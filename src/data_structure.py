@@ -3,7 +3,7 @@
 """
 Title: data_structure.py
 Author: Han Tong
-Date: 2024-04-07
+Date: 2024-07-26
 Python Version: Python 3.11.3
 Description: define the class of each node, the dataset structures, and the initialize function of them
 """
@@ -21,22 +21,18 @@ from utils import  *
 
 class item_node:
     '''
-    Eights sets are useful for every code: 
-    1. one_one: 1-1 mapping [across inst. or none]
-    2. same_par: siblings [across inst. or within inst. or none]
-    3. same_gra: cousins + siblings [across inst. or within inst. or none]
-    4/6. P_other/local: positive loinc code of other lab or local lab [across inst. or none]
-    5/7. N_other/local: negative loinc code of other lab or local lab [across inst. or none]
-    8. rel: related codes [within inst. or none]
-    9. sim_No_hie: similar_no_hie_pairs [within inst. or none]
+    Six sets are useful for every code: 
+    1. same_par: siblings [across inst. or within inst. or none]
+    2. same_gra: cousins + siblings [across inst. or within inst. or none]
+    3. P_local: positive loinc code of other lab or local lab [across inst. or none]
+    4. N_local: negative loinc code of other lab or local lab [across inst. or none]
+    5. rel: related codes [within inst. or none]
+    6. sim_No_hie: similar_no_hie_pairs [within inst. or none]
     '''
     def __init__(self, name=""):
         self.name = name
-        self.one_one = set()
         self.same_par = set()    # siblings
-        self.same_gra = set()    # siblings and cousins
-        self.P_other = set()     # for other code
-        self.N_other = set()     
+        self.same_gra = set()    # siblings and cousins    
         self.P_local = set()     # for local code
         self.N_local = set()
         self.rel = set()  
@@ -81,7 +77,7 @@ class MySampler(Sampler):
         return int(np.ceil(len(self.unique_names) / get_config()['batch_size']))
 
 
-def origin_loss_set(unique_name, pos_OTOL, neg_OTOL, pos_LTOL, neg_LTOL, hie_loinc_rxn_phe, 
+def origin_loss_set(unique_name, pos_LTOL, neg_LTOL, hie_loinc_rxn_phe, 
                 Train_REL_pairs, Train_sim_no_hie_pairs, rel_index, sim_no_hie_index):
     '''
     create a term for each node, including name, one_one, same_par, same_gra, rel
@@ -91,16 +87,12 @@ def origin_loss_set(unique_name, pos_OTOL, neg_OTOL, pos_LTOL, neg_LTOL, hie_loi
 
     for i in tqdm(range(len(unique_name))):
         obj = item_node(name=unique_name[i])
-        
-        if grepl('^Other lab:', obj.name):
-            obj.P_other = find_other_local(obj.name, pos_OTOL, unique_name)
-            obj.N_other = find_other_local(obj.name, neg_OTOL, unique_name)
 
-        if grepl('^LOCAL\\|LAB:', obj.name):
+        if grepl('^LOCAL\\|LAB:|^Other lab:|^LOCAL\\|PX:|^CCAM:', obj.name):
             obj.P_local = find_other_local(obj.name, pos_LTOL, unique_name)
             obj.N_local = find_other_local(obj.name, neg_LTOL, unique_name)
 
-        if grepl('^RXNORM:|PheCode:|LOINC:', obj.name):
+        if grepl('^PheCode:|^LOINC:|^CCAM:|^RXNORM:', obj.name):
             obj.same_par = find_same_par_gra(hie_loinc_rxn_phe, unique_name, name_id = i, PARENT=1)
             obj.same_gra = find_same_par_gra(hie_loinc_rxn_phe, unique_name, name_id = i, PARENT=2)
 
