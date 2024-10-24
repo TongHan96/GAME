@@ -1,6 +1,4 @@
-Got it! Let's generate a comprehensive table including all mentioned models and relevant dimensions (Top 1, 5, 10, 20 accuracy percentages) for each dataset from your images. We'll include the models like BioBERT, SApBERT, and others as requested.
-
-### Table Summary of Model Performances Across Different Datasets
+# Table Summary of Model Performances Across Different Datasets
 
 #### Bord CCAM - CCS (114/5246)
 | Model      | Top 1    | Top 5    | Top 10   | Top 20   |
