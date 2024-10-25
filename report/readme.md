@@ -11,6 +11,8 @@
 | OpenAI 1536| 64.91%   | 88.60%   | 90.35%   | 91.23%   |
 | GAME 256   | 54.39%   | 85.96%   | 91.23%   | 92.11%   |
 
+
+
 #### UPMC Local|PX CCS (70/1859)
 | Model      | Top 1    | Top 5    | Top 10   | Top 20   |
 |------------|----------|----------|----------|----------|
@@ -32,3 +34,42 @@
 | BGE 768    | 29.27%   | 43.41%   | 48.29%   | 57.07%   |
 | OpenAI 1536| 30.73%   | 43.41%   | 50.73%   | 59.02%   |
 | GAME 256   | 28.78%   | 38.05%   | 50.24%   | 60.98%   |
+
+
+*(199/10) means there are 10 CCS at all and there are 199 mappings in all*
+ 
+#### UPMC Local|PX CCS (199/10)
+
+| Model      | rank corr    |
+|------------|----------|
+| BioBERT    | 0.059    | 
+| PubMedBERT | 0.001    |
+| SApBERT    | 0.313   |
+| CODER      | 0.418   |
+| BGE 768    | 0.409   |
+| OpenAI 1536| 0.484   | 
+| GAME 256   | **0.574**   |
+
+
+#### Bord CCAM - CCS (609/26)
+| Model      | rank corr    |
+|------------|----------|
+| BioBERT    | 0.132    | 
+| PubMedBERT | 0.210    |
+| SApBERT    | 0.598   |
+| CODER      | 0.655   |
+| BGE 768    | 0.675   |
+| OpenAI 1536| **0.691**   | 
+| GAME 256   | 0.683   |
+
+
+#### UPMC lOCAL|LAB - LOINC (647/35)
+| Model      | rank corr    |
+|------------|----------|
+| BioBERT    | 0.308    | 
+| PubMedBERT | 0.285    |
+| SApBERT    | 0.572   |
+| CODER      | 0.586   |
+| BGE 768    | **0.671**   |
+| OpenAI 1536| 0.603   | 
+| GAME 256   | 0.653   |
