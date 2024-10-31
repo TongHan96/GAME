@@ -1,14 +1,12 @@
 # GAME: Self-supervised Graph Alignment for Multi-institutional Collaboration with Electronic Health Records Data
 ## Overview of the GAME Training Process
-This README offers a concise guide for implementing the GAME training process, which is designed to align multi-institutional codes within Electronic Health Records (EHR) data through a sophisticated knowledge graph system consisting of encoder and decoder components. Here's a simplified overview to facilitate understanding and implementation:
+This README offers a concise guide for implementing the GAME training process, which is designed to align multi-institutional codes within Electronic Health Records (EHR) data through a sophisticated knowledge graph system. Here's a simplified overview to facilitate understanding and implementation:
 
 <p align="center">
   <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/alg.png" alt="alg" title="alg" width="1000"/>
 </p>
 
-### Encoder Component
-
-The encoder is crucial for aligning institutions and preparing embeddings for the decoder. It comprises three main steps:
+GAME comprises three main steps:
 
 1. **Aligning Institutions with PPMI Embedding**:
    - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings, denoted as $X_i, i \in INSTs$, to align different institutions. After applying the institutional graph attention network, we obtain $Y_i, i \in INSTs$, and then we can establish a common representation $Y$ that captures co-occurrence probabilities. This step is essential for identifying similarities and relationships across institutions.
@@ -18,10 +16,6 @@ The encoder is crucial for aligning institutions and preparing embeddings for th
 
 3. **Creating Relatedness Tails Embedding**:
    - This step involves generating relatedness tails embeddings $\tilde{Y}_{rel}$ using all edges, then concatenating them with the main embedding to form the final embedding ($out_dim=768$), $\tilde{Y}$. The main embedding efficiently handles similarity tasks, whereas the final embedding addresses more complex relatedness tasks.
-
-### Decoder Component
-
-Following the encoder, the decoder processes the shared encoder layer embedding to produce institution-specific embeddings, $\tilde{Y}_i, i \in INSTs$, tailoring the output to particular institutional tasks. The decoder's functionality is adapted to the specific objectives of the system, ensuring that institutional embeddings are generated as required.
 
 ## Implementing the Process
 
