@@ -1,52 +1,55 @@
-# GAME: Self-supervised Graph Alignment for Multi-institutional Collaboration with Electronic Health Records Data
-## Overview of the GAME Training Process
-This README offers a concise guide for implementing the GAME training process, which is designed to align multi-institutional codes within Electronic Health Records (EHR) data through a sophisticated knowledge graph system. Here's a simplified overview to facilitate understanding and implementation:
 
+
+# GAME: Self-supervised Graph Alignment for Multi-institutional Collaboration with Electronic Health Records Data
+
+## Overview of the GAME Training Process
+
+This README provides a concise guide for implementing the GAME training process, designed to align multi-institutional codes within Electronic Health Records (EHR) data using a sophisticated knowledge graph system. The following is a simplified overview to facilitate understanding and implementation:
 
 <p align="center">
-  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/alg.png" alt="alg" title="alg" width="1000"/>
+  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/alg.png" alt="Algorithm" title="Algorithm" width="1000"/>
 </p>
 
-GAME comprises three main steps to align institutional embeddings from $M$ instititutions to the shared space.
+GAME comprises three main steps to align institutional embeddings from $M$ institutions into a shared space.
 
 1. **Aligning Institutions with PPMI Embedding**:
-   - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings, denoted as $V_i, i \in 1,2,..,M$, to align different institutions. After applying the institutional graph attention network, we obtain $Y_i, i \in 1,2,..,M$, and then we can establish a common representation $Y$ that captures co-occurrence probabilities. This step is essential for identifying similarities and relationships across institutions.
+   - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings, denoted as $V_i, i \in 1, 2, \ldots, M$, to align different institutions. After applying the institutional graph attention network, we obtain $Y_i, i \in 1, 2, \ldots, M$, which helps establish a common representation $Y$ that captures co-occurrence probabilities. This step is crucial for identifying similarities and relationships across institutions.
 
-2. **Generating Main Embedding**:
-   - Main embeddings are generated using edges and a loss function, where edges denote connections based on similarity and relatedness between entities. The initial input embedding is the concatenation of SAPBERT embedding $\mathbf{X}$ and the institutional aligned embedding $\mathbf{Y}$ obtained in the first step. With a default configuration of $rmax=256$, indicating a 256-dimensional embedding, \mathbf{Z}_{\mathcal{S}}, a multi-similarity loss function optimizes the embeddings. This dimensionality is adequate for positioning similar entities closely in the embedding space.
+2. **Generating Main Embeddings**:
+   - Main embeddings are generated using edges and a loss function, where edges represent connections based on similarity and relatedness between entities. The initial input embedding is a concatenation of the SAPBERT embedding $\mathbf{X}$ and the aligned institutional embedding $\mathbf{Y}$ obtained in the first step. By default, $r_{\text{max}}=256$, indicating a 256-dimensional embedding. The multi-similarity loss function optimizes the embeddings, enabling similar entities to be positioned closely in the embedding space.
 
-3. **Creating Relatedness Tails Embedding**:
-   - This step involves generating relatedness tails embeddings $\mathbf{Z}_{\mathcal{R}}$ using all edges, then concatenating them with the main embedding to form the final embedding ($out_dim=768$), $\mathbb{Z}$. The main embedding efficiently handles similarity tasks, whereas the final embedding addresses more complex relatedness tasks.
+3. **Creating Relatedness Tail Embeddings**:
+   - This step generates relatedness tail embeddings $\mathbf{Z}_{\mathcal{R}}$ using all edges, which are then concatenated with the main embedding to form the final embedding ($\text{out\_dim} = 768$), $\mathbb{Z}$. The main embedding is well-suited for similarity tasks, while the final embedding is designed to handle more complex relatedness tasks.
 
 ## Implementing the Process
-
 
 ### Part 1: Aligning Institutions with PPMI Embedding
 
 **Python Code:**
 ```python
 import os
-os.chdir('~/GAME/src')  # Change directory to your working path
-%run main.py --path '~/GAME/' --epochs 500 --drop_out 0.1 --scale_sppmi 0.1 --lr 1e-4 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --path_origin 'align_NA' --api_key '********'  # Change api_key to your openai api_key
+os.chdir('~/GAME/src')  # Change the directory to your working path
+%run main.py --path '~/GAME/' --epochs 500 --drop_out 0.1 --scale_sppmi 0.1 --lr 1e-4 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --path_origin 'align_NA' --api_key '********'  # Replace api_key with your OpenAI API key
 ```
 
-### Part 2: Obtaining Similarity Embedding
+### Part 2: Obtaining the Similarity Embedding
 
 **Python Code:**
 ```python
 import os
-os.chdir('~/GAME/src')  # Change directory to your working path
-%run main.py --path '~/GAME/' --rmax 256 --epochs 500 --scale_OTOL 30 --drop_out 0.5 --scale_sppmi 0.1 --lr 1e-6 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --api_key '********' --align_path 'align_step'  # Change api_key to your openai api_key, change align_path as folder name containing align step outcome.
+os.chdir('~/GAME/src')  # Change the directory to your working path
+%run main.py --path '~/GAME/' --rmax 256 --epochs 500 --scale_OTOL 30 --drop_out 0.5 --scale_sppmi 0.1 --lr 1e-6 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --api_key '********' --align_path 'align_step'  # Set align_path to the folder containing the align step output.
 ```
 
-### Part 3: Acquiring Relatedness Embedding
+### Part 3: Acquiring the Relatedness Embedding
 
 **Python Code:**
 ```python
 import os
-os.chdir('~/GAME/src')  # Change directory to your working path
-%run main.py --path '~/GAME/' --epochs 500 --drop_out 0.5 --EDGE_ALL --scale_sppmi 0.1 --lr 1e-6 --hidden_features 768 --DEVICE 'cuda' --path_origin 'sim_step' --align_path 'align_step' --api_key '********'   # Change api_key to your openai api_key
+os.chdir('~/GAME/src')  # Change the directory to your working path
+%run main.py --path '~/GAME/' --epochs 500 --drop_out 0.5 --EDGE_ALL --scale_sppmi 0.1 --lr 1e-6 --hidden_features 768 --DEVICE 'cuda' --api_key '********' --path_origin 'sim_step' --align_path 'align_step'  # Set path_origin to the folder containing the similarity step output.
 ```
+
 
 ## GAME Training Script Configuration
 
