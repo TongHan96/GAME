@@ -36,7 +36,7 @@ os.chdir('~/GAME/src')  # Change directory to your working path
 ```python
 import os
 os.chdir('~/GAME/src')  # Change directory to your working path
-%run main.py --path '~/GAME/' --rmax 256 --epochs 500 --scale_OTOL 70 --drop_out 0.5 --scale_sppmi 0.1 --lr 1e-6 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --api_key '********' --align_path 'align_step'  # Change api_key to your openai api_key
+%run main.py --path '~/GAME/' --rmax 256 --epochs 500 --scale_OTOL 30 --drop_out 0.5 --scale_sppmi 0.1 --lr 1e-6 --hidden_features 768 --DEVICE 'cuda' --EDGE_ALL --api_key '********' --align_path 'align_step'  # Change api_key to your openai api_key, change align_path as folder name containing align step outcome.
 ```
 
 ### Part 3: Acquiring Relatedness Embedding
