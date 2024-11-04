@@ -19,7 +19,7 @@ GAME comprises three main steps to align institutional embeddings from $M$ insti
    - Main embeddings are generated using edges and a loss function, where edges represent connections based on similarity and relatedness between entities. The initial input embedding is a concatenation of the SAPBERT embedding $\mathbf{X}$ and the aligned institutional embedding $\mathbf{Y}$ obtained in the first step. By default, $r_{\text{max}}=256$, indicating a 256-dimensional embedding. The multi-similarity loss function optimizes the embeddings, enabling similar entities to be positioned closely in the embedding space.
 
 3. **Creating Relatedness Tail Embeddings**:
-   - This step generates relatedness tail embeddings $\mathbf{Z}_{\mathcal{R}}$ using all edges, which are then concatenated with the main embedding to form the final embedding ($\text{out\_dim} = 768$), $\mathbb{Z}$. The main embedding is well-suited for similarity tasks, while the final embedding is designed to handle more complex relatedness tasks.
+   - This step generates relatedness tail embeddings $\mathbf{Z}_{\mathcal{R}}$ using all edges, which are then concatenated with the main embedding to form the final embedding ($out\_dim = 768$), $\mathbb{Z}$. The main embedding is well-suited for similarity tasks, while the final embedding is designed to handle more complex relatedness tasks.
 
 ## Implementing the Process
 
