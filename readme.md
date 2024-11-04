@@ -56,39 +56,48 @@ os.chdir('~/GAME/src')  # Change the directory to your working path
 This section outlines the various configuration options available for the GAME Training Script. These options allow for customizing the training process, model performance thresholds, and other operational parameters.
 
 
+
+
 **Command-Line Arguments:**
 
 *Basic Settings*
-- `--num_inst`: Specifies the number of institutions for training. In your project, you have 7 institutions. *Default: 7*.
-- `--path`: Sets the project or model path. Defaults to `config['path']`.
-- `--input_dir`: Defines the directory for input data. Defaults to `config['input_dir']`.
-- `--path_origin`: Sets the original path for alignment or model training. *Default: config['path_origin']*.
+- `--num_inst`: Specifies the number of institutions for training. For this project, the default is *7*.
+- `--path`: Sets the path to the project or model. The default is `config['path']`.
+- `--input_dir`: Defines the directory containing input data. The default is `config['input_dir']`.
+- `--path_origin`: Determines the training step:
+  - If set to `align_NA`, trains the alignment PPMI step.
+  - If set to `None`, trains the similarity step.
+  - If set to a non-`None` value (the path to the similarity embedding), trains the relatedness step. 
+  - *Default*: `config['path_origin']`.
+- `--align_path`: Specifies the path to the pre-trained aligned SPPMI embeddings for similarity and relatedness steps. *Default*: `None`.
 
-*Used in Loss*
-- `--AA`: Parameter AA, pertaining to the model's architecture or training process. *Default: 1.0*.
-- `--BB`: Parameter BB, also related to the model's architecture or training process. *Default: 5.0*.
-- `--lambd`: The lambda parameter for the loss function. *Default: 0.5*.
+*Loss Function Parameters*
+- `--AA`: A model-specific parameter related to the architecture or training process. *Default*: `1.0`.
+- `--BB`: Another model-specific parameter related to the architecture or training process. *Default*: `5.0`.
+- `--lambd`: The lambda parameter for the loss function. *Default*: `0.5`.
 
-*Used in Loss Scales*
-- `--scale_one_one`: Scaling factor for one-to-one alignment. *Default: 10*.
-- `--scale_hie`: Scaling factor for hierarchical alignment. *Default: 1*.
-- `--scale_sppmi`: Scaling factor for SPPMI (Shifted Positive Pointwise Mutual Information). *Default: 0.1*.
-- `--scale_OTOL`: Scaling factor for one-to-one alignment. *Default: 50*.
-- `--scale_REL`: Scaling factor for relevance alignment. *Default: 5*.
-- `--scale_align`: Scaling factor for alignment. *Default: 1*.
+*Scaling Factors for Loss Components*
+- `--scale_hie`: Scaling factor for hierarchical alignment loss. *Default*: `1`.
+- `--scale_OTOL`: Scaling factor for one-to-one alignment loss. *Default*: `50`.
+- `--scale_REL`: Scaling factor for relevance alignment loss. *Default*: `5`.
+- `--scale_sppmi`: Scaling factor for PPMI feature selection loss. *Default*: `0.1`.
+- `--scale_align`: Scaling factor for alignment loss. *Default*: `1`.
 
-*Used to Determine Dimension*
-- `--rmax`: Maximum radius for similarity calculations. *Default: 256*.
-- `--out_dim`: Output dimension of the final embedding in the model. *Default: 768*.
-- `--hidden_features`: Number of hidden features in the model. *Default: 768*.
+*Dimensionality Specifications*
+- `--rmax`: Maximum dimensionality for similarity embeddings. *Default*: `256`.
+- `--out_dim`: Output dimensionality of the final embedding. *Default*: `768`.
+- `--hidden_features`: Number of hidden features in the model. *Default*: `768`.
 
-*Training Process*
-- `--EDGE_ALL`: Indicates whether to use all edges for training similarity. Accepts 'True' or 'False'. *Default: False*.
-- `--drop_p`: Dropout probability during training. *Default: 0.0*.
-- `--base_lr`: Learning rate for the optimizer. *Default: 1e-4*.
-- `--epochs`: Total number of epochs for training. *Default: 3*.
-- `--DEVICE`: Specifies the device for training, such as 'cuda:0' for GPU. *Default: 'cuda:0'*.
+*Training Configuration*
+- `--EDGE_ALL`: Specifies whether to use all edges or only similar/related edges for training. Accepts `True` or `False`. *Default*: `False`.
+- `--drop_out`: Dropout probability used during training. *Default*: `0.0`.
+- `--lr`: Learning rate for the optimizer. *Default*: `1e-4`.
+- `--epochs`: Number of epochs for training. *Default*: `3`.
+- `--DEVICE`: Device used for training, e.g., 'cuda:0' for GPU. *Default*: `'cuda:0'`.
 
-*Check and Store*
-- `--CHECK_ALL`: Option to check all attention mechanisms during training. Accepts 'True' or 'False'. *Default: False*.
-Use these configurations to customize the GAME training script to suit your specific needs and environments setup.
+*Evaluation and Debugging*
+- `--CHECK_ALL`: Option to enable checking all attention mechanisms during training. Accepts `True` or `False`. *Default*: `False`.
+
+*API Configuration*
+- `--api_key`: OpenAI API key used for scoring the results. *Default*: `None`.
+
