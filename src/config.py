@@ -39,12 +39,11 @@ config = {
     'CHECK_ALL': False,
     'DEVICE': 'cuda:0',
     'num_inst': 7,
-    'inst_weight': [0.914, 0.892, 0.837, 0.793, 0.756, 0.700, 0.850],  # similar AUC of each inst=>weight down the inst with bad quality
     'api_key': None,
     
     'out_dim': 768, 
     'num_features': 768,
-    'num_union': 50738,
+    'num_union': 50738, 
     'batch_size': 256, 
     'gamma': 0.99, 
     'scale_SIM_NO_HIE': 10,
