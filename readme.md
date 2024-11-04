@@ -7,13 +7,13 @@ This README offers a concise guide for implementing the GAME training process, w
   <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/alg.png" alt="alg" title="alg" width="1000"/>
 </p>
 
-GAME comprises three main steps:
+GAME comprises three main steps to align institutional embeddings from $M$ instititutions to the shared space.
 
 1. **Aligning Institutions with PPMI Embedding**:
-   - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings, denoted as $X_i, i \in INSTs$, to align different institutions. After applying the institutional graph attention network, we obtain $Y_i, i \in INSTs$, and then we can establish a common representation $Y$ that captures co-occurrence probabilities. This step is essential for identifying similarities and relationships across institutions.
+   - Utilizes Positive Pointwise Mutual Information (PPMI) embeddings, denoted as $V_i, i \in 1,2,..,M$, to align different institutions. After applying the institutional graph attention network, we obtain $Y_i, i \in 1,2,..,M$, and then we can establish a common representation $Y$ that captures co-occurrence probabilities. This step is essential for identifying similarities and relationships across institutions.
 
 2. **Generating Main Embedding**:
-   - Main embeddings are generated using edges and a loss function, where edges denote connections based on similarity and relatedness between entities. The initial input embedding is the concatenation of SAPBERT embedding $Z$ and the institutional aligned embedding $Y$ obtained in the first step. With a default configuration of $rmax=256$, indicating a 256-dimensional embedding, $\tilde{Y}_{main}$, a multi-similarity loss function optimizes the embeddings. This dimensionality is adequate for positioning similar entities closely in the embedding space.
+   - Main embeddings are generated using edges and a loss function, where edges denote connections based on similarity and relatedness between entities. The initial input embedding is the concatenation of SAPBERT embedding $X$ and the institutional aligned embedding $Y$ obtained in the first step. With a default configuration of $rmax=256$, indicating a 256-dimensional embedding, , a multi-similarity loss function optimizes the embeddings. This dimensionality is adequate for positioning similar entities closely in the embedding space.
 
 3. **Creating Relatedness Tails Embedding**:
    - This step involves generating relatedness tails embeddings $\tilde{Y}_{rel}$ using all edges, then concatenating them with the main embedding to form the final embedding ($out_dim=768$), $\tilde{Y}$. The main embedding efficiently handles similarity tasks, whereas the final embedding addresses more complex relatedness tasks.
