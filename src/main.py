@@ -41,7 +41,7 @@ def update_config_from_args():
     
     config = get_config()
 
-    parser = argparse.ArgumentParser(description="GAMEw Training Script")
+    parser = argparse.ArgumentParser(description="GAME Training Script")
     parser.add_argument('--EDGE_ALL', action='store_true', default=False, 
                         help="Whether to use all edges to train. Default: False.")
     parser.add_argument("--drop_out", type=float, default=0.0,
