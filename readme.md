@@ -1,6 +1,6 @@
 
 
-# GAME: Self-supervised Graph Alignment for Multi-institutional Collaboration with Electronic Health Records Data
+# Representation Learning to Advance Multi-institutional Studies with Electronic Health Record Data
 
 ## Overview of the GAME Training Process
 
