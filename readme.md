@@ -6,7 +6,7 @@ This repository contains the implementation of **GAME (Graph-based Alignment for
 
 ## Overview of the GAME Training Process
 
-GAME comprises three main steps to align institutional embeddings from **M** institutions into a shared space. The process is illustrated below:
+GAME comprises three main steps to align institutional embeddings from *M* institutions into a shared space. The process is illustrated below:
 
 <p align="center">
   <img src="https://github.com/TongHan96/GAME/blob/main/pic/alg.png" alt="GAME Algorithm" title="GAME Algorithm" width="1000"/>
