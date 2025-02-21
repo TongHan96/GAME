@@ -7,7 +7,7 @@
 This README provides a concise guide for implementing the GAME training process, designed to align multi-institutional codes within Electronic Health Records (EHR) data using a sophisticated knowledge graph system. The following is a simplified overview to facilitate understanding and implementation:
 
 <p align="center">
-  <img src="https://github.com/TongHan96/GAME/blob/main/report/pic/alg.png" alt="Algorithm" title="Algorithm" width="1000"/>
+  <img src="https://github.com/TongHan96/GAME/blob/main/pic/alg.pdf" alt="Algorithm" title="Algorithm" width="1000"/>
 </p>
 
 GAME comprises three main steps to align institutional embeddings from $M$ institutions into a shared space.
