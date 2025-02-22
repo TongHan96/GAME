@@ -238,18 +238,14 @@ GAME uses a multi-source loss function, which integrates information from hierar
 
 #### **Hierarchy Data**
 - **File**: `hie_train.csv`
-  - Contains hierarchical relationships for training.
+  - Contains hierarchical relationships for training, splitted by branches (real_grandpa).
   - Example:
-    ```plaintext
-    parent_code    child_code
-    "CCS:1"       "CCS:10"
-    "LOINC:15069-8" "LOINC:15189-4"
-    ```
-
+   ![image](https://github.com/user-attachments/assets/ef8056af-37c4-45f7-a2c2-046a6337a426)
 #### **Positive and Negative Pairs**
 - **Positive Pairs (P_LTOL)**: Each row represents a positive standard code for a local code.
 - **Negative Pairs (N_LTOL)**: Each row represents a negative standard code for a local code.
-
+- Example:
+![image](https://github.com/user-attachments/assets/689be0fa-277d-4631-a92d-6e4955b5454c)
 #### **Integrating Loss Components**
 The hierarchy, positive/negative pairs, and training set pairs are integrated into a single dictionary for efficient loss computation.
 
