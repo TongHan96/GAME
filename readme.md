@@ -38,7 +38,7 @@ The repository is organized as follows:
 
 ```terminal
 GAME/
-├── output/                  # Contains training results and outputs
+├── output/                 # Contains training results and outputs
 ├── readme.md               # This README file
 ├── src/                    # Source code for the GAME framework
 │   ├── Attention.py        # Graph attention network implementation
@@ -130,4 +130,7 @@ The GAME training script supports the following command-line arguments for custo
 - `--api_key`: OpenAI API key for scoring results (default: `None`).
 
 ---
+
+## GAME input
+
 
