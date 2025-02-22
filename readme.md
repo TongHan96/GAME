@@ -135,7 +135,6 @@ The GAME training script supports the following command-line arguments for custo
 
 The input for GAME consists of several components, all of which are loaded in `load_data.py`. Below is a detailed description of each input component:
 
----
 
 ### **1. EHR Codes, Descriptions, and Institutional Index**
 - **File**: `unique_name_desc.csv`
