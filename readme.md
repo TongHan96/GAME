@@ -223,7 +223,7 @@ GAME uses multiple embeddings as input:
 - **SAPBERT Embedding**: `sap_emb.pth`
   - A single tensor of shape \(N \times d\), where \(N\) is the number of codes and \(d\) is the embedding dimension (default: 768).
 - **Baseline Embeddings**: `coder_emb.pth`, `bge_emb.pth`, `openai_emb.pth`
-  - Additional embeddings for comparison or integration.
+  - Additional embeddings as baseline.
 
 #### **Loading Embeddings**
 ```python
