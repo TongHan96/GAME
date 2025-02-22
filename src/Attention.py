@@ -1,7 +1,7 @@
 """"
 Title: Attention.py
 Author: Han Tong
-Date: 2024-07-26
+Date: 2025-02-21
 Python Version: Python 3.11.3
 Description: All attention model we use
 """
@@ -57,57 +57,35 @@ class inst_encoder(nn.Module):
     def __init__(self, config):
         super(inst_encoder, self).__init__()
         self.device = config['DEVICE']
-        if config['Decoder'] is True:
-            self.GAT = GATLayer(config['hidden_features'], config['hidden_features'], config['heads'], True, config['drop_p'], init0=False, linear=False)
-            # self.Linear = nn.Linear(2*config['hidden_features'], config['out_dim'])
-            self.Linear = nn.Linear(config['hidden_features'], config['out_dim'])
-            self.X = nn.Parameter(torch.eye(config['hidden_features']))
+        if config['path_origin'] == 'align_NA':
+            self.inst = torch.nn.ModuleList([GATLayer(config['num_features'], config['hidden_features'], config['heads'], True, config['drop_p']) for i in range(config['num_inst'])]) 
         else:
-            if config['path_origin'] == 'align_NA':
-                self.inst = torch.nn.ModuleList([GATLayer(config['num_features'], config['hidden_features'], config['heads'], True, config['drop_p']) for i in range(config['num_inst'])]) 
-            else:
-                self.GAT_together = GATLayer(2 * config['hidden_features'], config['hidden_features'], config['heads'], True, config['drop_p'], init0=True, linear=False) 
-            if config['path_origin'] is None:
-                self.Linear = nn.Linear(2*config['hidden_features'], config['rmax'])
-            elif config['path_origin'] != 'align_NA':
-                self.Linear = nn.Linear(2*config['hidden_features'], config['out_dim'] - config['rmax'])
+            self.GAT_together = GATLayer(2 * config['hidden_features'], config['hidden_features'], config['heads'], True, config['drop_p'], init0=True, linear=False) 
+        if config['path_origin'] is None:
+            self.Linear = nn.Linear(2*config['hidden_features'], config['rmax'])
+        elif config['path_origin'] != 'align_NA':
+            self.Linear = nn.Linear(2*config['hidden_features'], config['out_dim'] - config['rmax'])
         
     def align_loss(self, new_sppmi_list, config):
         num_inst = config['num_inst']
         loss = 0
-        # weights = torch.tensor(config['inst_weight'], device='cuda')
         for i in range(num_inst):  # num_inst must be bigger than 1
             for j in range(num_inst):
                 loss += torch.norm(new_sppmi_list[i][config['inst_row'][i],:] - new_sppmi_list[j][config['inst_row'][i],:], 'fro')
-                # loss += 1/(weights[i]) * (torch.norm(new_sppmi_list[i][config['inst_row'][i],:] - new_sppmi_list[j][config['inst_row'][i],:], 'fro'))
         print(f"align_loss: {loss * config['scale_align']}")
         return loss * config['scale_align']
 
 
     
     def forward(self, sppmi_list = None, sap_emb=None, edge_index=None, encoder_emb=None, out_1=None, config=None):
-        if config['Decoder'] is True:
-            # tmp = self.GAT(encoder_emb, edge_index)
-            # tmp = self.Linear(tmp)
-            tmp = self.Linear(encoder_emb)
-            decoder_emb = tmp / torch.norm(tmp, dim=1, keepdim=True) 
-            # decoder_emb = torch.matmul(encoder_emb, self.X)
-            return decoder_emb
          
         if config['path_origin'] == "align_NA":
             all_emb_list = []
             # Now we need to align sppmi emb together, and store this embedding
             for i in range(config['num_inst']): 
-                inst_emb = self.inst[i](sppmi_list[i], edge_index)                
-                # # tmp
-                # mask = torch.zeros_like(inst_emb, device=self.device)
-                # mask[config['inst_row'][i]] = 1
-                # inst_emb = inst_emb * mask
-
+                inst_emb = self.inst[i](sppmi_list[i], edge_index)       
                 all_emb_list.append(inst_emb)
             
-            # weights = torch.tensor(config['inst_weight'], device='cuda')
-            # all_emb = sum(w * emb for w, emb in zip(weights, all_emb_list))
             all_emb = torch.sum(torch.stack(all_emb_list), dim=0)
             out_1 = all_emb / torch.norm(all_emb, dim=1, keepdim=True)
             
@@ -222,14 +200,6 @@ def custom_loss(my_objects, x, now_index, device, name_all, config, TYP1=False):
         P_LOSS_REL, N_LOSS_REL = calculate_loss('related_pairs', my_objects, x, now_index, name_all, config['scale_REL'])
         return P_LOSS_REL, N_LOSS_REL
 
-    
-def decoder_loss(decoder_emb, sppmi_list, config):
-    now_inst = config['Decoder_inst']
-    sppmi = sppmi_list[now_inst]
-    inst_index = config['inst_row'][now_inst]
-    sppmi = sppmi[inst_index]
-    loss = torch.norm(decoder_emb - sppmi, 'fro')
-    return loss
 
 
     
@@ -266,9 +236,7 @@ def sppmi_edge_loss(x, edge_pos, edge_neg, config):
     pos_mask = pos_counts != 0
     neg_mask = neg_counts != 0
     
-    # # Calculate the log term per node for positive and negative scores
-    # log_term_pos = (1 / config['AA']) * torch.log(1 + node_agg_pos[pos_mask]/pos_counts[pos_mask])
-    # log_term_neg = (1 / config['BB']) * torch.log(1 + node_agg_neg[neg_mask]/neg_counts[neg_mask])
+    # Calculate the log term per node for positive and negative scores
     log_term_pos = (1 / config['AA']) * torch.log(1 + node_agg_pos[pos_mask])
     log_term_neg = (1 / config['BB']) * torch.log(1 + node_agg_neg[neg_mask])
 

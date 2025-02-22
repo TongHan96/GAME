@@ -3,7 +3,7 @@
 """"
 Title: Utils.py
 Author: Han Tong
-Date: 2024-07-26
+Date: 2025-02-21
 Python Version: Python 3.11.3
 Description: All useful functions we use
 """
@@ -297,10 +297,7 @@ def write_file(Epoch, Batch, config, start_time, loss=None, pre=None, SIM_AUC=No
         # loss 
         lossfile =  open(f"{config['path']}/output/{start_time}/ALL_LOSS.csv", "a")
         losswriter = csv.writer(lossfile)
-        if config['Decoder'] is True:
-            losswriter.writerow(["EPOCH", "BATCH", "P_LOSS_hie", "N_LOSS_hie", "P_LOSS_OTOL", "N_LOSS_OTOL", "P_LOSS_SIM_NO_HIE", "N_LOSS_SIM_NO_HIE", "P_REL", "N_REL", "P_sppmi", "N_sppmi"])         
-        
-        elif config['path_origin'] == 'align_NA':
+        if config['path_origin'] == 'align_NA':
             losswriter.writerow(["EPOCH", "BATCH", "align_loss"])     
         
         elif config['path_origin'] is None:    
@@ -443,22 +440,6 @@ def solve_Procrustes(X1, X2):
     u, s, vt = svd(temp)
     return u @ vt
 
-
-# def append_to_csv(name, row, start_time):
-#     if isinstance(row, tuple):
-#         for i, r in enumerate(row):
-#             file_name = f"{config['path']}/output/{start_time}/{name}_{i+1}.csv"
-#             r = r.squeeze().tolist() # convert tensor to list
-#             with open(file_name, "a", newline="") as f:
-#                 writer = csv.writer(f)
-#                 writer.writerow(r)
-#     else:
-#         file_name = f"{config['path']}/output/{start_time}/{name}.csv"
-#         row = row.squeeze().tolist() # convert tensor to list
-#         with open(file_name, "a", newline="") as f:
-#             writer = csv.writer(f)
-#             writer.writerow(row)
-        
         
 def my_item(x):
     if x is None:
@@ -515,14 +496,10 @@ def compute_spearman(a, b):
     return coef, p
 
 
-def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','CODER','BGE','OPENAI', 'MGB SPPMI','VA SPPMI','UPMC SPPMI','BCH SPPMI','Duke SPPMI', 'MIMIC SPPMI', 'Bor SPPMI', 'GAME'], code_list = ["PheCode:428", "PheCode:296.2", "PheCode:714", "PheCode:290.11", "PheCode:250.1", "PheCode:250.2", "PheCode:555.1", "PheCode:555.2", "PheCode:428.1", 'PheCode:714.1'], RECORD=None, api_key=None, config=None):
+def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','CODER','BGE','OPENAI', 'MGB SPPMI','VA SPPMI','UPMC SPPMI','BCH SPPMI','Duke SPPMI', 'MIMIC SPPMI', 'Bor SPPMI', 'GAME'], code_list = ["PheCode:296.2", "PheCode:290.11", "PheCode:250.1", "PheCode:250.2", "PheCode:555.1", "PheCode:555.2", "PheCode:428.1", 'PheCode:714.1'], RECORD=None, api_key=None, config=None):
     # load data
     emb_all = [pd.DataFrame(emb.cpu().numpy()) for emb in emb_all]
     name_desc = pd.read_csv(f'{config["input_dir"]}/name_desc/unique_name_desc_LP.csv')
-    # if Decoder now, only retain the institutional codes
-    if (config is not None) and (config['Decoder']):
-        now_inst_index = config['inst_row'][config['Decoder_inst']]
-        name_desc = name_desc.iloc[now_inst_index,:]
     name_all = name_desc.iloc[:,0]
     unique_code = pd.DataFrame(name_all).drop_duplicates().values
     unique_code = np.concatenate(unique_code)
@@ -797,7 +774,12 @@ def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None, 
     # model_engine = "gpt-3.5-turbo"
     model_engine = 'gpt-4o-mini'
     client = OpenAI(api_key=api_key)
-    pd.DataFrame(data.columns).transpose().to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=None) 
+    
+    save_path = f"{config['path']}/supp_code/feature_selection/score_all"
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+
+    pd.DataFrame(data.columns).transpose().to_csv(f"{save_path}/GPT4_ans_{name}_{add}.csv", header=None) 
     data.reset_index()
     data = np.asarray(data)
     temp = 0 # run the code if broke
@@ -835,81 +817,8 @@ def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None, 
         df = pd.DataFrame(data=re)
         df = df.transpose()
         df.to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=False, mode="a")
-        
-
-def retain_1_inst_edge(edge_index, config):
-    """
-    Retains edges based on institution index and reindexes them.
-
-    Args:
-        edge_index (torch.Tensor): Edge indices (shape: [2, num_edges]).
-        config (dict): Configuration dictionary containing 'Decoder_inst' and 'inst_row'.
-
-    Returns:
-        torch.Tensor: New edge indices after retaining and reindexing.
-    """
-    edge_index_np = edge_index.detach().cpu().numpy()
-    retain_inst = config['Decoder_inst']
-    index_inst = config['inst_row'][retain_inst]
-
-    mask = np.isin(edge_index_np[0], index_inst) & np.isin(edge_index_np[1], index_inst)
-    retained_edges = edge_index_np[:, mask]
-    old_to_new = {old: new for old, new in zip(index_inst, range(len(index_inst)))}
+      
     
-    # Reindex 
-    new_edge_index = np.array([[old_to_new[retained_edges[0, i]], old_to_new[retained_edges[1, i]]] for i in range(retained_edges.shape[1])])
-    new_edge_index = torch.tensor(new_edge_index, dtype=torch.long)
-    return new_edge_index.T
-
-
-def retain_1_inst_emb(encoder_emb, config):
-    """
-    Retains emb based on institution index and reindexes them.
-
-    Args:
-        encoder_emb (torch.Tensor): Embeddings for all nodes.
-        config (dict): Configuration dictionary containing 'Decoder_inst' and 'inst_row'.
-
-    Returns:
-        torch.Tensor: New embeddings corresponding to the retained nodes.
-    """
-    encoder_emb_np = encoder_emb.detach().cpu().numpy()
-    retain_inst = config['Decoder_inst']
-    index_inst = config['inst_row'][retain_inst]
-    new_encoder_emb = encoder_emb_np[index_inst]
-    new_encoder_emb = torch.tensor(new_encoder_emb, dtype=torch.float)
-    return new_encoder_emb
-
-
-def retain_1_inst_set(my_objects, config):
-    """
-    Retains my_objects based on institution index and reindexes them.
-
-    Args:
-        my_objects (List): List of objects containing sets of codes and arrays
-        config (dict): Configuration dictionary containing 'Decoder_inst' and 'inst_row'.
-
-    Returns:
-        List: Updated List of my_objects with retained and reindexed codes.
-    """
-    retain_inst = config['Decoder_inst']
-    index_inst = config['inst_row'][retain_inst]
-    
-    my_objects = [my_objects[i] for i in index_inst]
-    old_to_new = {old: new for old, new in zip(index_inst, range(len(index_inst)))}
-    fields_to_check = ['same_par', 'same_gra', 'P_local', 'N_local', 'rel', 'sim_no_hie']
-    
-    for obj in my_objects:
-        for field in fields_to_check:
-            if field in vars(obj) and len(vars(obj)[field])>0: 
-                if isinstance(vars(obj)[field], (np.ndarray, list)):
-                    vars(obj)[field] = np.array([old_to_new[val] for val in vars(obj)[field] if val in old_to_new])
-                elif isinstance(obj[field], set):
-                    vars(obj)[field] = {old_to_new[val] for val in vars(obj)[field] if val in old_to_new}
-    
-    return my_objects
-    
-
 def sample_and_combine_edges(edge_all_sim, edge_all_rel, config):
     num_edges_to_sample = round(edge_all_rel.size(1) * config['drop_p'])
     permuted_indices = torch.randperm(edge_all_rel.size(1))

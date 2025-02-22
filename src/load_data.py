@@ -3,7 +3,7 @@
 """
 Title: load_data.py
 Author: Han Tong
-Date: 2024-07-27
+Date: 2025-02-21
 Python Version: Python 3.11.3
 Description: Load all data we need in this file
 
@@ -15,7 +15,12 @@ import warnings
 import torch
 import re
 import os
-os.chdir(f'/home/doz128/GAME_0726/src')
+import sys
+
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, script_dir)
+
 from config import set_config, get_config
 config = get_config()
 os.chdir(f'{config["path"]}/src')
