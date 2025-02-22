@@ -131,6 +131,139 @@ The GAME training script supports the following command-line arguments for custo
 
 ---
 
-## GAME input
+## GAME Input
 
+The input for GAME consists of several components, all of which are loaded in `load_data.py`. Below is a detailed description of each input component:
 
+---
+
+### **1. EHR Codes, Descriptions, and Institutional Index**
+- **File**: `unique_name_desc.csv`
+  - Contains EHR codes, their descriptions, and types.
+  - Example:
+    ```csv
+    "code","desc","type"
+    "CCS:1","incision and excision of cns","CCS"
+    "CCS:10","thyroidectomy, partial or complete","CCS"
+    "LOINC:15069-8","fructosamine serpl-scnc","LOINC"
+    "LOINC:15189-4","kappa lc/lambda ser","LOINC"
+    ...
+    ```
+
+- **File**: `inst_row.npz`
+  - Contains institutional indices. The \(i\)-th list corresponds to the \(i\)-th institution's codes, as per `unique_name_desc.csv`.
+  - Example:
+![image](https://github.com/user-attachments/assets/40a6de64-4847-442a-b5f0-fbc342927040)
+    
+
+---
+
+### **2. Edges and Pairs**
+The relationships between codes are represented as edges and pairs. These are split into training and validation sets to ensure fairness and avoid data leakage.
+
+#### **Splitting Pairs**
+- For **similar hierarchical pairs**, the training and validation sets are split based on branches rather than individual pairs to maintain fairness (as explained in the paper appendix).
+- For **related pairs** and **similar non-hierarchical pairs**, the split is performed randomly using the `load_data.py` script.
+
+#### **Code for Splitting Pairs**
+```python
+# Split related pairs into train, validation, and test sets
+train_rel_pairs, val_rel_pairs, test_rel_pairs = split_train_set(unique_name, REL_pairs=REL_pairs, scale=[0.7, 0.3])
+test_rel_pairs = pd.concat([val_rel_pairs, test_rel_pairs])
+
+# Save the split pairs
+with open(f"{config['input_dir']}/similar_related_pairs/rel_pairs_0806.pkl", 'wb') as f:
+    pickle.dump([train_rel_pairs, test_rel_pairs], f)
+
+# Generate edges for related pairs
+rel_edges = np.row_stack([match(train_rel_pairs.iloc[:, 0].values, unique_name), match(train_rel_pairs.iloc[:, 1].values, unique_name)])
+np.save(f"{config['input_dir']}/edges/edges_rel.npy", rel_edges)
+```
+
+```python
+# Split similar non-hierarchical pairs into train, validation, and test sets
+train_sim_no_hie_pairs, val_sim_no_hie_pairs, test_sim_no_hie_pairs = split_train_set(unique_name, REL_pairs=SIM_no_hie_pairs, scale=[0.7, 0.3])
+test_sim_no_hie_pairs = pd.concat([val_sim_no_hie_pairs, test_sim_no_hie_pairs])
+
+# Save the split pairs
+with open(f"{config['input_dir']}/similar_related_pairs/sim_no_hie_pairs_0806.pkl", 'wb') as f:
+    pickle.dump([train_sim_no_hie_pairs, test_sim_no_hie_pairs], f)
+
+# Generate edges for similar non-hierarchical pairs
+sim_edges = np.row_stack([match(train_sim_no_hie_pairs.iloc[:, 0].values, unique_name), match(train_sim_no_hie_pairs.iloc[:, 1].values, unique_name)])
+np.save(f"{config['input_dir']}/edges/edges_sim_no_hie.npy", sim_edges)
+```
+
+#### **Loading Pairs and Edges**
+After splitting, the pairs and edges can be loaded directly:
+- **Pairs**: In addition to edges, GAME uses various pairs to define relationships between codes (`REL_pairs`, `SIM_no_hie_pairs`, `test_sim_pairs`, etc). These pairs are stored in DataFrames with **5 columns**, structured as follows:
+  - Example:
+    ```plaintext
+    code1       code2       type       similarity  relation
+    "CCS:1"     "CCS:10"    "similar"  0.85       "hierarchical"
+    "LOINC:15069-8" "LOINC:15189-4" "related" 0.92       "non-hierarchical"
+    ```
+- **Edges**: 2D tensors (with 2 rows) representing connections between codes. 
+
+    After splitting the pairs, we can directly load the pairs and edges for training and evaluation. GAME utilizes **multi-relation edges** to capture different types of relationships between codes. These edges include:
+
+    - **Similarity Edges**: 
+      - `edges_map`: Edges for mapping relationships.
+      - `edges_hie`: Edges for hierarchical relationships.
+      - `edges_sim_no_hie`: Edges for similar but non-hierarchical relationships.
+    - **Relatedness Edges**:
+      - `edges_rel`: Edges for relatedness relationships.
+
+All edges are represented as **2 × n tensors**, where each column indicates a connection between two codes.
+---
+
+### **3. Embeddings**
+GAME uses multiple embeddings as input:
+- **Institutional PPMI Embedding**: `inst_emb.pth`
+  - A list of tensors, each representing the PPMI embedding for an institution.
+  - Missing codes are imputed as zero vectors.
+- **SAPBERT Embedding**: `sap_emb.pth`
+  - A single tensor of shape \(N \times d\), where \(N\) is the number of codes and \(d\) is the embedding dimension (default: 768).
+- **Baseline Embeddings**: `coder_emb.pth`, `bge_emb.pth`, `openai_emb.pth`
+  - Additional embeddings for comparison or integration.
+
+#### **Loading Embeddings**
+```python
+inst_emb = torch.load(f"{config['input_dir']}/inst_emb.pth")
+sap_emb = torch.load(f"{config['input_dir']}/sap_emb.pth")
+coder_emb = torch.load(f"{config['input_dir']}/coder_emb.pth")
+```
+
+---
+
+### **4. Loss Components**
+GAME uses a multi-source loss function, which integrates information from hierarchies, positive/negative pairs, and training set relationships.
+
+#### **Hierarchy Data**
+- **File**: `hie_train.csv`
+  - Contains hierarchical relationships for training.
+  - Example:
+    ```plaintext
+    parent_code    child_code
+    "CCS:1"       "CCS:10"
+    "LOINC:15069-8" "LOINC:15189-4"
+    ```
+
+#### **Positive and Negative Pairs**
+- **Positive Pairs (P_LTOL)**: Each row represents a positive standard code for a local code.
+- **Negative Pairs (N_LTOL)**: Each row represents a negative standard code for a local code.
+
+#### **Integrating Loss Components**
+The hierarchy, positive/negative pairs, and training set pairs are integrated into a single dictionary for efficient loss computation.
+
+```python
+# Generate my_objects using hierarchy and pairs
+my_objects_new = origin_loss_set(unique_name, P_LTOL, N_LTOL, hie_loinc_rxn_phe, 
+                                 train_rel_pairs, train_sim_no_hie_pairs, rel_index, sim_no_hie_index)
+
+# Save the integrated loss components
+np.save(f"{config['input_dir']}/edges/my_objects_0823.npy", my_objects_new)
+```
+
+---
+This concludes the description of the input data for GAME. For further details, refer to the `load_data.py` script or the paper appendix.
