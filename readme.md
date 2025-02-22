@@ -196,7 +196,7 @@ np.save(f"{config['input_dir']}/edges/edges_sim_no_hie.npy", sim_edges)
 
 #### **Loading Pairs and Edges**
 After splitting, the pairs and edges can be loaded directly:
-- **Pairs**: In addition to edges, GAME uses various pairs to define relationships between codes (`REL_pairs`, `SIM_no_hie_pairs`, `test_sim_pairs`, etc). These pairs are stored in DataFrames with **5 columns**, structured as follows:
+- **Pairs**: These pairs (`REL_pairs`, `SIM_no_hie_pairs`, `test_sim_pairs`, etc) are stored in DataFrames with **5 columns**, structured as follows:
   - Example:
     ```plaintext
     code1       code2       type       similarity  relation
@@ -205,7 +205,7 @@ After splitting, the pairs and edges can be loaded directly:
     ```
 - **Edges**: 2D tensors (with 2 rows) representing connections between codes. 
 
-    After splitting the pairs, we can directly load the pairs and edges for training and evaluation. GAME utilizes **multi-relation edges** to capture different types of relationships between codes. These edges include:
+   GAME utilizes **multi-relation edges** to capture different types of relationships between codes. These edges include:
 
     - **Similarity Edges**: 
       - `edges_map`: Edges for mapping relationships.
