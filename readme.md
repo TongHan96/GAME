@@ -156,7 +156,6 @@ The input for GAME consists of several components, all of which are loaded in `l
 ![image](https://github.com/user-attachments/assets/40a6de64-4847-442a-b5f0-fbc342927040)
     
 
----
 
 ### **2. Edges and Pairs**
 The relationships between codes are represented as edges and pairs. These are split into training and validation sets to ensure fairness and avoid data leakage.
@@ -214,8 +213,7 @@ After splitting, the pairs and edges can be loaded directly:
     - **Relatedness Edges**:
       - `edges_rel`: Edges for relatedness relationships.
 
-All edges are represented as **2 × n tensors**, where each column indicates a connection between two codes.
----
+    All edges are represented as **2 × n tensors**, where each column indicates a connection between two codes.
 
 ### **3. Embeddings**
 GAME uses multiple embeddings as input:
@@ -234,7 +232,6 @@ sap_emb = torch.load(f"{config['input_dir']}/sap_emb.pth")
 coder_emb = torch.load(f"{config['input_dir']}/coder_emb.pth")
 ```
 
----
 
 ### **4. Loss Components**
 GAME uses a multi-source loss function, which integrates information from hierarchies, positive/negative pairs, and training set relationships.
