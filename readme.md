@@ -115,13 +115,12 @@ The GAME training script supports the following command-line arguments for custo
 
 ### **Dimensionality Specifications**
 - `--rmax`: Maximum dimensionality for similarity embeddings (default: `256`).
-- `--out_dim`: Output dimensionality of the final embedding (default: `768`).
 - `--hidden_features`: Number of hidden features in the model (default: `768`).
 
 ### **Training Configuration**
 - `--drop_out`: Drop edge probability during training (default: `0.0`).
 - `--lr`: Learning rate for the optimizer (default: `1e-4`).
-- `--epochs`: Number of training epochs (default: `3`).
+- `--epochs`: Number of training epochs (default: `500`).
 - `--DEVICE`: Device for training, e.g., `'cuda:0'` for GPU (default: `'cuda:0'`).
 
 ### **Evaluation and Debugging**
