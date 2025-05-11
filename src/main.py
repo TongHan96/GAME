@@ -242,7 +242,7 @@ def main(config):
                     write_file(epoch, 0, config, start_time, loss=loss, pre=PRE_new, SIM_AUC=AUC_new[0][0])
 
                     emb_all = list([sap_emb, coder_emb, bge_emb, openai_emb] + [sppmi_list[i] for i in range(config['num_inst'])] + [x_sim_test.cpu().detach()])
-                    new_corr = feature_selection_every_epoch(emb_all, start_time, epoch, api_key=api_key, config=config, code_list)
+                    new_corr = feature_selection_every_epoch(emb_all, start_time, epoch, api_key=api_key, config=config)
                     sim_auc = weight_auc(AUC_new[0])
 
                     logging.info(f'Corr: {np.round(new_corr,3)}')
