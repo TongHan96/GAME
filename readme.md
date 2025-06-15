@@ -206,11 +206,12 @@ After splitting, the pairs and edges can be loaded directly:
    GAME utilizes **multi-relation edges** to capture different types of relationships between codes. These edges include:
 
     - **Similarity Edges**: 
-      - `edges_map`: Edges for mapping relationships.
+      - `edges_map`: Edges for mapping relationships (GPT-4).
       - `edges_hie`: Edges for hierarchical relationships.
       - `edges_sim_no_hie`: Edges for similar but non-hierarchical relationships.
     - **Relatedness Edges**:
       - `edges_rel`: Edges for relatedness relationships.
+      - `pos_sppmi`: Edges for PPMI feature selection (GPT-4).
 
     All edges are represented as **2 × n tensors**, where each column indicates a connection between two codes.
 
@@ -228,9 +229,7 @@ GAME uses multiple embeddings as input:
 ```python
 inst_emb = torch.load(f"{config['input_dir']}/inst_emb.pth")
 sap_emb = torch.load(f"{config['input_dir']}/sap_emb.pth")
-coder_emb = torch.load(f"{config['input_dir']}/coder_emb.pth")
 ```
-
 
 ### **4. Loss Components**
 GAME uses a multi-source loss function, which integrates information from hierarchies, positive/negative pairs, and training set relationships.
@@ -240,18 +239,23 @@ GAME uses a multi-source loss function, which integrates information from hierar
   - Contains hierarchical relationships for training, splitted by branches (real_grandpa).
   - Example:
    ![image](https://github.com/user-attachments/assets/ef8056af-37c4-45f7-a2c2-046a6337a426)
-#### **Positive and Negative Pairs**
+#### **Positive and Negative Code Mapping Pairs**
 - **Positive Pairs (P_LTOL)**: Each row represents a positive standard code for a local code.
 - **Negative Pairs (N_LTOL)**: Each row represents a negative standard code for a local code.
 - Example:
 ![image](https://github.com/user-attachments/assets/689be0fa-277d-4631-a92d-6e4955b5454c)
+
+#### **Positive and Negative Feature Selection Pairs**
+- **Positive Pairs (pos_sppmi)**: 2 * N Tensor with postive pairs.
+- **Negative Pairs (neg_sppmi)**: 2 * N Tensor with negative pairs.
+  
 #### **Integrating Loss Components**
-The hierarchy, positive/negative pairs, and training set pairs are integrated into a single dictionary for efficient loss computation.
+The hierarchy, positive/negative code mapping pairs, and positive/negative feature selection pairs, training set pairs of related and non-hierarchical pairs are integrated into a single dictionary for efficient loss computation.
 
 ```python
 # Generate my_objects using hierarchy and pairs
 my_objects_new = origin_loss_set(unique_name, P_LTOL, N_LTOL, hie_loinc_rxn_phe, 
-                                 train_rel_pairs, train_sim_no_hie_pairs, rel_index, sim_no_hie_index)
+                          train_rel_pairs, train_sim_no_hie_pairs, pos_sppmi, neg_sppmi)
 
 # Save the integrated loss components
 np.save(f"{config['input_dir']}/edges/my_objects.npy", my_objects_new)
