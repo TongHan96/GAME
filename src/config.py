@@ -1,7 +1,7 @@
 """"
 Title: config.py
 Author: Han Tong
-Date: 2025-02-21
+Date: 2025-05-27
 Python Version: Python 3.11.3
 Description: All parameter we need
 """
@@ -18,6 +18,7 @@ def get_config():
 config = {
     'drop_p': 0.1,
     'base_lr':  1e-4, 
+    'min_lr':5e-7,
     'AA' : 1.0,
     'BB' : 5.0,
     'lambd' : 0.5,
@@ -31,21 +32,20 @@ config = {
     'hidden_features': 768, 
     'Decoder': False,
     'Decoder_inst': None,
-    'path': '/home/doz128/GAME', # chg to wk path
-    'input_dir': '/n/data1/hsph/biostat/celehs/lab/Han/GAME_final/input', # chg to file path
+    'path': '~/GAME_0527/', # chg to wk path
+    'input_dir': '~/GAME_0527/input', # chg to file path
     'path_origin' : None,
     'epochs': 500, 
     'CHECK_ALL': False,
     'DEVICE': 'cuda:0',
     'num_inst': 7,
     'api_key': None,
-    
     'out_dim': 768, 
     'num_features': 768,
     'num_union': 50738, 
     'batch_size': 256, 
     'gamma': 0.99, 
-    'scale_SIM_NO_HIE': 10,
+    'scale_SIM_NO_HIE': 1,
     'SEED': 1, 
     'heads': 2, 
 }  

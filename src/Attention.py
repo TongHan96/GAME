@@ -1,7 +1,7 @@
 """"
 Title: Attention.py
 Author: Han Tong
-Date: 2025-02-21
+Date: 2025-05-27
 Python Version: Python 3.11.3
 Description: All attention model we use
 """
@@ -12,7 +12,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.nn import GATConv
 from torch_geometric.utils import softmax, dropout_adj, add_self_loops, remove_self_loops
-from torch_scatter import scatter
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -36,12 +35,17 @@ class GATLayer(nn.Module):
         self.linear = linear
         if linear:
             self.Linear = nn.Linear(out_features * heads if concat else out_features, out_features)
-        
-        if init0 is True:
-            # Initialize the lower half of gat_conv.lin_src.weight to zeros
-            lower_tri_indices = range(int(in_features/2), in_features)
-            self.gat_conv.lin_src.weight.data[:, lower_tri_indices] = 0.0
 
+
+        if init0:
+            lin = getattr(self.gat_conv, 'lin_src', None) or getattr(self.gat_conv, 'lin_l', None)
+            if lin is not None and hasattr(lin, 'weight'):
+                lower_tri_indices = range(int(in_features / 2), in_features)
+                lin.weight.data[:, lower_tri_indices] = 0.0
+            else:
+                print("[Warning] GATConv's linear layer is inaccessible; 'init0' skipped.")
+
+    
     def forward(self, x, edge_index):
         # only training step will drop edge
         edge_index, _ = dropout_adj(edge_index, p=self.dropout_rate, force_undirected=True, training=self.training)        
@@ -120,7 +124,7 @@ def custom_loss(my_objects, x, now_index, device, name_all, config, TYP1=False):
     2. Local lab to Loinc Loss
     3. Related Pairs Loss
     4. SIM_NO_HIE Loss 
-    5. SPPMI pos&neg Loss
+    5. PPMI pos & neg Loss
     '''
 
     def loss_term(temp_objects, x, now_index, AA=config['AA'], BB=config['BB'], lambd=config['lambd']):
@@ -145,35 +149,29 @@ def custom_loss(my_objects, x, now_index, device, name_all, config, TYP1=False):
         Aggragate the first 4 parts Loss
         '''            
         if loss_type == 'hierarchy':
-            if CHECK_ALL:
-                print('Hierarchy loss:')
-                
             set1 = [my_objects[i].same_par for i in now_index]
             set2 = [my_objects[i].same_gra for i in now_index]
             
         elif loss_type == 'local_to_loinc':
-            if CHECK_ALL:
-                print('Local lab To Loinc loss:')
-                
             set1 = [my_objects[i].P_local for i in now_index]
             set2 = [my_objects[i].N_local for i in now_index]
             
         elif loss_type == 'related_pairs':
-            if CHECK_ALL:
-                print('Related Pairs Loss:')
-                
             set2 = [find_same_type(i, name_all) for i in now_index] 
             set1 = [set(my_objects[i].rel) if isinstance(my_objects[i].rel, np.ndarray) 
                     else my_objects[i].rel for i in now_index]
 
         elif loss_type == 'similar_no_hie_pairs':
-            if CHECK_ALL:
-                print('Similar Pairs (Not Hierarchy) Loss:')
             set1 = [my_objects[i].sim_no_hie for i in now_index]
             set2 = [find_same_type(i, name_all) for i in now_index]  
+
+        elif loss_type == 'ppmi':
+            set1 = [my_objects[i].pos_ppmi if hasattr(my_objects[i], 'pos_ppmi') else [] for i in now_index]
+            set2 = [my_objects[i].neg_ppmi if hasattr(my_objects[i], 'neg_ppmi') else [] for i in now_index]
+
             
         else:
-            raise ValueError("Invalid loss_type. Supported values are 'one_one','hierarchy','local_to_loinc', 'related_pairs','similar_no_hie_pairs'.")
+            raise ValueError("Invalid loss_type. Supported values are 'hierarchy', 'local_to_loinc', 'related_pairs', 'similar_no_hie_pairs' and 'ppmi'.")
 
         temp_objects = origin_term_temp(name_temp=get_values(name_all[now_index]), set1=set1, set2=set2, DIFF=DIFF)
 
@@ -198,53 +196,6 @@ def custom_loss(my_objects, x, now_index, device, name_all, config, TYP1=False):
         if CHECK_ALL:
             print('Relative Loss:')  
         P_LOSS_REL, N_LOSS_REL = calculate_loss('related_pairs', my_objects, x, now_index, name_all, config['scale_REL'])
-        return P_LOSS_REL, N_LOSS_REL
+        P_LOSS_ppmi, N_LOSS_ppmi = calculate_loss('ppmi', my_objects, x, now_index, name_all, config['scale_sppmi'], DIFF=False)
+        return P_LOSS_REL, N_LOSS_REL, P_LOSS_ppmi, N_LOSS_ppmi
 
-
-
-    
-def sppmi_edge_loss(x, edge_pos, edge_neg, config):
-    # Determine the device based on the input tensor 'x'
-    device = x.device
-    max_num = x.shape[0]
-
-    # Compute positive edge scores
-    emb_start_pos = x[edge_pos[0, :]]
-    emb_end_pos = x[edge_pos[1, :]]
-    score_pos = torch.sum(emb_start_pos * emb_end_pos, dim=-1)
-
-    # Compute negative edge scores
-    emb_start_neg = x[edge_neg[0, :]]
-    emb_end_neg = x[edge_neg[1, :]]
-    score_neg = torch.sum(emb_start_neg * emb_end_neg, dim=-1)
-
-    # Initialize node aggregates on the same device as x
-    node_agg_pos = torch.zeros(x.shape[0], device=device)
-    node_agg_neg = torch.zeros(x.shape[0], device=device)
-    
-    # Loop through positive and negative edges
-    for src, tgt, score in zip(edge_pos[0], edge_pos[1], score_pos):
-        node_agg_pos[src] += torch.exp(- config['AA'] * (score - config['lambd']))
-
-    for src, tgt, score in zip(edge_neg[0], edge_neg[1], score_neg):
-        node_agg_neg[src] += torch.exp(config['BB'] * (score - config['lambd']))
-   
-    pos_counts = torch.bincount(edge_pos[:,0], minlength=max_num)
-    # print(len(pos_counts))
-    neg_counts = torch.bincount(edge_neg[:,0], minlength=max_num)
-    # print(len(neg_counts))
-    pos_mask = pos_counts != 0
-    neg_mask = neg_counts != 0
-    
-    # Calculate the log term per node for positive and negative scores
-    log_term_pos = (1 / config['AA']) * torch.log(1 + node_agg_pos[pos_mask])
-    log_term_neg = (1 / config['BB']) * torch.log(1 + node_agg_neg[neg_mask])
-
-    # Sum log terms across all nodes to compute the final loss
-    loss = log_term_pos.sum() + log_term_neg.sum()
-    
-    if config['CHECK_ALL']: 
-        print(f"sppmi_pos_loss: {config['scale_sppmi'] * log_term_pos.sum()}")
-        print(f"sppmi_neg_loss: {config['scale_sppmi'] * log_term_neg.sum()}")
-    
-    return config['scale_sppmi'] * log_term_pos.sum(), config['scale_sppmi'] * log_term_neg.sum()

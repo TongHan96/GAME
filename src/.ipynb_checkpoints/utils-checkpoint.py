@@ -3,7 +3,7 @@
 """"
 Title: Utils.py
 Author: Han Tong
-Date: 2025-05-27
+Date: 2025-02-21
 Python Version: Python 3.11.3
 Description: All useful functions we use
 """
@@ -36,9 +36,6 @@ import itertools
 import io
 import sys
 
-import random
-
-
 
 config = get_config()
     
@@ -68,14 +65,6 @@ def logging_config(config, start_time,
         logconsole.setFormatter(formatter)
         logging.root.addHandler(logconsole)
     return folder
-
-
-def split_into_batches(lst, batch_size):
-    '''
-    split my_objects into batches
-    '''
-    random.shuffle(lst)
-    return [lst[i:i + batch_size] for i in range(0, len(lst), batch_size)]
 
 
 def get_values(data):
@@ -507,7 +496,7 @@ def compute_spearman(a, b):
     return coef, p
 
 
-def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','CODER','BGE','OPENAI', 'MGB SPPMI','VA SPPMI','UPMC SPPMI','BCH SPPMI','Duke SPPMI', 'MIMIC SPPMI', 'Bor SPPMI', 'GAME'], code_list = ["PheCode:296.2", "PheCode:290.11", "PheCode:250.1", "PheCode:250.2", "PheCode:555.1", "PheCode:555.2", "PheCode:428.1", 'PheCode:714.1'], RECORD=None, api_key=None, config=None, NEG_INST=None):
+def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','CODER','BGE','OPENAI', 'MGB SPPMI','VA SPPMI','UPMC SPPMI','BCH SPPMI','Duke SPPMI', 'MIMIC SPPMI', 'Bor SPPMI', 'GAME'], code_list = ["PheCode:296.2", "PheCode:290.11", "PheCode:250.1", "PheCode:250.2", "PheCode:555.1", "PheCode:555.2", "PheCode:428.1", 'PheCode:714.1'], RECORD=None, api_key=None, config=None):
     # load data
     emb_all = [pd.DataFrame(emb.cpu().numpy()) for emb in emb_all]
     name_desc = pd.read_csv(f'{config["input_dir"]}/name_desc/unique_name_desc_LP.csv')
@@ -538,7 +527,7 @@ def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','C
         add_param = f'{loc}'  # Dynamically change the add parameter
         result, corr = all_fea_select(emb_all, code, name_desc, add=add_param, 
                                  name_list = name_list,
-                                feat_max=100, mapping_list=mapping_list, api_key=api_key, NEG_INST=NEG_INST)
+                                feat_max=100, mapping_list=mapping_list, api_key=api_key)
         corr_list.append(corr)
         result_list.append(result)
     
@@ -562,37 +551,21 @@ def feature_selection(emb_all, code, name_all):
     return cos_sim
 
 
-def all_fea_select(
-    emb_all, code, name_desc, name_list, feat_max=100, add=None, 
-    negative=None, edges=None, neg=None, mapping_list=None, api_key=None, 
-    seed=42, NEG_INST=None
-):
-    
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-
-    desc_code = name_desc.iloc[np.where(name_desc.iloc[:, 0].values == code)[0], 1].values
-    name_all = name_desc.iloc[:, 0].values
+def all_fea_select(emb_all, code, name_desc, name_list, feat_max=100, add=None, negative=None, edges=None, neg=None, mapping_list=None, api_key=None):
+    desc_code = name_desc.iloc[np.where(name_desc.iloc[:,0].values == code)[0],1].values
+    name_all = name_desc.iloc[:,0].values
     code_indice = np.where(name_all == code)[0]
 
     if edges is not None:
-        index_edges = np.union1d(
-            name_all[edges[1][np.where(pd.Series(edges[0]).isin(code_indice))[0]]],
-            name_all[edges[0][np.where(pd.Series(edges[1]).isin(code_indice))[0]]]
-        )
+        index_edges = np.union1d(name_all[edges[1][np.where((pd.Series(edges[0]).isin(code_indice)).values)[0]]], name_all[edges[0][np.where((pd.Series(edges[1]).isin(code_indice)).values)[0]]])
         index_edges_series = pd.Series(index_edges)
-
+    
     if neg is not None:
-        index_neg = np.union1d(
-            name_all[neg[1][np.where(pd.Series(neg[0]).isin(code_indice))[0]]],
-            name_all[neg[0][np.where(pd.Series(neg[1]).isin(code_indice))[0]]]
-        )
+        index_neg = np.union1d(name_all[neg[1][np.where((pd.Series(neg[0]).isin(code_indice)).values)[0]]],name_all[neg[0][np.where((pd.Series(neg[1]).isin(code_indice)).values)[0]]])
         index_neg_series = pd.Series(index_neg)
 
     index_all = []
     cos_all = []
-    neg_index_all = []  # <- store 100 negative indices per method
 
     for emb in emb_all:
         cos = feature_selection(emb, code, name_all)
@@ -608,94 +581,70 @@ def all_fea_select(
                 max_index = np.argmax(tmp)
                 cos_list.append(max_value)
                 ind_all_list.append(mapping[max_index])
+    
             cos = cos_list
-
+    
         top_values, top_indices = torch.topk(torch.tensor(cos), k=feat_max, largest=True, sorted=True)
-
+    
         if mapping_list is not None:
             top_indices = [ind_all_list[i] for i in top_indices.numpy()]
-        else:
-            top_indices = top_indices.numpy().tolist()
-
+        
         index_all.append(top_indices)
 
-        # ---- Negative Sampling (random 100) ----
-        total_index = list(range(len(name_all)))
-        unselected = list(set(total_index) - set(top_indices))
-        if NEG_INST is not None:
-            unselected = list(np.intersect1d(unselected, config['inst_row'][NEG_INST]))
-        neg_indices = random.sample(unselected, 100) if len(unselected) >= 100 else unselected
-        neg_index_all.append(neg_indices)
-
-    # ---- Build final DataFrame ----
     pos_index = np.concatenate(index_all)
+    pos_all = [cos[pos_index] for cos in cos_all]
+    
+    if negative is None:
+        all_index = pos_index
+        all_sim_all = cos_all
+    else:
+        # put into negative list
+        nega_list = [np.where(name_all == x)[0] for x in negative.iloc[:,0].values]
+        neg_index = np.concatenate(nega_list)
+        neg_all = [cos[neg_index] for cos in cos_all]
+        all_index = np.concatenate([pos_index, neg_index])
+        all_sim_all = [np.concatenate([cos_all[i], neg_all[i]]) for i in range(len(cos_all))]
+        
+    unique_desc = name_desc.iloc[:,1]
+    data = {'index': all_index,
+            'name': name_all[all_index],
+            'desc': unique_desc.iloc[all_index].values}
 
-    # ---- Shared 100 Negatives ----
-    total_index = list(range(len(name_all)))
-    all_pos_indices = set(pos_index)
-    unselected = list(set(total_index) - all_pos_indices)
-    neg_index = random.sample(unselected, 100) if len(unselected) >= 100 else unselected
-
-    all_index = np.concatenate([pos_index, neg_index])
-
-    unique_desc = name_desc.iloc[:, 1]
-    data = {
-        'index': all_index,
-        'name': name_all[all_index],
-        'desc': unique_desc.iloc[all_index].values,
-    }
-
-    # Scores
-    for i, (name, cos_sim) in enumerate(zip(name_list, cos_all)):
-        data[f'{name}_cos'] = [cos_sim[idx].item() for idx in all_index]
-
+    for name, cos_sim in zip(name_list, all_sim_all):
+        data[f'{name}_cos'] = np.array(cos_sim)
+        data[f'{name}_cos'] = data[f'{name}_cos'][data['index']]
+    
     data_df = pd.DataFrame(data)
     data_df['selected_by'] = ''
-
-    # Positives
-    for i, name in enumerate(name_list):
-        pos_inds = index_all[i]
-        data_df.loc[data_df['index'].isin(pos_inds), 'selected_by'] += f'{name}&'
-
-    # Negatives
-    data_df.loc[data_df['index'].isin(neg_index), 'selected_by'] += 'NEG&'
-
     if edges is not None:
         data_df['GPT3.5_TRUE'] = pd.Series(name_all[data_df['index']]).isin(index_edges_series)
     if neg is not None:
         data_df['GPT3.5_FALSE'] = pd.Series(name_all[data_df['index']]).isin(index_neg_series)
 
-    data_df['selected_by'] = data_df['selected_by'].str.rstrip('&')
-
-    # === GPT4 evaluation ===
+    
+    for i, name in enumerate(name_list):
+        indices = np.array(index_all[i])
+        data_df.loc[data_df['index'].isin(indices), 'selected_by'] += f'{name}&'
+        
     if os.path.exists(f"{config['path']}/supp_code/feature_selection/input/GPT4_{code.replace(':', '_')}.csv"):
         score_ = pd.read_csv(f"{config['path']}/supp_code/feature_selection/input/GPT4_{code.replace(':', '_')}.csv")
     else:
         score_ = None
-
-    pos = data_df.drop_duplicates(subset=data_df.columns[0]).iloc[:, 1:]
-    pos['gpt4'] = write_score(score_, pos)
-
+        
+    data_df['selected_by'] = data_df['selected_by'].str.rstrip('&')
+    pos = data_df.drop_duplicates(subset=data_df.columns[0]).iloc[:,1:]
+    pos['gpt4'] =  write_score(score_, pos)
     ask_gpt4(pos, name=code, desc=desc_code, add=add, api_key=api_key)
-
-    pos = pd.read_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", index_col=0)
+    pos = pd.read_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", index_col = 0)
     pos_new = change_string_to_float(pos)
     pos_new.to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", index=None)
-
-    update_score(
-        f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv",
-        f"{config['path']}/supp_code/feature_selection/input/GPT4_{code.replace(':','_')}.csv"
-    )
-
-    # Evaluate
+    update_score(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{code}_{add}.csv", f"{config['path']}/supp_code/feature_selection/input/GPT4_{code.replace(':','_')}.csv")
+    # evaluate
     output_str, output_tmp = print_all(pos_new, name_list, name_all)
     with open(f"{config['path']}/output/{add}/GPT4_rank_ans_{code}.txt", 'a') as f:
         f.write('\n' + output_str)
     print(output_str)
-
     return pos_new, output_tmp
-
-
 
 
 def write_score(pos_score, pos):

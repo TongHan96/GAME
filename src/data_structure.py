@@ -3,7 +3,7 @@
 """
 Title: data_structure.py
 Author: Han Tong
-Date: 2025-02-21
+Date: 2025-05-27
 Python Version: Python 3.11.3
 Description: define the class of each node, the dataset structures, and the initialize function of them
 """
@@ -50,60 +50,53 @@ class MyDataset(Dataset):
         return len(self.data)
 
 
-class MySampler(Sampler):
-    
-    def __init__(self, unique_names):
-        self.unique_names = unique_names
-
-    def __iter__(self):
-        '''
-        sample unique names and return corresponding index of them
-        this method makes sense because we want the same code have more consistent results 
-        '''
-        config = get_config()
-        unique_names = self.unique_names
-        unique_name_batch_index = np.random.choice(range(config['num_union']), size=config['batch_size'], replace=False)
-        
-        if str(config['latent']).lower() != 'false':
-            indices_new = [i for i, name in enumerate(pd.Series(name_new, name='V1')) if name_new is not None and name in unique_name_batch]
-        self.indices = indices
-        if str(config['latent']).lower() != 'false':
-            self.indices_new = indices_new
-            return indices, indices_new
-        else:
-            return indices
-    
-    def __len__(self):
-        return int(np.ceil(len(self.unique_names) / get_config()['batch_size']))
 
 
 def origin_loss_set(unique_name, pos_LTOL, neg_LTOL, hie_loinc_rxn_phe, 
-                Train_REL_pairs, Train_sim_no_hie_pairs, rel_index, sim_no_hie_index):
+                Train_REL_pairs, Train_sim_no_hie_pairs, pos_sppmi, neg_sppmi):
     '''
     create a term for each node, including name, one_one, same_par, same_gra, rel
     '''
     my_objects = []
     config = get_config()
-
+   
+    rel_index = get_index(Train_REL_pairs, unique_name)
+    sim_no_hie_index = get_index(Train_sim_no_hie_pairs, unique_name)
+    pos_sppmi_index = np.unique(pos_sppmi)
+    
+    pos_sppmi = remove_duplicate_edge(pos_sppmi)       
+    pos_sppmi = to_undirected(pos_sppmi)
+    neg_sppmi = remove_duplicate_edge(neg_sppmi)       
+    neg_sppmi = to_undirected(neg_sppmi)
+    
     for i in tqdm(range(len(unique_name))):
         obj = item_node(name=unique_name[i])
 
+        # code mapping pairs
         if grepl('^LOCAL\\|LAB:|^Other lab:|^LOCAL\\|PX:|^CCAM:', obj.name):
             obj.P_local = find_other_local(obj.name, pos_LTOL, unique_name)
             obj.N_local = find_other_local(obj.name, neg_LTOL, unique_name)
 
+        # hierarchical pairs
         if grepl('^PheCode:|^LOINC:|^CCAM:|^RXNORM:', obj.name):
             obj.same_par = find_same_par_gra(hie_loinc_rxn_phe, unique_name, name_id = i, PARENT=1)
             obj.same_gra = find_same_par_gra(hie_loinc_rxn_phe, unique_name, name_id = i, PARENT=2)
 
+        # related pairs
         if i in rel_index:
             obj.rel = find_rel(i, Train_REL_pairs, unique_name)
-            
+
+        # similar non-hierarchical pairs
         if i in sim_no_hie_index:
             obj.sim_no_hie = find_rel(i, Train_sim_no_hie_pairs, unique_name)
 
+        # feature selection pairs
+        if i in pos_sppmi_index:
+            obj.pos_ppmi = pos_sppmi[1][pos_sppmi[0]==i]
+            obj.neg_ppmi = neg_sppmi[1][neg_sppmi[0]==i]
+        
         my_objects.append(obj)
-
+        
     return my_objects
 
 

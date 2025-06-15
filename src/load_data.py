@@ -3,7 +3,7 @@
 """
 Title: load_data.py
 Author: Han Tong
-Date: 2025-02-21
+Date: 2025-05-27
 Python Version: Python 3.11.3
 Description: Load all data we need in this file
 
@@ -106,7 +106,7 @@ sim_no_hie_index = get_index(train_sim_no_hie_pairs, unique_name)
 # # generate my_objects using hie_train
 # # Origin_term can take 10 mins. We can load my_objects that have been generated
 # my_objects_new = origin_loss_set(unique_name, P_LTOL, N_LTOL, hie_loinc_rxn_phe, 
-#                           train_rel_pairs, train_sim_no_hie_pairs, rel_index, sim_no_hie_index)
+#                           train_rel_pairs, train_sim_no_hie_pairs, pos_sppmi, neg_sppmi)
 
-# np.save(f"{config['input_dir']}/edges/my_objects_0823.npy", my_objects_new)
-my_objects = np.load(f"{config['input_dir']}/edges/my_objects_0823.npy", allow_pickle=True)
+# np.save(f"{config['input_dir']}/edges/my_objects_0527.npy", my_objects_new)
+my_objects = np.load(f"{config['input_dir']}/edges/my_objects_0527.npy", allow_pickle=True)

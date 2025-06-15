@@ -3131,7 +3131,7 @@ eplerenone,0.1
 palatinase,0.0
 lipoprotein associated phospholipase a2,0.1
 duration time 1,0.0
-urine urea,0.2
+urine urea,0.1
 pca medication,0.1
 time duration 7,0.0
 iron overload,0.1
@@ -3150,8 +3150,8 @@ kidney check,0.65
 dislocation,0.0
 t4 duration,0.0
 impossible formula,0.0
-duodenitis,0.1
-alpha 1,0.05
+duodenitis,0.05
+alpha 1,0.0
 timepc,0.0
 po intake,0.1
 patient body temperature,0.05
@@ -3159,22 +3159,22 @@ urine cocaine test,0.0
 oral care,0.1
 t3 duration,0.05
 neomycin,0.0
-down syndrome,0.05
+down syndrome,0.0
 eribulin,0.0
-latent tuberculosis,0.05
-pco2,0.05
+latent tuberculosis,0.0
 t-spot,0.0
+pco2,0.0
 chart diagnosis,0.0
 drug use,0.1
 allergen,0.0
 farr test,0.1
 aspiration site,0.05
-living situation,0.05
+living situation,0.0
 psa,0.0
 time urine protein,0.25
 hb lead,0.0
 periostitis,0.05
-free t4,0.1
+free t4,0.05
 transcortin,0.05
 betaine,0.1
 peramivir,0.0
@@ -3184,7 +3184,7 @@ cancer of bladder,0.0
 urine drug screen,0.05
 closed thumb fracture,0.0
 calciuria,0.2
-ropinirole,0.05
+ropinirole,0.0
 cancer of larynx,0.0
 patient under treatment,0.25
 polymyositis,0.05
@@ -3196,20 +3196,20 @@ etomidate,0.0
 tf-witness1,0.0
 cancer of tongue,0.0
 amoxapine,0.0
-eluxadoline,0.1
+eluxadoline,0.05
 neckerparis,0.0
-gi prophy,0.1
+gi prophy,0.05
 f256 nuts,0.0
 diseases of esophagus,0.05
-vitamin d,0.2
+vitamin d,0.1
 megestrol,0.1
-vibegron,0.05
+vibegron,0.0
 retinopathy of prematurity,0.0
 fracture of foot,0.1
 trileptal,0.0
 pnp1 patient,0.0
 zithromax,0.0
-vascular disorders of penis,0.3
+vascular disorders of penis,0.25
 cisatracurium,0.0
 vitamin c,0.05
 treatment = none,0.0
@@ -3225,19 +3225,19 @@ labor and delivery admission,0.05
 myasthenia gravis,0.0
 march 1,0.0
 cancer ag 125,0.0
-bretylium,0.01
+bretylium,0.0
 vap - prophy,0.05
 mustard f89,0.0
 accidental fall from bed,0.0
 sumatriptan,0.0
 zileuton,0.0
 argatroban,0.0
-Argatroban,0.05
+Argatroban,0.0
 gi guaiac,0.05
 nomenclature 1,0.0
 cancer of eye,0.0
 copper,0.0
-interleukin 6,0.2
+interleukin 6,0.1
 gds commentary,0.0
 clozapine,0.05
 1 egg white,0.0
@@ -3249,8 +3249,11 @@ tck patient,0.0
 ulcer of esophagus,0.05
 ondansetron,0.0
 home accidents,0.0
+urine glucose- ketonuria,0.85
+glucose 1 hour challenge,0.75
+ertugliflozin,1.0
 "cartridge,animas",0.1
-"inserter,minimed",0.1
+"inserter,minimed",0.2
 metabolic disturbance ncp - interventions,0.65
 metoclopramide 5 mg oral tablet,0.1
 "amylase, pericardial fluid",0.0
@@ -3258,93 +3261,291 @@ urinary glucose concentration,0.85
 metabolic disturbance ncp - plan revised,0.65
 human leukocyte antigen blood draw 1 red,0.05
 erythromycin_base_250mg_tab_ec_4pak,0.0
-prot coho primo mx6,0.0
-intrapartum aspiration of meconium-stained amniotic fluid by a newborn,0.05
-platelets on acd tube,0.05
-"ct scan of several segments of the spine, with intravenous injection of contrast agent",0.05
-hhv6 pcr/bone marrow o.,0.0
-serum melatonin 21-24h,0.05
-calcium ascorbate,0.05
-partial pressure of carbon dioxide,0.05
-dextran/edta/hydroxypropyl methylcellulose,0.05
-"sequelae of external causes, other and unspecified",0.05
-inhibin b,0.05
+methaqualone,0.0
+lancets sterile  30g (lrd),0.2
+iabp placement confirmed by x-ray,0.0
+dextrose 5% and water,0.1
+25 ml glucose 50 mg/ml injection,0.25
+100 ml glucose 50 mg/ml injection,0.25
+500 ml glucose 50 mg/ml injection,0.25
+150 ml glucose 50 mg/ml injection,0.25
+50 ml glucose 50 mg/ml injection,0.25
+1000 ml glucose 50 mg/ml injection,0.25
+1000 ml glucose 100 mg/ml injection,0.25
+citric acid / glucose / sodium citrate,0.1
+acetone titer,0.1
+Islet cell 512 IgG,0.1
+anti c21 hydroxy,0.05
+insulin 30gx5,0.85
+metoclopramide 10 mg oral tablet,0.1
+other physical therapies,0.1
+drug screen - serum/plasma,0.05
+cd19,0.0
+prochlorperazine 25 mg rectal suppository,0.0
+potential hydrogen (venous),0.05
+mirapex,0.05
+one touch ultra system,0.85
+methionine,0.05
+temperature setting=+5°c,0.0
+procedure and treatment not carried out due to patient leaving prior to being seen by health care provider,0.0
+motorcyclist - collision with living being - traffic,0.0
+occult blood test x 3,0.05
+estrone,0.1
+"osteoarticular tumorectomy of a limb, percutaneous with ct guidance",0.0
+malassezia spp,0.01
+gastrostomy status,0.1
+fabrication of a rigid lower limb immobilization device including the knee,0.05
+hemolysis interference index,0.0
+cd4+,0.0
+"excision of non-cholesteatomatous tumor of the middle ear, extended to all cavities of the middle ear, without laser",0.0
+troponin test,0.05
+"1ml syr/need mis 26gx5/8""",0.1
 pathologist review,0.05
-bedside unit serial number,0.0
-inspired gas temp.,0.0
-variant lymphocytes,0.05
-neutrophils.segmented/100 leukocytes,0.05
-hourly patient fluid removal,0.1
-"fall on and from ladder, initial encounter",0.0
-"treprostinil, 50 mg/20 ml inj",0.05
-acetaminophen,0.0
-il28b gene mutation,0.1
+encounter for surveillance of contraceptive pills,0.05
+=atropine0.4mg/ml,0.0
+pyruvate,0.1
+"sodium bicarbonate, 500 mg capsule",0.05
+bag,0.0
+100% hemolysis control,0.0
+hemoglobin barts/hemoglobin.total,0.05
+"poct istat creatinine, unsolicited",0.1
+valine ur,0.05
+Mitochondria rRNA targeted mutation analysis,0.05
+fracture of hand or wrist,0.05
+bands,0.0
+metanephrine,0.05
+impaired skin site #5,0.2
+urinary mercury,0.0
+detrol,0.05
+septicemia or severe sepsis without mv >96 hours with mcc,0.05
+macadamia (macadamia spp) ige,0.01
+or colloid intake,0.0
+other triglyceride battery,0.2
+f5 gene mutations tested for,0.05
+platelet mean volume,0.1
+reagent,0.0
+Creatinine/body weight,0.1
+"dressing,biopatch",0.0
+mean corpuscular hemoglobin,0.1
+lactobacillus-containing product,0.1
+docusate-senna,0.0
+nctransport immuno,0.0
+von willebrand factor 2nd tube,0.05
+band neutrophils percentage manual,0.05
+nomenclature 5,0.0
+exploratory laparoscopic oophorectomy,0.0
+uranium phosphate,0.0
+daclatasvir,0.0
+human papilloma virus 16 dna,0.0
+peritoneal or intestinal adhesions,0.05
+current smoker,0.2
+endoscopic ultrasound (upper),0.05
+red cell distribution width,0.2
+alloisoleucine (singular),0.05
+human leukocyte antigen-dr,0.05
+esophagram with contrast material [barium swallow],0.05
+o2 inspired,0.0
+mrsa survl nares dna (admit)*ic,0.0
+fentanyl_2500_mcg/ns_100_ml_premix_(do_not_use),0.0
+streptococcus pyogenes enzyme ab,0.0
+betamethasone / betamethasone acetate,0.1
+methylenedioxypyrovalerone liquid chromatography-mass spectrometry test,0.05
+reticulin ab,0.05
+influenza virus a+b ag,0.0
+cardiac rehabilitation,0.1
+ammonia t 0,0.0
+placement of an intravesical catheter via suprapubic transcutaneous route,0.0
+brucella canis igg and igm,0.0
+negative occult control,0.0
+"excision of lesion of the maxillary bone and/or body of the mandible from 2 cm to 4 cm in major axis, via intraoral approach",0.0
+traca.inter anap hl,0.0
+3- cd19-/cd38+,0.0
+iatrogenic hypotension,0.1
+hepavih pro std protocol,0.0
+corrected ca++/ph 7.4,0.05
+chromogranin a,0.1
+2-Hydroxyisovalerate/Creatinine,0.1
+Mast cells/100 cells,0.0
+"gefitinib, oral, 250 mg",0.0
+activated partial thromboplastin time (aptt) + prothrombin time (pt),0.05
+"physical therapy exercises, manipulation, and other procedures",0.1
+subacromial bursa exploration by arthroscopy [subacromial bursoscopy],0.0
+ca 27-29 (cancer antigen 27-29),0.05
+cells.cd19+kappa+/100 cells,0.0
+chlorine remover,0.0
 ttpatient (acc),0.0
-apixaban,0.05
-private hour t2,0.0
-neutrophil cytoplasmic ab.perinuclear.atypical,0.05
-"losartan 50 mg (arrow lab), film-coated tablets",0.2
-gliadin igg,0.1
-sodium iodide i123,0.01
-rivaroxaban anti-xa assay,0.05
-"misc test, urine (group:umisc)",0.2
-immature granulocyte count,0.05
-gp ia/iia (epitope 4) control cutoff,0.05
-subcutaneous implantation of a cardiac defibrillator with placement of a subcutaneous lead,0.0
-17-Ketosteroids,0.1
-Haddock (Melanogrammus aeglefinus) IgE,0.0
-"benzodiazepines, urine, confirmation",0.05
-pt mixing study,0.05
-"recombivax hb pediatric/adolescent, 5 mcg/0.5 ml intramuscular suspension",0.0
-"amino acids, ser/plas (group:paap)",0.1
-contact with plant thorns and sharp leaves - other specified places,0.0
-eg7 istat venous poct (lab use only),0.0
-consult / referral to social work,0.1
-cardiology package level 1,0.0
-main cause(s),0.0
-turnaround time (karyotyping),0.0
-urine glucose semi-quantitative test (pregnancy),0.2
-fish ngs myeloma - sample 02,0.0
-basal cell carcinoma (new),0.0
-morphine_sulfate_5mg/ml_pca_30ml,0.0
-adriamycin,0.0
-prot r2810-onc cndn,0.0
-hallux rigidus,0.05
-purkinje cells ab,0.0
-"cleanser,wound",0.05
-human leukocyte antigen enzyme-linked immunosorbent assay class one screen,0.05
-"recanalization of the common iliac artery and/or external iliac artery without stent placement, via transcutaneous arterial route",0.1
-vitamin b12 concentration,0.1
-supplement for use of a pulsed dye laser for destruction of flat angioma on 100 cm² to 200 cm²,0.05
-osmotic fragility,0.1
-"selenium 0.96 mg (selenium granions), oral suspension, 2 ml ampule",0.05
-biphasic positive airway pressure (bipap) activity,0.05
-"vitamin d, 25-hydroxy",0.1
-poisoning by agents primarily affecting blood constituents,0.05
-"chromium, plasma",0.1
-transplant heart fragments of blood clot,0.0
-microcytes,0.1
-"cicletanine 50 mg (biogaran lab), capsule",0.1
-multi-vitamin,0.1
-ephedrine_sulf_5mg/ml_5_ml_syringe,0.05
-coccygectomy,0.01
-radiofrequency occlusion of the great saphenous vein above the middle third of the leg by transcutaneous venous route with ultrasound guidance,0.05
-Unidentified cells/leukocytes,0.05
-fluid squamous epithelial cell,0.0
-p32,0.0
-methadone,0.05
-open fracture of another toe,0.05
-maraviroc,0.0
-aspirin / butalbital / caffeine / codeine,0.0
-"fall from or off toilet without subsequent striking against object, subsequent encounter",0.0
-acetaminophen 300 mg / codeine phosphate 30 mg oral tablet,0.0
-aquanil,0.0
-serum total protein,0.1
-low molecular weight heparin anti-xa assay,0.05
-leukocyte morphology finding,0.05
-cholesteatoma excision with open technique tympanoplasty and ossiculoplasty,0.0
-fibrin+fibrinogen fragments,0.05
-carbon dioxide,0.0
-HIV 2 p68 Ab,0.0
-fluid neutrophil percentage,0.1
-par-activity,0.0
+herpes simplex virus type 1 and type 2 deoxyribonucleic acid by polymerase chain reaction,0.0
+"lansoprazole 30 mg (arrow lab), orodispersible tablet",0.05
+irregular menstrual bleeding,0.1
+exposure to excessive natural cold - unspecified place,0.0
+altered skin integrity ncp - plan revised,0.25
+phenylephrine20mg/ns250mlpremix(cabinetuseon,0.0
+myeloid leukemia,0.0
+urine osmolality,0.2
+lipoprotein midband a serpl-mcnc,0.1
+t5 duration,0.0
+latency time,0.0
+"influenza vaccine - efluelda, srg 0.7 ml (patients > 65 years)",0.05
+friedreich's ataxia,0.0
+"new image drain pouch 2-3/4""",0.0
+specific gravity - urine @shy,0.1
+label-free analysis,0.0
+% saturation,0.05
+direct debit,0.0
+luminex donor-specific antibody,0.0
+prescription date,0.0
+amino acid change,0.1
+fluav rna resp ql naa+probe,0.0
+Chikungunya virus IgM,0.0
+indication,0.0
+hla-drb1*,0.0
+ph(t),0.0
+contact with sharp object - undetermined intent - street or highway,0.0
+celery (apium graveolens) ige,0.05
+for validation label,0.85
+collision with or by other objects - school and public place,0.0
+tiotropium,0.05
+tucatinib,0.0
+p34,0.0
+coal tar,0.0
+"decompression of the medulla for malformation of the occipitocervical junction, without dural opening, via posterior approach",0.0
+nasal congestion,0.0
+cultivation condition,0.0
+beta aminoisobutyrate/creatinine,0.05
+ephedrine_sulf_10_mg/ml_5_ml_syringe,0.01
+"1,25-dihydroxyvitamin d2",0.1
+cfu-e (per 10^6 cells),0.0
+daily weight,0.25
+alpha rapid thromboelastography,0.05
+total suppressor cells (cluster of differentiation 8),0.1
+oxygen content (calculated),0.05
+anti-b antibody,0.05
+impaired skin odor #7,0.1
+mut fv result,0.0
+oxybate,0.0
+=ciprofloxacin,0.0
+acquired absence of right leg below knee,0.05
+aquaporin 4 water channel igg,0.05
+anti-dust mite,0.0
+irradiation of less than 300 cm² in fixed fields by telecobalt per fraction of 28 centigrays for beams of 0.5 to 4.9 mev,0.0
+gadoteridol,0.0
+monocyte percentage,0.1
+"excision of recurrent pterygium, with autograft of conjunctiva or mucosa",0.0
+crizotinib,0.0
+dextran 70 / glycerin / hypromellose,0.05
+HIV 1 p17 Ab,0.0
+puh icu panel b,0.1
+hemoglobin p3,0.2
+average number of abl1/100ng cdna,0.0
+pcr flu b / secretion,0.0
+"skin graft for burn of the head, covering 5% to 7.5% of the body surface area",0.0
+pa catheter placed in outside facility,0.05
+west nile virus igm,0.0
+ibuprofen 400 mg oral tablet,0.0
+disorders of optic nerve and visual pathways,0.2
+phenylephrine0.5%nasalspray15ml,0.0
+atypical liver resection by laparotomy,0.05
+hepatitis c virus antibody,0.05
+"vertebral corporotomy [somatotomy] for spinal cord decompression, with arthrodesis and/or osteosynthesis, via anterior or anterolateral cervicotomy",0.0
+loperamide hydrochloride 0.2 mg/ml oral solution,0.0
+oxyhemoglobin,0.05
+"fluconazole, 200 mg capsule",0.01
+po2(a/a)(t),0.0
+diatrizoate,0.0
+"corporectomy of a malformed vertebra, by laparotomy or by lumbotomy",0.0
+colcrys,0.0
+aftercare without cc/mcc,0.1
+fractional methemoglobin,0.05
+aspergillus fumigatus ab.ige.rast class,0.0
+lactate dehydrogenase 3,0.1
+loose body in joint,0.0
+earwax 2ml dose,0.0
+"orthopedic reduction of a traumatic dislocation of the hip joint, with fracture or epiphyseal detachment of the femoral head",0.05
+triazolam,0.0
+mfi trap (bx1) t,0.0
+clostridium difficile toxin,0.0
+hemoglobin c/hemoglobin.total,0.65
+urine globulins,0.1
+"motor vehicle traffic accident due to loss of control, without collision on the highway, injuring driver of motor vehicle other than motorcycle",0.0
+factor viii chromogenic,0.0
+equipment,0.0
+other antibiotic,0.05
+"aspiration of fluid as the cause of abnormal reaction of the patient, or of later complication, without mention of misadventure at the time of the procedure",0.05
+"fall, being carried or supported by others - home",0.05
+restraint device (violent),0.0
+ursodiol,0.0
+"mri of 3 or more segments of the spine and its contents, without intravenous contrast injection",0.05
+sanger sequencing for point mutation detection,0.05
+consult / referral to comprehensive breast center,0.0
+serine protease,0.05
+packed erythrocytes units available,0.0
+Calcium.ionized/Calcium.total,0.05
+gastrin,0.05
+anti m2 mitochondrial ab - igg,0.05
+aspirin / oxycodone hydrochloride / oxycodone terephthalate,0.0
+rozerem,0.0
+lymphocytic choriomeningitis virus igg,0.0
+non-traumatic intracerebral hematoma evacuation by craniotomy,0.0
+anti-nf 186 antibodies,0.05
+bictegravir / emtricitabine / tenofovir alafenamide,0.0
+"buprenorphine screen, urine",0.05
+flecainide,0.0
+"closure of spina bifida with myelomeningocele, via posterior approach",0.0
+baclofen 10 mg oral tablet,0.0
+"surfactant deficiency, congenital protein",0.0
+liquid amylase,0.05
+urinary creatinine and magnesium per deciliter,0.2
+serum chloride concentration,0.1
+threonine,0.0
+matutes score,0.1
+"bilateral total arthrectomy and/or posterior osteotomy for rigid spinal deformity with arthrodesis and instrumental correction, on 10 or more vertebrae, via posterior approach",0.0
+complementary conclusion,0.0
+"macrogol (generic forlax 4 g), sachet (pediatric use only)",0.01
+nailfold capillaroscopy,0.1
+self-inflicted injury by unspecified means - home,0.0
+total carnitine,0.1
+mature basophils percentage,0.05
+laparoscopic posterior hysteropexy [promontofixation],0.0
+"destruction of several foci and/or interruption of several ventricular arrhythmogenic circuits with radiofrequency current, by transcutaneous vascular route",0.0
+epstein barr virus nuclear ab,0.0
+Latex recombinant (rHev b) 5 IgE,0.05
+eosinophils/100 leukocytes,0.05
+other laboratory controls,0.1
+"catheter,external",0.1
+mutated gck gene,0.2
+"pedal cycle driver injured in noncollision transport accident in traffic accident, subsequent encounter",0.0
+bee rapid api 214 square meters,0.0
+arctic sun/alsius set temp,0.0
+"recanalization of an upper limb artery with placement of a covered stent, via transcutaneous arterial route",0.1
+anabasine,0.0
+14 g phlebitis scale,0.0
+acetazolamide 250 mg oral tablet,0.05
+gpiiia (y2/51),0.0
+jc virus dna,0.0
+urea dial 3,0.1
+sideroblastic anemia,0.0
+pnn flaer-/cd24- (types 2 and 3),0.25
+mid-cell percentage - predicted,0.05
+serum collected on,0.0
+cd2 cells nfr bld,0.05
+blood product unit id,0.0
+HIV 2 gp36 Ab,0.0
+dry pellet packaging,0.0
+aspartate,0.1
+hemoglobin a1c test - differential cell count type,0.85
+"coronary revascularization with 2 arterial grafts and 2 distal anastomoses, through thoracotomy with cpb",0.1
+"other urethral stricture, male, unspecified site",0.0
+normoblasts nfr mar manual,0.0
+"calcium heparin (generic calciparine), 5,000 iu/0.2 ml injection",0.0
+g6pd/pk ratio,0.05
+"t(9;22)(q34.1;q11)(abl1,bcr) b2a2+b3a2 fusion transcript/control transcript (international scale)",0.0
+sodium ur tp,0.05
+factor xii 1/10,0.0
+screening for other and unspecified deficiency anemia,0.1
+knee disarticulation,0.05
+pbiom receptor,0.1
+one touch suresoft lancing dev/gent,0.85
+ana test result,0.1
+"resection of a cervical rib, via supraclavicular approach",0.0
+pathology findings,0.1
+"hand or wrist procedures, except major thumb or joint procedures with cc/mcc",0.05

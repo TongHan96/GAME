@@ -3,7 +3,7 @@
 """
 Title: evaluate.py
 Author: Han Tong
-Date: 2025-02-21
+Date: 2025-05-27
 Python Version: Python 3.11.3
 Description: evaluate AUC and accuracy functions can be seen here
 """
@@ -162,7 +162,7 @@ def get_total_AUC(emb, name_all, pairs):
     return AUC
 
 
-def test(x, name_all, config, related_pairs=None, similar_pairs=None, drug_side_pairs=None, PRE=True, AUC=True, AUC_type=True):
+def test(x, name_all, config, related_pairs=None, similar_pairs=None, PRE=True, AUC=True, AUC_type=True):
     # x_low_dim is used to do similar jobs; x_rel is used to do related jobs
     results = []
     if config['path_origin'] is 'align_NA':
@@ -193,8 +193,5 @@ def test(x, name_all, config, related_pairs=None, similar_pairs=None, drug_side_
             related_pairs = related_pairs.iloc[np.where(related_pairs.iloc[:,0].isin(name_all))[0],:]
             RELA = compute_auc(x, related_pairs)
             results.append([RELA])
-        if drug_side_pairs is not None:
-            DRUG_SIDE = compute_auc(x, drug_side_pairs)
-            results.append([DRUG_SIDE])
 
     return tuple(results)
