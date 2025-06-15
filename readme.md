@@ -51,7 +51,6 @@ GAME/
 └── supp_code/              # Supplementary code and downstream tasks
     └── feature_selection/  # Feature selection results and inputs
         ├── input/          # GPT scores for feature selection
-        └── score_all/      # Feature selection results (GPT + cosine similarities)
 ```
 
 ---
@@ -120,6 +119,7 @@ The GAME training script supports the following command-line arguments for custo
 ### **Training Configuration**
 - `--drop_out`: Drop edge probability during training (default: `0.0`).
 - `--lr`: Learning rate for the optimizer (default: `1e-4`).
+- `--min_lr`: Minimum learning rate for the optimizer (default: `5e-7`).
 - `--epochs`: Number of training epochs (default: `500`).
 - `--DEVICE`: Device for training, e.g., `'cuda:0'` for GPU (default: `'cuda:0'`).
 
@@ -254,7 +254,7 @@ my_objects_new = origin_loss_set(unique_name, P_LTOL, N_LTOL, hie_loinc_rxn_phe,
                                  train_rel_pairs, train_sim_no_hie_pairs, rel_index, sim_no_hie_index)
 
 # Save the integrated loss components
-np.save(f"{config['input_dir']}/edges/my_objects_0823.npy", my_objects_new)
+np.save(f"{config['input_dir']}/edges/my_objects.npy", my_objects_new)
 ```
 
 ---
