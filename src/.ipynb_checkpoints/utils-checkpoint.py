@@ -3,7 +3,7 @@
 """"
 Title: Utils.py
 Author: Han Tong
-Date: 2025-02-21
+Date: 2025-07-01
 Python Version: Python 3.11.3
 Description: All useful functions we use
 """
@@ -297,6 +297,7 @@ def write_file(Epoch, Batch, config, start_time, loss=None, pre=None, SIM_AUC=No
         # loss 
         lossfile =  open(f"{config['path']}/output/{start_time}/ALL_LOSS.csv", "a")
         losswriter = csv.writer(lossfile)
+    
         if config['path_origin'] == 'align_NA':
             losswriter.writerow(["EPOCH", "BATCH", "align_loss"])     
         
@@ -440,6 +441,7 @@ def solve_Procrustes(X1, X2):
     u, s, vt = svd(temp)
     return u @ vt
 
+
         
 def my_item(x):
     if x is None:
@@ -496,7 +498,7 @@ def compute_spearman(a, b):
     return coef, p
 
 
-def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','CODER','BGE','OPENAI', 'MGB SPPMI','VA SPPMI','UPMC SPPMI','BCH SPPMI','Duke SPPMI', 'MIMIC SPPMI', 'Bor SPPMI', 'GAME'], code_list = ["PheCode:296.2", "PheCode:290.11", "PheCode:250.1", "PheCode:250.2", "PheCode:555.1", "PheCode:555.2", "PheCode:428.1", 'PheCode:714.1'], RECORD=None, api_key=None, config=None):
+def feature_selection_every_epoch(emb_all, loc, epoch, name_list = ['SapBERT','CODER','BGE','OPENAI', 'MGB SPPMI','VA SPPMI','UPMC SPPMI','BCH SPPMI','Duke SPPMI', 'MIMIC SPPMI', 'Bor SPPMI', 'GAME'], code_list = ["PheCode:428", "PheCode:296.2", "PheCode:714", "PheCode:290.11", "PheCode:250.1", "PheCode:250.2", "PheCode:555.1", "PheCode:555.2", "PheCode:428.1", 'PheCode:714.1'], RECORD=None, api_key=None, config=None):
     # load data
     emb_all = [pd.DataFrame(emb.cpu().numpy()) for emb in emb_all]
     name_desc = pd.read_csv(f'{config["input_dir"]}/name_desc/unique_name_desc_LP.csv')
@@ -740,10 +742,11 @@ def plot_all(pos, name_list, indices_=True, path=None):
 def print_all(pos, name_list, unique_name):
     output = io.StringIO()
     for i in range(len(name_list)):
-        index = np.where(pos[pos['gpt4'].notna()]['name'].isin(unique_name[config['inst_row'][0]]))[0]
-        output_tmp = compute_spearman(np.array(pos[pos['gpt4'].notna()][f'{name_list[i]}_cos'])[index], np.array(pos[pos['gpt4'].notna()]['gpt4'])[index])
+        # index = np.where(pos[pos['gpt4'].notna()]['name'].isin(unique_name[config['inst_row'][0]]))[0]
+        output_tmp = compute_spearman(np.array(pos[pos['gpt4'].notna()][f'{name_list[i]}_cos']), np.array(pos[pos['gpt4'].notna()]['gpt4']))
         output_tmp = np.round(output_tmp[0],3)
-        output.write(f'{name_list[i]}: {output_tmp} ({len(index)})\t')
+        # output.write(f'{name_list[i]}: {output_tmp} ({len(index)})\t')
+        output.write(f'{name_list[i]}: {output_tmp}\t')
 
     return output.getvalue(), output_tmp
 
@@ -774,12 +777,7 @@ def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None, 
     # model_engine = "gpt-3.5-turbo"
     model_engine = 'gpt-4o-mini'
     client = OpenAI(api_key=api_key)
-    
-    save_path = f"{config['path']}/supp_code/feature_selection/score_all"
-    if not os.path.exists(save_path):
-        os.makedirs(save_path)
-
-    pd.DataFrame(data.columns).transpose().to_csv(f"{save_path}/GPT4_ans_{name}_{add}.csv", header=None) 
+    pd.DataFrame(data.columns).transpose().to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=None) 
     data.reset_index()
     data = np.asarray(data)
     temp = 0 # run the code if broke
@@ -817,8 +815,8 @@ def ask_gpt4(data, name='PheCode:714.1', desc='Rheumatoid Arthritis', add=None, 
         df = pd.DataFrame(data=re)
         df = df.transpose()
         df.to_csv(f"{config['path']}/supp_code/feature_selection/score_all/GPT4_ans_{name}_{add}.csv", header=False, mode="a")
-      
-    
+        
+
 def sample_and_combine_edges(edge_all_sim, edge_all_rel, config):
     num_edges_to_sample = round(edge_all_rel.size(1) * config['drop_p'])
     permuted_indices = torch.randperm(edge_all_rel.size(1))
