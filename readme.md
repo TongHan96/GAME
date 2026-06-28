@@ -5,6 +5,11 @@
 > 2. **Original Software:** This is the original version of the software developed by the **CELEHS** lab, which were implemented by the author. Official repository: [celehs GAME](https://github.com/celehs/GAME).
 
 
+
+This repository contains the implementation of **GAME (Graph-based Alignment for Multi-institutional Embeddings)**, a framework designed to align multi-institutional codes within Electronic Health Records (EHR) data using a sophisticated knowledge graph system. Below is a detailed guide to help you understand and implement the GAME training process.
+
+---
+
 ## Overview of the GAME Training Process
 
 GAME comprises three main steps to align institutional embeddings from *M* institutions into a shared space. The process is illustrated below:
