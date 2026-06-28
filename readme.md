@@ -1,12 +1,9 @@
 # Representation Learning to Advance Multi-institutional Studies with Electronic Health Record Data
 
-📢 Important Notices:
-Publication: The final paper is published in Nature Communications (NC). You can view the citation and details on Google Scholar.
-Original Software: This is the original version of the software developed by the CELEHS lab. Both the paper and this implementation were created solely by the author. The official lab repository can be accessed at celehs/GAME.
+> 📢 **Important Notices:**
+> 1. **Publication:** The final paper is published in ***Nature Communications***. You can read and cite the paper here: [Paper Link](https://www.nature.com/articles/s41467-026-71152-1). 
+> 2. **Original Software:** This is the original version of the software developed by the **CELEHS** lab, which were implemented by the author. Official repository: [celehs GAME](https://github.com/celehs/GAME).
 
-This repository contains the implementation of **GAME (Graph-based Alignment for Multi-institutional Embeddings)**, a framework designed to align multi-institutional codes within Electronic Health Records (EHR) data using a sophisticated knowledge graph system. Below is a detailed guide to help you understand and implement the GAME training process.
-
----
 
 ## Overview of the GAME Training Process
 
